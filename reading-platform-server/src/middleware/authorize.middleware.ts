@@ -1,0 +1,30 @@
+import { type Request, type Response, type NextFunction } from "express";
+import { ForbiddenError, UnauthorizedError } from "../utils/api-error.js";
+import { can, type Resource, type Action } from "../config/statements.js";
+
+/**
+ * RBAC authorization middleware.
+ *
+ * @example
+ * router.post("/", authenticate, authorize("story", "create"), controller.create);
+ * router.delete("/:id", authenticate, authorize("story", "delete"), controller.delete);
+ */
+export const authorize = (resource: Resource, action: Action<typeof resource>) => {
+  return (req: Request, _res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return next(new UnauthorizedError("Authentication required"));
+    }
+
+    const { roles } = req.user;
+
+    if (!roles?.length) {
+      return next(new ForbiddenError("No roles assigned"));
+    }
+
+    if (!can(roles, resource, action)) {
+      return next(new ForbiddenError(`Cannot ${action} ${resource}`));
+    }
+
+    next();
+  };
+};
