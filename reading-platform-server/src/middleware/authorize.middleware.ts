@@ -1,6 +1,6 @@
 import { type Request, type Response, type NextFunction } from "express";
 import { ForbiddenError, UnauthorizedError } from "../utils/api-error.js";
-import { can, type Resource, type Action } from "../config/statements.js";
+import { can, type Resource, type Action } from "../utils/statements.js";
 
 /**
  * RBAC authorization middleware.

@@ -20,7 +20,7 @@ export async function sendResetPasswordEmail(to: string, token: string) {
       subject: "Reset your password",
       html: `
         <h1>Password Reset Request</h1>
-        <p>You requested a password reset for your Task CRUD account.</p>
+        <p>You requested a password reset for your Story Platform account.</p>
         <p>Please click the link below to reset your password. This link is valid for 1 hour.</p>
         <a href="${resetUrl}" target="_blank">Reset Password</a>
         <p>If you did not request this, please ignore this email.</p>
