@@ -126,7 +126,6 @@ model UserToRole {
 model Story {
   id          Int      @id @default(autoincrement())
   title       String
-  slug        String   @unique  // SEO-friendly URL e.g. "my-first-story"
   description String?
   content     String
   coverImage  String?           // URL to cover image
@@ -161,7 +160,6 @@ model Story {
 
   @@index([authorId])
   @@index([isPublished, isPremium])
-  @@index([slug])
   @@map("stories")
 }
 
@@ -172,8 +170,6 @@ model Story {
 model Tag {
   id    Int       @id @default(autoincrement())
   name  String    @unique
-  slug  String    @unique
-
   stories StoryTag[]
 
   @@map("tags")
