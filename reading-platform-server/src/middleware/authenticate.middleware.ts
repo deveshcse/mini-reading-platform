@@ -3,10 +3,14 @@ import jwt from "jsonwebtoken";
 import { ENV } from "../config/env.config.js";
 import { UnauthorizedError } from "../utils/api-error.js";
 
+import { Role } from "../generated/prisma/enums.js";
+
 interface AccessTokenPayload {
   userId: string;
   email: string;
+  roles: Role[];
 }
+
 
 /**
  * Verifies the Bearer access token from the Authorization header.
@@ -31,7 +35,12 @@ export const authenticate = (
 
   try {
     const decoded = jwt.verify(token, ENV.JWT_SECRET) as AccessTokenPayload;
-    req.user = { userId: decoded.userId, email: decoded.email };
+    req.user = {
+      userId: decoded.userId,
+      email: decoded.email,
+      roles: decoded.roles,
+    };
+
     next();
   } catch {
     next(new UnauthorizedError("Invalid or expired access token"));
