@@ -46,3 +46,20 @@ export const authenticate = (
     next(new UnauthorizedError("Invalid or expired access token"));
   }
 };
+
+/**
+ * Optionally verifies the Bearer access token.
+ * If a token is provided, it populates req.user.
+ * If no token is provided, it proceeds as a guest.
+ */
+export const optionalAuthenticate = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  if (req.headers.authorization?.startsWith("Bearer ")) {
+    return authenticate(req, res, next);
+  }
+  next();
+};
+
