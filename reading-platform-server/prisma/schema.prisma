@@ -92,7 +92,6 @@ model User {
   comments      Comment[]
   payments      Payment[]
   subscriptions Subscription[]
-  storyAccess   StoryAccess[]
   bookmarks     Bookmark[]
 
   createdAt DateTime @default(now())
@@ -152,7 +151,6 @@ model Story {
   tags        StoryTag[]
   likes       Like[]
   comments    Comment[]
-  access      StoryAccess[]
   bookmarks   Bookmark[]
 
   createdAt   DateTime @default(now())
@@ -296,7 +294,6 @@ model Subscription {
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   plan      Plan    @relation(fields: [planId], references: [id])
   payments  Payment[]
-  access    StoryAccess[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -339,34 +336,4 @@ model Payment {
   @@index([status])
   @@index([razorpayOrderId])
   @@map("payments")
-}
-
-// ─────────────────────────────────────────
-// STORY ACCESS (gate-keeping premium content)
-// ─────────────────────────────────────────
-
-// This table answers: "Does user X have access to story Y, and why?"
-// For subscription model: a record is created for each premium story
-// when a subscription becomes ACTIVE, OR checked dynamically via
-// active subscription lookup (preferred for scale — see note below).
-
-model StoryAccess {
-  id             Int               @id @default(autoincrement())
-  userId         Int
-  storyId        Int
-  subscriptionId Int?              // which subscription granted access
-  reason         StoryAccessReason @default(SUBSCRIPTION)
-
-  // Access window mirrors subscription window
-  accessGrantedAt DateTime         @default(now())
-  accessExpiresAt DateTime?        // null = permanent (e.g. one-time purchase)
-
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  story        Story         @relation(fields: [storyId], references: [id], onDelete: Cascade)
-  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
-
-  @@unique([userId, storyId])
-  @@index([userId])
-  @@index([accessExpiresAt])
-  @@map("story_access")
 }

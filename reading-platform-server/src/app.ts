@@ -11,7 +11,10 @@ import { errorHandler } from "./middleware/error.middleware.js";
 
 // Routes
 import authRoutes from "./modules/auth/auth.route.js";
-import taskRoutes from "./modules/task/task.route.js";
+import storyRoutes from "./modules/story/story.route.js";
+import likeRoutes from "./modules/like/like.route.js";
+
+
 
 const app = express();
 
@@ -28,7 +31,10 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // ── API Routes ────────────────────────────────────────────────────────────────
 const apiRouter = express.Router();
 apiRouter.use("/auth", authRoutes);
-apiRouter.use("/tasks", taskRoutes);
+apiRouter.use("/stories", storyRoutes);
+apiRouter.use("/stories", likeRoutes);
+
+
 
 app.use("/api/v1", apiRouter);
 
