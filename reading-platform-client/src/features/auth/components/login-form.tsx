@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import Link from "next/link"
 import React, { useState } from "react"
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff, Mail, Lock, LogIn } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema, LoginInput } from "@/features/auth/schema/auth-schema"
@@ -46,25 +46,29 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
+      <Card className="rounded-none border-2 shadow-none">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold tracking-tight text-center">Sign in</CardTitle>
+          <CardDescription className="text-center">
+            Enter your credentials to access your account.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <FieldGroup>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <FieldGroup className="space-y-4">
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  {...register("email")}
-                  aria-invalid={!!errors.email}
-                />
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="jane@example.com"
+                    className="rounded-none pl-10 focus-visible:ring-0 focus-visible:border-primary transition-colors"
+                    {...register("email")}
+                    aria-invalid={!!errors.email}
+                  />
+                </div>
                 <FieldError>{errors.email?.message}</FieldError>
               </Field>
               <Field>
@@ -72,23 +76,24 @@ export function LoginForm({
                   <FieldLabel htmlFor="password">Password</FieldLabel>
                   <Link
                     href="/forgot-password"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    className="ml-auto inline-block text-xs font-bold text-primary hover:underline underline-offset-4"
                   >
-                    Forgot your password?
+                    Forgot password?
                   </Link>
                 </div>
                 <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
+                    className="rounded-none pl-10 pr-10 focus-visible:ring-0 focus-visible:border-primary transition-colors"
                     {...register("password")}
                     aria-invalid={!!errors.password}
-                    className="pr-10"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none transition-colors"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? (
@@ -100,16 +105,24 @@ export function LoginForm({
                 </div>
                 <FieldError>{errors.password?.message}</FieldError>
               </Field>
-              <Field>
-                <Button type="submit" disabled={isLoggingIn}>
-                  {isLoggingIn ? "Logging in..." : "Login"}
+              <Field className="pt-2">
+                <Button 
+                  type="submit" 
+                  disabled={isLoggingIn}
+                  className="w-full rounded-none h-11 font-bold transition-all hover:bg-primary/90 hover:translate-y-[-1px] active:translate-y-[0px]"
+                >
+                  <LogIn className="mr-2 size-4" />
+                  {isLoggingIn ? "Signing in..." : "Sign in"}
                 </Button>
-                <FieldDescription className="text-center">
+                <p className="text-center text-sm text-muted-foreground pt-4">
                   Don&apos;t have an account?{" "}
-                  <Link href="/register" className="underline underline-offset-4 font-medium text-primary">
-                    Sign up
+                  <Link 
+                    href="/register" 
+                    className="font-bold text-primary hover:underline underline-offset-4 transition-colors"
+                  >
+                    Create Account
                   </Link>
-                </FieldDescription>
+                </p>
               </Field>
             </FieldGroup>
           </form>

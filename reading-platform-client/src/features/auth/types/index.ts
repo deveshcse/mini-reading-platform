@@ -1,7 +1,11 @@
+import { Role } from "@/shared/types/enums";
+
 export interface User {
   id: string;
   email: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  roles: Role[];
 }
 
 export interface AuthResponse {
@@ -13,4 +17,5 @@ export interface AuthResponse {
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
+  message?: string;
 }

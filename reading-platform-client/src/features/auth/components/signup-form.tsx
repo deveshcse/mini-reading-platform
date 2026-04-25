@@ -19,12 +19,13 @@ import { Input } from "@/components/ui/input"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import Link from "next/link"
 import React, { useState } from "react"
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff, User, BookOpen, PenTool, Mail, Lock } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { registerSchema, RegisterInput } from "@/features/auth/schema/auth-schema"
+import { cn } from "@/lib/utils"
 
-export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
+export function SignupForm({ className, ...props }: React.ComponentProps<typeof Card>) {
   const { register: registerAction, isRegistering } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -32,122 +33,154 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      role: "READER"
+    }
   });
 
   const onSubmit = (data: RegisterInput) => {
     registerAction(data);
   };
 
+  const handleSignupAs = (role: "READER" | "AUTHOR") => {
+    setValue("role", role);
+  };
+
   return (
-    <Card {...props}>
-      <CardHeader>
-        <CardTitle>Create an account</CardTitle>
+    <Card className={cn("rounded-none border-2 shadow-none", className)} {...props}>
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl font-bold tracking-tight">Create an account</CardTitle>
         <CardDescription>
-          Enter your information below to create your account
+          Join our platform and start your reading journey.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FieldGroup>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <FieldGroup className="grid grid-cols-2 gap-4">
             <Field>
-              <FieldLabel htmlFor="name">Full Name</FieldLabel>
-              <Input
-                id="name"
-                placeholder="John Doe"
-                {...register("name")}
-                aria-invalid={!!errors.name}
-              />
-              <FieldError>{errors.name?.message}</FieldError>
+              <FieldLabel htmlFor="firstName">First Name</FieldLabel>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                <Input
+                  id="firstName"
+                  placeholder="Jane"
+                  className="rounded-none pl-10 focus-visible:ring-0 focus-visible:border-primary transition-colors"
+                  {...register("firstName")}
+                  aria-invalid={!!errors.firstName}
+                />
+              </div>
+              <FieldError>{errors.firstName?.message}</FieldError>
             </Field>
             <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <FieldLabel htmlFor="lastName">Last Name</FieldLabel>
+              <Input
+                id="lastName"
+                placeholder="Doe"
+                className="rounded-none focus-visible:ring-0 focus-visible:border-primary transition-colors"
+                {...register("lastName")}
+                aria-invalid={!!errors.lastName}
+              />
+              <FieldError>{errors.lastName?.message}</FieldError>
+            </Field>
+          </FieldGroup>
+
+          <Field>
+            <FieldLabel htmlFor="email">Email</FieldLabel>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
               <Input
                 id="email"
                 type="email"
-                placeholder="m@example.com"
+                placeholder="jane@example.com"
+                className="rounded-none pl-10 focus-visible:ring-0 focus-visible:border-primary transition-colors"
                 {...register("email")}
                 aria-invalid={!!errors.email}
               />
-              <FieldError>{errors.email?.message}</FieldError>
-              <FieldDescription>
-                We&apos;ll use this to contact you. We will not share your email
-                with anyone else.
-              </FieldDescription>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  {...register("password")}
-                  aria-invalid={!!errors.password}
-                  className="pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? (
-                    <EyeOff className="size-4" />
-                  ) : (
-                    <Eye className="size-4" />
-                  )}
-                </button>
-              </div>
-              <FieldError>{errors.password?.message}</FieldError>
-              <FieldDescription>
-                Must be at least 8 characters long.
-              </FieldDescription>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="confirm-password">
-                Confirm Password
-              </FieldLabel>
-              <div className="relative">
-                <Input
-                  id="confirm-password"
-                  type={showConfirmPassword ? "text" : "password"}
-                  {...register("confirm-password")}
-                  aria-invalid={!!errors["confirm-password"]}
-                  className="pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
-                  aria-label={showConfirmPassword ? "Hide password" : "Show password"}
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="size-4" />
-                  ) : (
-                    <Eye className="size-4" />
-                  )}
-                </button>
-              </div>
-              <FieldError>{errors["confirm-password"]?.message}</FieldError>
-              <FieldDescription>Please confirm your password.</FieldDescription>
-            </Field>
-            <FieldGroup>
-              <Field>
-                <Button type="submit" disabled={isRegistering}>
-                   {isRegistering ? "Creating account..." : "Create Account"}
-                </Button>
-               
-                <FieldDescription className="px-6 text-center">
-                  Already have an account?{" "}
-                  <Link href="/login" className="underline underline-offset-4 font-medium text-primary hover:underline">
-                    Sign in
-                  </Link>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </FieldGroup>
+            </div>
+            <FieldError>{errors.email?.message}</FieldError>
+          </Field>
+
+          <Field>
+            <FieldLabel htmlFor="password">Password</FieldLabel>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                className="rounded-none pl-10 pr-10 focus-visible:ring-0 focus-visible:border-primary transition-colors"
+                {...register("password")}
+                aria-invalid={!!errors.password}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none transition-colors"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+              </button>
+            </div>
+            <FieldError>{errors.password?.message}</FieldError>
+          </Field>
+
+          <Field>
+            <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Input
+                id="confirm-password"
+                type={showConfirmPassword ? "text" : "password"}
+                className="rounded-none pl-10 pr-10 focus-visible:ring-0 focus-visible:border-primary transition-colors"
+                {...register("confirm-password")}
+                aria-invalid={!!errors["confirm-password"]}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none transition-colors"
+                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+              >
+                {showConfirmPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+              </button>
+            </div>
+            <FieldError>{errors["confirm-password"]?.message}</FieldError>
+          </Field>
+
+          <div className="grid grid-cols-2 gap-4 pt-2">
+            <Button
+              type="submit"
+              disabled={isRegistering}
+              onClick={() => handleSignupAs("READER")}
+              className="rounded-none h-11 font-bold transition-all hover:bg-primary/90 hover:translate-y-[-1px] active:translate-y-[0px]"
+            >
+              <BookOpen className="mr-2 size-4" />
+              {isRegistering ? "Wait..." : "Sign up as Reader"}
+            </Button>
+            <Button
+              type="submit"
+              variant="outline"
+              disabled={isRegistering}
+              onClick={() => handleSignupAs("AUTHOR")}
+              className="rounded-none h-11 font-bold border-2 transition-all hover:bg-accent hover:translate-y-[-1px] active:translate-y-[0px]"
+            >
+              <PenTool className="mr-2 size-4" />
+              {isRegistering ? "Wait..." : "Sign up as Author"}
+            </Button>
+          </div>
+
+          <p className="text-center text-sm text-muted-foreground pt-2">
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              className="font-bold text-primary hover:underline underline-offset-4 transition-colors"
+            >
+              Sign in
+            </Link>
+          </p>
         </form>
       </CardContent>
     </Card>

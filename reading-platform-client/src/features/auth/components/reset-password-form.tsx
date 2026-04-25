@@ -21,7 +21,7 @@ import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { resetPasswordSchema, ResetPasswordInput } from "@/features/auth/schema/auth-schema"
-import { Eye, EyeOff, LockKeyhole } from "lucide-react"
+import { Eye, EyeOff, LockKeyhole, Lock } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 
 export function ResetPasswordForm({
@@ -51,9 +51,9 @@ export function ResetPasswordForm({
 
   if (!token) {
     return (
-      <Card className={cn("w-full max-w-md mx-auto", className)}>
+      <Card className={cn("w-full max-w-md mx-auto rounded-none border-2 shadow-none", className)}>
         <CardHeader className="text-center">
-          <CardTitle>Invalid Link</CardTitle>
+          <CardTitle className="text-2xl font-bold tracking-tight text-destructive">Invalid Link</CardTitle>
           <CardDescription>
             This password reset link is invalid or has expired. Please request a new one.
           </CardDescription>
@@ -64,36 +64,36 @@ export function ResetPasswordForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader>
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+      <Card className="w-full max-w-md mx-auto rounded-none border-2 shadow-none">
+        <CardHeader className="space-y-1">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center bg-primary/10 text-primary border-2 border-primary/20">
             <LockKeyhole className="size-6" />
           </div>
-          <CardTitle>Reset Password</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-2xl font-bold tracking-tight text-center">Reset Password</CardTitle>
+          <CardDescription className="text-center">
             Set a new, secure password for your account.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <FieldGroup>
-              {/* Hidden token field for form submission */}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <FieldGroup className="space-y-4">
               <input type="hidden" {...register("token")} />
               
               <Field>
                 <FieldLabel htmlFor="password">New Password</FieldLabel>
                 <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
+                    className="rounded-none pl-10 pr-10 focus-visible:ring-0 focus-visible:border-primary transition-colors"
                     {...register("password")}
                     aria-invalid={!!errors.password}
-                    className="pr-10"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none transition-colors"
                   >
                     {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                   </button>
@@ -103,17 +103,25 @@ export function ResetPasswordForm({
 
               <Field>
                 <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
-                <Input
-                  id="confirm-password"
-                  type="password"
-                  {...register("confirm-password")}
-                  aria-invalid={!!errors["confirm-password"]}
-                />
+                <div className="relative">
+                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                   <Input
+                    id="confirm-password"
+                    type="password"
+                    className="rounded-none pl-10 focus-visible:ring-0 focus-visible:border-primary transition-colors"
+                    {...register("confirm-password")}
+                    aria-invalid={!!errors["confirm-password"]}
+                  />
+                </div>
                 <FieldError>{errors["confirm-password"]?.message}</FieldError>
               </Field>
 
-              <Field>
-                <Button type="submit" disabled={isResetting} className="w-full">
+              <Field className="pt-2">
+                <Button 
+                  type="submit" 
+                  disabled={isResetting} 
+                  className="w-full rounded-none h-11 font-bold transition-all hover:bg-primary/90 hover:translate-y-[-1px] active:translate-y-[0px]"
+                >
                   {isResetting ? "Updating..." : "Reset Password"}
                 </Button>
               </Field>

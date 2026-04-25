@@ -1,4 +1,4 @@
-import { Role } from "../generated/prisma/enums.js";
+import { Role } from "../types/enums";
 
 // ─── 1. Define all resources and their possible actions ───────────────────────
 

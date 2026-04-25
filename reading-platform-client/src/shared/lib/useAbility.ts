@@ -1,7 +1,8 @@
+import { useAuthContext } from "@/features/auth/components/auth-provider";
 import { Action, can, Resource } from "./statements";
 
 export function useAbility() {
-  const { user } = useSession();
+  const { user } = useAuthContext();
   const userRoles = user?.roles ?? [];
 
   return {

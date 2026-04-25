@@ -4,7 +4,6 @@ import { useAppMutation } from "@/shared/lib/query-helper";
 import { authStore } from "@/features/auth/store/auth-store";
 import { AuthResponse } from "@/features/auth/types";
 import { useAuthContext } from "@/features/auth/components/auth-provider";
-import { TASK_KEYS } from "@/features/tasks/hooks/use-tasks";
 import { useRouter } from "next/navigation";
 import { 
   ForgotPasswordInput, 
@@ -28,7 +27,7 @@ export const useAuth = () => {
       authStore.setToken(data.accessToken);
       setUser(data.user);
       setIsAuthenticated(true);
-      router.push("/tasks");
+      router.push("/stories");
     },
   });
 
@@ -42,7 +41,7 @@ export const useAuth = () => {
       authStore.setToken(data.accessToken);
       setUser(data.user);
       setIsAuthenticated(true);
-      router.push("/tasks");
+      router.push("/stories");
     },
   });
 
@@ -52,7 +51,6 @@ export const useAuth = () => {
     successMessage: "Logged out successfully!",
     config: {
       onSettled: (_data, error) => {
-        queryClient.removeQueries({ queryKey: TASK_KEYS.all });
         authStore.reset();
         setUser(null);
         setIsAuthenticated(false);

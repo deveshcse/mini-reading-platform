@@ -11,7 +11,6 @@ import React, {
 import { useQueryClient } from "@tanstack/react-query";
 import { User } from "@/features/auth/types";
 import { authStore } from "@/features/auth/store/auth-store";
-import { TASK_KEYS } from "@/features/tasks/hooks/use-tasks";
 import apiClient from "@/shared/api/api-client";
 
 interface AuthContextType {
@@ -39,7 +38,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     } catch {
       // Server logout failed; local session is still cleared below.
     } finally {
-      queryClient.removeQueries({ queryKey: TASK_KEYS.all });
       authStore.reset();
       setUser(null);
       setIsAuthenticated(false);
