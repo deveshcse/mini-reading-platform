@@ -13,12 +13,17 @@ import { logger } from "../config/logger.config.js";
  */
 export const errorHandler = (
   err: unknown,
-  _req: Request,
+  req: Request,
   res: Response,
   _next: NextFunction
 ): void => {
+  const meta = {
+    method: req.method,
+    url: req.originalUrl,
+  };
   // ── Zod validation errors ─────────────────────────────────────────────────
   if (err instanceof ZodError) {
+    logger.warn({ ...meta, err }, "Validation Error");
     res.status(400).json({
       success: false,
       error: {
@@ -34,7 +39,12 @@ export const errorHandler = (
 
   // ── Operational ApiError subclasses ───────────────────────────────────────
   if (err instanceof ApiError) {
-    if (!err.isOperational) logger.error(err);
+    if (err.isOperational) {
+      logger.warn({ ...meta, err }, "Operational API Error");
+    } else {
+      logger.error({ ...meta, err }, "Non-Operational API Error");
+    }
+
     res.status(err.statusCode).json({
       success: false,
       error: { message: err.message },
@@ -43,7 +53,7 @@ export const errorHandler = (
   }
 
   // ── Unexpected / programming errors ───────────────────────────────────────
-  logger.error(err);
+  logger.error({ ...meta, err }, "Unexpected System Error");
   const message =
     process.env.NODE_ENV !== "production"
       ? (err as Error).message ?? "Internal Server Error"

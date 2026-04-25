@@ -17,6 +17,7 @@ import {
 } from "./auth.schema.js";
 import { Role } from "../../generated/prisma/enums.js";
 import { sendResetPasswordEmail } from "../../utils/email.js";
+import { logger } from "../../config/logger.config.js";
 
 // ── Token helpers ─────────────────────────────────────────────────────────────
 
@@ -104,8 +105,8 @@ export async function register(input: RegisterInput) {
     throw new NotFoundError("User not found after registration");
   }
 
-  const account = user.accounts.find((a) => a.role === input.role)!;
-  const roles = user.accounts.map((a) => a.role);
+  const roles = user!.accounts.map((a) => a.role);
+  const account = user!.accounts.find((a) => a.role === input.role)!;
 
   const accessToken = signAccessToken({
     userId: String(user.id),
@@ -133,18 +134,22 @@ export async function login(input: LoginInput) {
     include: { accounts: true },
   });
 
-  if (!user) {
+  if (!user || user.accounts.length === 0) {
     await bcrypt.compare(input.password, "$2b$12$invalidsaltfortimingprotect");
     throw new UnauthorizedError("Invalid email or password");
   }
 
-  const account = user.accounts.find((a) => a.role === input.role);
-  if (!account) {
-    throw new UnauthorizedError(`No ${input.role} account found for this email`);
+  // Find the first account that matches the password
+  let matchedAccount: any = null;
+  for (const account of user.accounts) {
+    const isMatch = await bcrypt.compare(input.password, account.password);
+    if (isMatch) {
+      matchedAccount = account;
+      break;
+    }
   }
 
-  const isMatch = await bcrypt.compare(input.password, account.password);
-  if (!isMatch) {
+  if (!matchedAccount) {
     throw new UnauthorizedError("Invalid email or password");
   }
 
@@ -155,11 +160,11 @@ export async function login(input: LoginInput) {
     email: user.email,
     roles,
   });
-  const refreshToken = signRefreshToken({ accountId: String(account.id) });
+  const refreshToken = signRefreshToken({ accountId: String(matchedAccount.id) });
 
   const hashedRefresh = await bcrypt.hash(refreshToken, 10);
   await prisma.account.update({
-    where: { id: account.id },
+    where: { id: matchedAccount.id },
     data: { refreshToken: hashedRefresh },
   });
 
@@ -252,7 +257,9 @@ export async function forgotPassword(input: ForgotPasswordInput) {
     include: { accounts: true }
   });
 
-  if (!user || user.accounts.length === 0) return;
+  if (!user || user.accounts.length === 0) {
+    throw new NotFoundError("No active account found with this email address");
+  }
 
   const resetToken = crypto.randomBytes(32).toString("hex");
   const hashedToken = crypto

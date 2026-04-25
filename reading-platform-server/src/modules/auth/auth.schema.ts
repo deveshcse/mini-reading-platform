@@ -23,11 +23,8 @@ export type RegisterInput = z.infer<typeof registerSchema>["body"];
 
 export const loginSchema = z.object({
   body: z.object({
-    email: z.email("Invalid email address"),
+    email: z.string().email("Invalid email address"),
     password: z.string().min(1, "Password is required"),
-    role: z.enum(["READER", "AUTHOR"], {
-      message: "Role must be either READER or AUTHOR",
-    }),
   }),
 });
 

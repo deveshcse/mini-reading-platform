@@ -1,4 +1,5 @@
 import { type Response } from "express";
+import { logger } from "../config/logger.config.js";
 
 /**
  * Sends a standardised success JSON response.
@@ -14,6 +15,15 @@ export function sendSuccess<T>(
   data: T,
   statusCode = 200
 ): void {
+  logger.info(
+    {
+      method: res.req?.method,
+      url: res.req?.originalUrl,
+      statusCode,
+    },
+    "API Success"
+  );
+
   res.status(statusCode).json({
     success: true,
     data,

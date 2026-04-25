@@ -124,7 +124,7 @@ export async function forgotPassword(
     const input = req.body as ForgotPasswordInput;
     await authService.forgotPassword(input);
     sendSuccess(res, {
-      message: "If an account with that email exists, a password reset link has been sent.",
+      message: "Password reset link has been sent to your email.",
     });
   } catch (error) {
     next(error);
