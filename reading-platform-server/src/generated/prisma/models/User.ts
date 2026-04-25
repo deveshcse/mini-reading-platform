@@ -39,17 +39,9 @@ export type UserMinAggregateOutputType = {
   email: string | null
   firstName: string | null
   lastName: string | null
-  password: string | null
-  isEmailVerified: boolean | null
-  emailVerificationToken: string | null
-  emailVerificationTokenExpiresAt: Date | null
-  forgotPasswordToken: string | null
-  forgotPasswordTokenExpiresAt: Date | null
-  refreshToken: string | null
-  refreshTokenExpiresAt: Date | null
-  deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -57,17 +49,9 @@ export type UserMaxAggregateOutputType = {
   email: string | null
   firstName: string | null
   lastName: string | null
-  password: string | null
-  isEmailVerified: boolean | null
-  emailVerificationToken: string | null
-  emailVerificationTokenExpiresAt: Date | null
-  forgotPasswordToken: string | null
-  forgotPasswordTokenExpiresAt: Date | null
-  refreshToken: string | null
-  refreshTokenExpiresAt: Date | null
-  deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -75,17 +59,9 @@ export type UserCountAggregateOutputType = {
   email: number
   firstName: number
   lastName: number
-  password: number
-  isEmailVerified: number
-  emailVerificationToken: number
-  emailVerificationTokenExpiresAt: number
-  forgotPasswordToken: number
-  forgotPasswordTokenExpiresAt: number
-  refreshToken: number
-  refreshTokenExpiresAt: number
-  deletedAt: number
   createdAt: number
   updatedAt: number
+  deletedAt: number
   _all: number
 }
 
@@ -103,17 +79,9 @@ export type UserMinAggregateInputType = {
   email?: true
   firstName?: true
   lastName?: true
-  password?: true
-  isEmailVerified?: true
-  emailVerificationToken?: true
-  emailVerificationTokenExpiresAt?: true
-  forgotPasswordToken?: true
-  forgotPasswordTokenExpiresAt?: true
-  refreshToken?: true
-  refreshTokenExpiresAt?: true
-  deletedAt?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -121,17 +89,9 @@ export type UserMaxAggregateInputType = {
   email?: true
   firstName?: true
   lastName?: true
-  password?: true
-  isEmailVerified?: true
-  emailVerificationToken?: true
-  emailVerificationTokenExpiresAt?: true
-  forgotPasswordToken?: true
-  forgotPasswordTokenExpiresAt?: true
-  refreshToken?: true
-  refreshTokenExpiresAt?: true
-  deletedAt?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -139,17 +99,9 @@ export type UserCountAggregateInputType = {
   email?: true
   firstName?: true
   lastName?: true
-  password?: true
-  isEmailVerified?: true
-  emailVerificationToken?: true
-  emailVerificationTokenExpiresAt?: true
-  forgotPasswordToken?: true
-  forgotPasswordTokenExpiresAt?: true
-  refreshToken?: true
-  refreshTokenExpiresAt?: true
-  deletedAt?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -244,17 +196,9 @@ export type UserGroupByOutputType = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified: boolean
-  emailVerificationToken: string | null
-  emailVerificationTokenExpiresAt: Date | null
-  forgotPasswordToken: string | null
-  forgotPasswordTokenExpiresAt: Date | null
-  refreshToken: string | null
-  refreshTokenExpiresAt: Date | null
-  deletedAt: Date | null
   createdAt: Date
   updatedAt: Date
+  deletedAt: Date | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -285,18 +229,10 @@ export type UserWhereInput = {
   email?: Prisma.StringFilter<"User"> | string
   firstName?: Prisma.StringFilter<"User"> | string
   lastName?: Prisma.StringFilter<"User"> | string
-  password?: Prisma.StringFilter<"User"> | string
-  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
-  emailVerificationToken?: Prisma.StringNullableFilter<"User"> | string | null
-  emailVerificationTokenExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  forgotPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  refreshToken?: Prisma.StringNullableFilter<"User"> | string | null
-  refreshTokenExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  roles?: Prisma.UserToRoleListRelationFilter
+  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  accounts?: Prisma.AccountListRelationFilter
   stories?: Prisma.StoryListRelationFilter
   storiesCreated?: Prisma.StoryListRelationFilter
   storiesUpdated?: Prisma.StoryListRelationFilter
@@ -312,18 +248,10 @@ export type UserOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
-  emailVerificationToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  emailVerificationTokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  forgotPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  forgotPasswordTokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  refreshToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  refreshTokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  roles?: Prisma.UserToRoleOrderByRelationAggregateInput
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  accounts?: Prisma.AccountOrderByRelationAggregateInput
   stories?: Prisma.StoryOrderByRelationAggregateInput
   storiesCreated?: Prisma.StoryOrderByRelationAggregateInput
   storiesUpdated?: Prisma.StoryOrderByRelationAggregateInput
@@ -337,23 +265,15 @@ export type UserOrderByWithRelationInput = {
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   email?: string
-  emailVerificationToken?: string
-  forgotPasswordToken?: string
-  refreshToken?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   firstName?: Prisma.StringFilter<"User"> | string
   lastName?: Prisma.StringFilter<"User"> | string
-  password?: Prisma.StringFilter<"User"> | string
-  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
-  emailVerificationTokenExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  refreshTokenExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  roles?: Prisma.UserToRoleListRelationFilter
+  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  accounts?: Prisma.AccountListRelationFilter
   stories?: Prisma.StoryListRelationFilter
   storiesCreated?: Prisma.StoryListRelationFilter
   storiesUpdated?: Prisma.StoryListRelationFilter
@@ -362,24 +282,16 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   payments?: Prisma.PaymentListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
   bookmarks?: Prisma.BookmarkListRelationFilter
-}, "id" | "email" | "emailVerificationToken" | "forgotPasswordToken" | "refreshToken">
+}, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
-  emailVerificationToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  emailVerificationTokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  forgotPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  forgotPasswordTokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  refreshToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  refreshTokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -395,35 +307,19 @@ export type UserScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   firstName?: Prisma.StringWithAggregatesFilter<"User"> | string
   lastName?: Prisma.StringWithAggregatesFilter<"User"> | string
-  password?: Prisma.StringWithAggregatesFilter<"User"> | string
-  isEmailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  emailVerificationToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  emailVerificationTokenExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-  forgotPasswordToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-  refreshToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  refreshTokenExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
 }
 
 export type UserCreateInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -439,18 +335,10 @@ export type UserUncheckedCreateInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleUncheckedCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -465,18 +353,10 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -492,18 +372,10 @@ export type UserUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUncheckedUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -519,34 +391,18 @@ export type UserCreateManyInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -554,17 +410,9 @@ export type UserUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -572,17 +420,9 @@ export type UserCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
-  emailVerificationToken?: Prisma.SortOrder
-  emailVerificationTokenExpiresAt?: Prisma.SortOrder
-  forgotPasswordToken?: Prisma.SortOrder
-  forgotPasswordTokenExpiresAt?: Prisma.SortOrder
-  refreshToken?: Prisma.SortOrder
-  refreshTokenExpiresAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -594,17 +434,9 @@ export type UserMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
-  emailVerificationToken?: Prisma.SortOrder
-  emailVerificationTokenExpiresAt?: Prisma.SortOrder
-  forgotPasswordToken?: Prisma.SortOrder
-  forgotPasswordTokenExpiresAt?: Prisma.SortOrder
-  refreshToken?: Prisma.SortOrder
-  refreshTokenExpiresAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -612,17 +444,9 @@ export type UserMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
-  password?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
-  emailVerificationToken?: Prisma.SortOrder
-  emailVerificationTokenExpiresAt?: Prisma.SortOrder
-  forgotPasswordToken?: Prisma.SortOrder
-  forgotPasswordTokenExpiresAt?: Prisma.SortOrder
-  refreshToken?: Prisma.SortOrder
-  refreshTokenExpiresAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -643,20 +467,12 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -667,18 +483,18 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type UserCreateNestedOneWithoutRolesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutRolesInput, Prisma.UserUncheckedCreateWithoutRolesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRolesInput
+export type UserCreateNestedOneWithoutAccountsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutRolesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutRolesInput, Prisma.UserUncheckedCreateWithoutRolesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRolesInput
-  upsert?: Prisma.UserUpsertWithoutRolesInput
+export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountsInput
+  upsert?: Prisma.UserUpsertWithoutAccountsInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRolesInput, Prisma.UserUpdateWithoutRolesInput>, Prisma.UserUncheckedUpdateWithoutRolesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAccountsInput, Prisma.UserUpdateWithoutAccountsInput>, Prisma.UserUncheckedUpdateWithoutAccountsInput>
 }
 
 export type UserCreateNestedOneWithoutStoriesInput = {
@@ -797,21 +613,13 @@ export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentsInput, Prisma.UserUpdateWithoutPaymentsInput>, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
 }
 
-export type UserCreateWithoutRolesInput = {
+export type UserCreateWithoutAccountsInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -822,22 +630,14 @@ export type UserCreateWithoutRolesInput = {
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutRolesInput = {
+export type UserUncheckedCreateWithoutAccountsInput = {
   id?: number
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -848,37 +648,29 @@ export type UserUncheckedCreateWithoutRolesInput = {
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutRolesInput = {
+export type UserCreateOrConnectWithoutAccountsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutRolesInput, Prisma.UserUncheckedCreateWithoutRolesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
 }
 
-export type UserUpsertWithoutRolesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutRolesInput, Prisma.UserUncheckedUpdateWithoutRolesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutRolesInput, Prisma.UserUncheckedCreateWithoutRolesInput>
+export type UserUpsertWithoutAccountsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAccountsInput, Prisma.UserUncheckedUpdateWithoutAccountsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutRolesInput = {
+export type UserUpdateToOneWithWhereWithoutAccountsInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutRolesInput, Prisma.UserUncheckedUpdateWithoutRolesInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAccountsInput, Prisma.UserUncheckedUpdateWithoutAccountsInput>
 }
 
-export type UserUpdateWithoutRolesInput = {
+export type UserUpdateWithoutAccountsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -889,22 +681,14 @@ export type UserUpdateWithoutRolesInput = {
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutRolesInput = {
+export type UserUncheckedUpdateWithoutAccountsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -919,18 +703,10 @@ export type UserCreateWithoutStoriesInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
@@ -945,18 +721,10 @@ export type UserUncheckedCreateWithoutStoriesInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleUncheckedCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
@@ -975,18 +743,10 @@ export type UserCreateWithoutStoriesCreatedInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
@@ -1001,18 +761,10 @@ export type UserUncheckedCreateWithoutStoriesCreatedInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleUncheckedCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
@@ -1031,18 +783,10 @@ export type UserCreateWithoutStoriesUpdatedInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
@@ -1057,18 +801,10 @@ export type UserUncheckedCreateWithoutStoriesUpdatedInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleUncheckedCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
@@ -1098,18 +834,10 @@ export type UserUpdateWithoutStoriesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
@@ -1124,18 +852,10 @@ export type UserUncheckedUpdateWithoutStoriesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUncheckedUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
@@ -1160,18 +880,10 @@ export type UserUpdateWithoutStoriesCreatedInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
@@ -1186,18 +898,10 @@ export type UserUncheckedUpdateWithoutStoriesCreatedInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUncheckedUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
@@ -1222,18 +926,10 @@ export type UserUpdateWithoutStoriesUpdatedInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
@@ -1248,18 +944,10 @@ export type UserUncheckedUpdateWithoutStoriesUpdatedInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUncheckedUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
@@ -1273,18 +961,10 @@ export type UserCreateWithoutLikesInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -1299,18 +979,10 @@ export type UserUncheckedCreateWithoutLikesInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleUncheckedCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -1340,18 +1012,10 @@ export type UserUpdateWithoutLikesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -1366,18 +1030,10 @@ export type UserUncheckedUpdateWithoutLikesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUncheckedUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -1391,18 +1047,10 @@ export type UserCreateWithoutCommentsInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -1417,18 +1065,10 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleUncheckedCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -1458,18 +1098,10 @@ export type UserUpdateWithoutCommentsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -1484,18 +1116,10 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUncheckedUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -1509,18 +1133,10 @@ export type UserCreateWithoutBookmarksInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -1535,18 +1151,10 @@ export type UserUncheckedCreateWithoutBookmarksInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleUncheckedCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -1576,18 +1184,10 @@ export type UserUpdateWithoutBookmarksInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -1602,18 +1202,10 @@ export type UserUncheckedUpdateWithoutBookmarksInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUncheckedUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -1627,18 +1219,10 @@ export type UserCreateWithoutSubscriptionsInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -1653,18 +1237,10 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleUncheckedCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -1694,18 +1270,10 @@ export type UserUpdateWithoutSubscriptionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -1720,18 +1288,10 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUncheckedUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -1745,18 +1305,10 @@ export type UserCreateWithoutPaymentsInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -1771,18 +1323,10 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   email: string
   firstName: string
   lastName: string
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.UserToRoleUncheckedCreateNestedManyWithoutUserInput
+  deletedAt?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -1812,18 +1356,10 @@ export type UserUpdateWithoutPaymentsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -1838,18 +1374,10 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.UserToRoleUncheckedUpdateManyWithoutUserNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -1865,7 +1393,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
  */
 
 export type UserCountOutputType = {
-  roles: number
+  accounts: number
   stories: number
   storiesCreated: number
   storiesUpdated: number
@@ -1877,7 +1405,7 @@ export type UserCountOutputType = {
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roles?: boolean | UserCountOutputTypeCountRolesArgs
+  accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   stories?: boolean | UserCountOutputTypeCountStoriesArgs
   storiesCreated?: boolean | UserCountOutputTypeCountStoriesCreatedArgs
   storiesUpdated?: boolean | UserCountOutputTypeCountStoriesUpdatedArgs
@@ -1901,8 +1429,8 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountRolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.UserToRoleWhereInput
+export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AccountWhereInput
 }
 
 /**
@@ -1967,18 +1495,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   email?: boolean
   firstName?: boolean
   lastName?: boolean
-  password?: boolean
-  isEmailVerified?: boolean
-  emailVerificationToken?: boolean
-  emailVerificationTokenExpiresAt?: boolean
-  forgotPasswordToken?: boolean
-  forgotPasswordTokenExpiresAt?: boolean
-  refreshToken?: boolean
-  refreshTokenExpiresAt?: boolean
-  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
+  deletedAt?: boolean
+  accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   stories?: boolean | Prisma.User$storiesArgs<ExtArgs>
   storiesCreated?: boolean | Prisma.User$storiesCreatedArgs<ExtArgs>
   storiesUpdated?: boolean | Prisma.User$storiesUpdatedArgs<ExtArgs>
@@ -1995,17 +1515,9 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   firstName?: boolean
   lastName?: boolean
-  password?: boolean
-  isEmailVerified?: boolean
-  emailVerificationToken?: boolean
-  emailVerificationTokenExpiresAt?: boolean
-  forgotPasswordToken?: boolean
-  forgotPasswordTokenExpiresAt?: boolean
-  refreshToken?: boolean
-  refreshTokenExpiresAt?: boolean
-  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2013,17 +1525,9 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   firstName?: boolean
   lastName?: boolean
-  password?: boolean
-  isEmailVerified?: boolean
-  emailVerificationToken?: boolean
-  emailVerificationTokenExpiresAt?: boolean
-  forgotPasswordToken?: boolean
-  forgotPasswordTokenExpiresAt?: boolean
-  refreshToken?: boolean
-  refreshTokenExpiresAt?: boolean
-  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -2031,22 +1535,14 @@ export type UserSelectScalar = {
   email?: boolean
   firstName?: boolean
   lastName?: boolean
-  password?: boolean
-  isEmailVerified?: boolean
-  emailVerificationToken?: boolean
-  emailVerificationTokenExpiresAt?: boolean
-  forgotPasswordToken?: boolean
-  forgotPasswordTokenExpiresAt?: boolean
-  refreshToken?: boolean
-  refreshTokenExpiresAt?: boolean
-  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "firstName" | "lastName" | "password" | "isEmailVerified" | "emailVerificationToken" | "emailVerificationTokenExpiresAt" | "forgotPasswordToken" | "forgotPasswordTokenExpiresAt" | "refreshToken" | "refreshTokenExpiresAt" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "firstName" | "lastName" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
+  accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   stories?: boolean | Prisma.User$storiesArgs<ExtArgs>
   storiesCreated?: boolean | Prisma.User$storiesCreatedArgs<ExtArgs>
   storiesUpdated?: boolean | Prisma.User$storiesUpdatedArgs<ExtArgs>
@@ -2063,7 +1559,7 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    roles: Prisma.$UserToRolePayload<ExtArgs>[]
+    accounts: Prisma.$AccountPayload<ExtArgs>[]
     stories: Prisma.$StoryPayload<ExtArgs>[]
     storiesCreated: Prisma.$StoryPayload<ExtArgs>[]
     storiesUpdated: Prisma.$StoryPayload<ExtArgs>[]
@@ -2078,17 +1574,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     email: string
     firstName: string
     lastName: string
-    password: string
-    isEmailVerified: boolean
-    emailVerificationToken: string | null
-    emailVerificationTokenExpiresAt: Date | null
-    forgotPasswordToken: string | null
-    forgotPasswordTokenExpiresAt: Date | null
-    refreshToken: string | null
-    refreshTokenExpiresAt: Date | null
-    deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -2483,7 +1971,7 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  roles<T extends Prisma.User$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserToRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stories<T extends Prisma.User$storiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$storiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   storiesCreated<T extends Prisma.User$storiesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$storiesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   storiesUpdated<T extends Prisma.User$storiesUpdatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$storiesUpdatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2525,17 +2013,9 @@ export interface UserFieldRefs {
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly firstName: Prisma.FieldRef<"User", 'String'>
   readonly lastName: Prisma.FieldRef<"User", 'String'>
-  readonly password: Prisma.FieldRef<"User", 'String'>
-  readonly isEmailVerified: Prisma.FieldRef<"User", 'Boolean'>
-  readonly emailVerificationToken: Prisma.FieldRef<"User", 'String'>
-  readonly emailVerificationTokenExpiresAt: Prisma.FieldRef<"User", 'DateTime'>
-  readonly forgotPasswordToken: Prisma.FieldRef<"User", 'String'>
-  readonly forgotPasswordTokenExpiresAt: Prisma.FieldRef<"User", 'DateTime'>
-  readonly refreshToken: Prisma.FieldRef<"User", 'String'>
-  readonly refreshTokenExpiresAt: Prisma.FieldRef<"User", 'DateTime'>
-  readonly deletedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
 
@@ -2929,27 +2409,27 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.roles
+ * User.accounts
  */
-export type User$rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the UserToRole
+   * Select specific fields to fetch from the Account
    */
-  select?: Prisma.UserToRoleSelect<ExtArgs> | null
+  select?: Prisma.AccountSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the UserToRole
+   * Omit specific fields from the Account
    */
-  omit?: Prisma.UserToRoleOmit<ExtArgs> | null
+  omit?: Prisma.AccountOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.UserToRoleInclude<ExtArgs> | null
-  where?: Prisma.UserToRoleWhereInput
-  orderBy?: Prisma.UserToRoleOrderByWithRelationInput | Prisma.UserToRoleOrderByWithRelationInput[]
-  cursor?: Prisma.UserToRoleWhereUniqueInput
+  include?: Prisma.AccountInclude<ExtArgs> | null
+  where?: Prisma.AccountWhereInput
+  orderBy?: Prisma.AccountOrderByWithRelationInput | Prisma.AccountOrderByWithRelationInput[]
+  cursor?: Prisma.AccountWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.UserToRoleScalarFieldEnum | Prisma.UserToRoleScalarFieldEnum[]
+  distinct?: Prisma.AccountScalarFieldEnum | Prisma.AccountScalarFieldEnum[]
 }
 
 /**

@@ -47,25 +47,15 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
- * Model UserToRole
+ * Model Account
  * 
  */
-export type UserToRole = Prisma.UserToRoleModel
+export type Account = Prisma.AccountModel
 /**
  * Model Story
  * 
  */
 export type Story = Prisma.StoryModel
-/**
- * Model Tag
- * 
- */
-export type Tag = Prisma.TagModel
-/**
- * Model StoryTag
- * 
- */
-export type StoryTag = Prisma.StoryTagModel
 /**
  * Model Like
  * 

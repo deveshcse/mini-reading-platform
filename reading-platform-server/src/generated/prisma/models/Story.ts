@@ -51,12 +51,12 @@ export type StoryMinAggregateOutputType = {
   isPublished: boolean | null
   isPremium: boolean | null
   viewCount: number | null
-  deletedAt: Date | null
   authorId: number | null
   createdById: number | null
   updatedById: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type StoryMaxAggregateOutputType = {
@@ -68,12 +68,12 @@ export type StoryMaxAggregateOutputType = {
   isPublished: boolean | null
   isPremium: boolean | null
   viewCount: number | null
-  deletedAt: Date | null
   authorId: number | null
   createdById: number | null
   updatedById: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type StoryCountAggregateOutputType = {
@@ -85,12 +85,12 @@ export type StoryCountAggregateOutputType = {
   isPublished: number
   isPremium: number
   viewCount: number
-  deletedAt: number
   authorId: number
   createdById: number
   updatedById: number
   createdAt: number
   updatedAt: number
+  deletedAt: number
   _all: number
 }
 
@@ -120,12 +120,12 @@ export type StoryMinAggregateInputType = {
   isPublished?: true
   isPremium?: true
   viewCount?: true
-  deletedAt?: true
   authorId?: true
   createdById?: true
   updatedById?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type StoryMaxAggregateInputType = {
@@ -137,12 +137,12 @@ export type StoryMaxAggregateInputType = {
   isPublished?: true
   isPremium?: true
   viewCount?: true
-  deletedAt?: true
   authorId?: true
   createdById?: true
   updatedById?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type StoryCountAggregateInputType = {
@@ -154,12 +154,12 @@ export type StoryCountAggregateInputType = {
   isPublished?: true
   isPremium?: true
   viewCount?: true
-  deletedAt?: true
   authorId?: true
   createdById?: true
   updatedById?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -258,12 +258,12 @@ export type StoryGroupByOutputType = {
   isPublished: boolean
   isPremium: boolean
   viewCount: number
-  deletedAt: Date | null
   authorId: number
   createdById: number | null
   updatedById: number | null
   createdAt: Date
   updatedAt: Date
+  deletedAt: Date | null
   _count: StoryCountAggregateOutputType | null
   _avg: StoryAvgAggregateOutputType | null
   _sum: StorySumAggregateOutputType | null
@@ -298,16 +298,15 @@ export type StoryWhereInput = {
   isPublished?: Prisma.BoolFilter<"Story"> | boolean
   isPremium?: Prisma.BoolFilter<"Story"> | boolean
   viewCount?: Prisma.IntFilter<"Story"> | number
-  deletedAt?: Prisma.DateTimeNullableFilter<"Story"> | Date | string | null
   authorId?: Prisma.IntFilter<"Story"> | number
   createdById?: Prisma.IntNullableFilter<"Story"> | number | null
   updatedById?: Prisma.IntNullableFilter<"Story"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Story"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Story"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Story"> | Date | string | null
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  tags?: Prisma.StoryTagListRelationFilter
   likes?: Prisma.LikeListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   bookmarks?: Prisma.BookmarkListRelationFilter
@@ -322,16 +321,15 @@ export type StoryOrderByWithRelationInput = {
   isPublished?: Prisma.SortOrder
   isPremium?: Prisma.SortOrder
   viewCount?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   author?: Prisma.UserOrderByWithRelationInput
   createdBy?: Prisma.UserOrderByWithRelationInput
   updatedBy?: Prisma.UserOrderByWithRelationInput
-  tags?: Prisma.StoryTagOrderByRelationAggregateInput
   likes?: Prisma.LikeOrderByRelationAggregateInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
   bookmarks?: Prisma.BookmarkOrderByRelationAggregateInput
@@ -349,16 +347,15 @@ export type StoryWhereUniqueInput = Prisma.AtLeast<{
   isPublished?: Prisma.BoolFilter<"Story"> | boolean
   isPremium?: Prisma.BoolFilter<"Story"> | boolean
   viewCount?: Prisma.IntFilter<"Story"> | number
-  deletedAt?: Prisma.DateTimeNullableFilter<"Story"> | Date | string | null
   authorId?: Prisma.IntFilter<"Story"> | number
   createdById?: Prisma.IntNullableFilter<"Story"> | number | null
   updatedById?: Prisma.IntNullableFilter<"Story"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Story"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Story"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Story"> | Date | string | null
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  tags?: Prisma.StoryTagListRelationFilter
   likes?: Prisma.LikeListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   bookmarks?: Prisma.BookmarkListRelationFilter
@@ -373,12 +370,12 @@ export type StoryOrderByWithAggregationInput = {
   isPublished?: Prisma.SortOrder
   isPremium?: Prisma.SortOrder
   viewCount?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.StoryCountOrderByAggregateInput
   _avg?: Prisma.StoryAvgOrderByAggregateInput
   _max?: Prisma.StoryMaxOrderByAggregateInput
@@ -398,12 +395,12 @@ export type StoryScalarWhereWithAggregatesInput = {
   isPublished?: Prisma.BoolWithAggregatesFilter<"Story"> | boolean
   isPremium?: Prisma.BoolWithAggregatesFilter<"Story"> | boolean
   viewCount?: Prisma.IntWithAggregatesFilter<"Story"> | number
-  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Story"> | Date | string | null
   authorId?: Prisma.IntWithAggregatesFilter<"Story"> | number
   createdById?: Prisma.IntNullableWithAggregatesFilter<"Story"> | number | null
   updatedById?: Prisma.IntNullableWithAggregatesFilter<"Story"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Story"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Story"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Story"> | Date | string | null
 }
 
 export type StoryCreateInput = {
@@ -414,13 +411,12 @@ export type StoryCreateInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   author: Prisma.UserCreateNestedOneWithoutStoriesInput
   createdBy?: Prisma.UserCreateNestedOneWithoutStoriesCreatedInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutStoriesUpdatedInput
-  tags?: Prisma.StoryTagCreateNestedManyWithoutStoryInput
   likes?: Prisma.LikeCreateNestedManyWithoutStoryInput
   comments?: Prisma.CommentCreateNestedManyWithoutStoryInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutStoryInput
@@ -435,13 +431,12 @@ export type StoryUncheckedCreateInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   authorId: number
   createdById?: number | null
   updatedById?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tags?: Prisma.StoryTagUncheckedCreateNestedManyWithoutStoryInput
+  deletedAt?: Date | string | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutStoryInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutStoryInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutStoryInput
@@ -455,13 +450,12 @@ export type StoryUpdateInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutStoriesNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutStoriesCreatedNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutStoriesUpdatedNestedInput
-  tags?: Prisma.StoryTagUpdateManyWithoutStoryNestedInput
   likes?: Prisma.LikeUpdateManyWithoutStoryNestedInput
   comments?: Prisma.CommentUpdateManyWithoutStoryNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutStoryNestedInput
@@ -476,13 +470,12 @@ export type StoryUncheckedUpdateInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   updatedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tags?: Prisma.StoryTagUncheckedUpdateManyWithoutStoryNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutStoryNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutStoryNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutStoryNestedInput
@@ -497,12 +490,12 @@ export type StoryCreateManyInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   authorId: number
   createdById?: number | null
   updatedById?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type StoryUpdateManyMutationInput = {
@@ -513,9 +506,9 @@ export type StoryUpdateManyMutationInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type StoryUncheckedUpdateManyInput = {
@@ -527,12 +520,12 @@ export type StoryUncheckedUpdateManyInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   updatedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type StoryListRelationFilter = {
@@ -554,12 +547,12 @@ export type StoryCountOrderByAggregateInput = {
   isPublished?: Prisma.SortOrder
   isPremium?: Prisma.SortOrder
   viewCount?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type StoryAvgOrderByAggregateInput = {
@@ -579,12 +572,12 @@ export type StoryMaxOrderByAggregateInput = {
   isPublished?: Prisma.SortOrder
   isPremium?: Prisma.SortOrder
   viewCount?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type StoryMinOrderByAggregateInput = {
@@ -596,12 +589,12 @@ export type StoryMinOrderByAggregateInput = {
   isPublished?: Prisma.SortOrder
   isPremium?: Prisma.SortOrder
   viewCount?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type StorySumOrderByAggregateInput = {
@@ -751,20 +744,6 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type StoryCreateNestedOneWithoutTagsInput = {
-  create?: Prisma.XOR<Prisma.StoryCreateWithoutTagsInput, Prisma.StoryUncheckedCreateWithoutTagsInput>
-  connectOrCreate?: Prisma.StoryCreateOrConnectWithoutTagsInput
-  connect?: Prisma.StoryWhereUniqueInput
-}
-
-export type StoryUpdateOneRequiredWithoutTagsNestedInput = {
-  create?: Prisma.XOR<Prisma.StoryCreateWithoutTagsInput, Prisma.StoryUncheckedCreateWithoutTagsInput>
-  connectOrCreate?: Prisma.StoryCreateOrConnectWithoutTagsInput
-  upsert?: Prisma.StoryUpsertWithoutTagsInput
-  connect?: Prisma.StoryWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.StoryUpdateToOneWithWhereWithoutTagsInput, Prisma.StoryUpdateWithoutTagsInput>, Prisma.StoryUncheckedUpdateWithoutTagsInput>
-}
-
 export type StoryCreateNestedOneWithoutLikesInput = {
   create?: Prisma.XOR<Prisma.StoryCreateWithoutLikesInput, Prisma.StoryUncheckedCreateWithoutLikesInput>
   connectOrCreate?: Prisma.StoryCreateOrConnectWithoutLikesInput
@@ -815,12 +794,11 @@ export type StoryCreateWithoutAuthorInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   createdBy?: Prisma.UserCreateNestedOneWithoutStoriesCreatedInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutStoriesUpdatedInput
-  tags?: Prisma.StoryTagCreateNestedManyWithoutStoryInput
   likes?: Prisma.LikeCreateNestedManyWithoutStoryInput
   comments?: Prisma.CommentCreateNestedManyWithoutStoryInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutStoryInput
@@ -835,12 +813,11 @@ export type StoryUncheckedCreateWithoutAuthorInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   createdById?: number | null
   updatedById?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tags?: Prisma.StoryTagUncheckedCreateNestedManyWithoutStoryInput
+  deletedAt?: Date | string | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutStoryInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutStoryInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutStoryInput
@@ -864,12 +841,11 @@ export type StoryCreateWithoutCreatedByInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   author: Prisma.UserCreateNestedOneWithoutStoriesInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutStoriesUpdatedInput
-  tags?: Prisma.StoryTagCreateNestedManyWithoutStoryInput
   likes?: Prisma.LikeCreateNestedManyWithoutStoryInput
   comments?: Prisma.CommentCreateNestedManyWithoutStoryInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutStoryInput
@@ -884,12 +860,11 @@ export type StoryUncheckedCreateWithoutCreatedByInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   authorId: number
   updatedById?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tags?: Prisma.StoryTagUncheckedCreateNestedManyWithoutStoryInput
+  deletedAt?: Date | string | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutStoryInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutStoryInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutStoryInput
@@ -913,12 +888,11 @@ export type StoryCreateWithoutUpdatedByInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   author: Prisma.UserCreateNestedOneWithoutStoriesInput
   createdBy?: Prisma.UserCreateNestedOneWithoutStoriesCreatedInput
-  tags?: Prisma.StoryTagCreateNestedManyWithoutStoryInput
   likes?: Prisma.LikeCreateNestedManyWithoutStoryInput
   comments?: Prisma.CommentCreateNestedManyWithoutStoryInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutStoryInput
@@ -933,12 +907,11 @@ export type StoryUncheckedCreateWithoutUpdatedByInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   authorId: number
   createdById?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tags?: Prisma.StoryTagUncheckedCreateNestedManyWithoutStoryInput
+  deletedAt?: Date | string | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutStoryInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutStoryInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutStoryInput
@@ -982,12 +955,12 @@ export type StoryScalarWhereInput = {
   isPublished?: Prisma.BoolFilter<"Story"> | boolean
   isPremium?: Prisma.BoolFilter<"Story"> | boolean
   viewCount?: Prisma.IntFilter<"Story"> | number
-  deletedAt?: Prisma.DateTimeNullableFilter<"Story"> | Date | string | null
   authorId?: Prisma.IntFilter<"Story"> | number
   createdById?: Prisma.IntNullableFilter<"Story"> | number | null
   updatedById?: Prisma.IntNullableFilter<"Story"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Story"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Story"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Story"> | Date | string | null
 }
 
 export type StoryUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -1022,100 +995,6 @@ export type StoryUpdateManyWithWhereWithoutUpdatedByInput = {
   data: Prisma.XOR<Prisma.StoryUpdateManyMutationInput, Prisma.StoryUncheckedUpdateManyWithoutUpdatedByInput>
 }
 
-export type StoryCreateWithoutTagsInput = {
-  title: string
-  description?: string | null
-  content: string
-  coverImage?: string | null
-  isPublished?: boolean
-  isPremium?: boolean
-  viewCount?: number
-  deletedAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  author: Prisma.UserCreateNestedOneWithoutStoriesInput
-  createdBy?: Prisma.UserCreateNestedOneWithoutStoriesCreatedInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutStoriesUpdatedInput
-  likes?: Prisma.LikeCreateNestedManyWithoutStoryInput
-  comments?: Prisma.CommentCreateNestedManyWithoutStoryInput
-  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutStoryInput
-}
-
-export type StoryUncheckedCreateWithoutTagsInput = {
-  id?: number
-  title: string
-  description?: string | null
-  content: string
-  coverImage?: string | null
-  isPublished?: boolean
-  isPremium?: boolean
-  viewCount?: number
-  deletedAt?: Date | string | null
-  authorId: number
-  createdById?: number | null
-  updatedById?: number | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutStoryInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutStoryInput
-  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutStoryInput
-}
-
-export type StoryCreateOrConnectWithoutTagsInput = {
-  where: Prisma.StoryWhereUniqueInput
-  create: Prisma.XOR<Prisma.StoryCreateWithoutTagsInput, Prisma.StoryUncheckedCreateWithoutTagsInput>
-}
-
-export type StoryUpsertWithoutTagsInput = {
-  update: Prisma.XOR<Prisma.StoryUpdateWithoutTagsInput, Prisma.StoryUncheckedUpdateWithoutTagsInput>
-  create: Prisma.XOR<Prisma.StoryCreateWithoutTagsInput, Prisma.StoryUncheckedCreateWithoutTagsInput>
-  where?: Prisma.StoryWhereInput
-}
-
-export type StoryUpdateToOneWithWhereWithoutTagsInput = {
-  where?: Prisma.StoryWhereInput
-  data: Prisma.XOR<Prisma.StoryUpdateWithoutTagsInput, Prisma.StoryUncheckedUpdateWithoutTagsInput>
-}
-
-export type StoryUpdateWithoutTagsInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  author?: Prisma.UserUpdateOneRequiredWithoutStoriesNestedInput
-  createdBy?: Prisma.UserUpdateOneWithoutStoriesCreatedNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutStoriesUpdatedNestedInput
-  likes?: Prisma.LikeUpdateManyWithoutStoryNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutStoryNestedInput
-  bookmarks?: Prisma.BookmarkUpdateManyWithoutStoryNestedInput
-}
-
-export type StoryUncheckedUpdateWithoutTagsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  authorId?: Prisma.IntFieldUpdateOperationsInput | number
-  createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  updatedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  likes?: Prisma.LikeUncheckedUpdateManyWithoutStoryNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutStoryNestedInput
-  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutStoryNestedInput
-}
-
 export type StoryCreateWithoutLikesInput = {
   title: string
   description?: string | null
@@ -1124,13 +1003,12 @@ export type StoryCreateWithoutLikesInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   author: Prisma.UserCreateNestedOneWithoutStoriesInput
   createdBy?: Prisma.UserCreateNestedOneWithoutStoriesCreatedInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutStoriesUpdatedInput
-  tags?: Prisma.StoryTagCreateNestedManyWithoutStoryInput
   comments?: Prisma.CommentCreateNestedManyWithoutStoryInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutStoryInput
 }
@@ -1144,13 +1022,12 @@ export type StoryUncheckedCreateWithoutLikesInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   authorId: number
   createdById?: number | null
   updatedById?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tags?: Prisma.StoryTagUncheckedCreateNestedManyWithoutStoryInput
+  deletedAt?: Date | string | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutStoryInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutStoryInput
 }
@@ -1179,13 +1056,12 @@ export type StoryUpdateWithoutLikesInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutStoriesNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutStoriesCreatedNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutStoriesUpdatedNestedInput
-  tags?: Prisma.StoryTagUpdateManyWithoutStoryNestedInput
   comments?: Prisma.CommentUpdateManyWithoutStoryNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutStoryNestedInput
 }
@@ -1199,13 +1075,12 @@ export type StoryUncheckedUpdateWithoutLikesInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   updatedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tags?: Prisma.StoryTagUncheckedUpdateManyWithoutStoryNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutStoryNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutStoryNestedInput
 }
@@ -1218,13 +1093,12 @@ export type StoryCreateWithoutCommentsInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   author: Prisma.UserCreateNestedOneWithoutStoriesInput
   createdBy?: Prisma.UserCreateNestedOneWithoutStoriesCreatedInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutStoriesUpdatedInput
-  tags?: Prisma.StoryTagCreateNestedManyWithoutStoryInput
   likes?: Prisma.LikeCreateNestedManyWithoutStoryInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutStoryInput
 }
@@ -1238,13 +1112,12 @@ export type StoryUncheckedCreateWithoutCommentsInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   authorId: number
   createdById?: number | null
   updatedById?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tags?: Prisma.StoryTagUncheckedCreateNestedManyWithoutStoryInput
+  deletedAt?: Date | string | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutStoryInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutStoryInput
 }
@@ -1273,13 +1146,12 @@ export type StoryUpdateWithoutCommentsInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutStoriesNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutStoriesCreatedNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutStoriesUpdatedNestedInput
-  tags?: Prisma.StoryTagUpdateManyWithoutStoryNestedInput
   likes?: Prisma.LikeUpdateManyWithoutStoryNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutStoryNestedInput
 }
@@ -1293,13 +1165,12 @@ export type StoryUncheckedUpdateWithoutCommentsInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   updatedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tags?: Prisma.StoryTagUncheckedUpdateManyWithoutStoryNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutStoryNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutStoryNestedInput
 }
@@ -1312,13 +1183,12 @@ export type StoryCreateWithoutBookmarksInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   author: Prisma.UserCreateNestedOneWithoutStoriesInput
   createdBy?: Prisma.UserCreateNestedOneWithoutStoriesCreatedInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutStoriesUpdatedInput
-  tags?: Prisma.StoryTagCreateNestedManyWithoutStoryInput
   likes?: Prisma.LikeCreateNestedManyWithoutStoryInput
   comments?: Prisma.CommentCreateNestedManyWithoutStoryInput
 }
@@ -1332,13 +1202,12 @@ export type StoryUncheckedCreateWithoutBookmarksInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   authorId: number
   createdById?: number | null
   updatedById?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tags?: Prisma.StoryTagUncheckedCreateNestedManyWithoutStoryInput
+  deletedAt?: Date | string | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutStoryInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutStoryInput
 }
@@ -1367,13 +1236,12 @@ export type StoryUpdateWithoutBookmarksInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutStoriesNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutStoriesCreatedNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutStoriesUpdatedNestedInput
-  tags?: Prisma.StoryTagUpdateManyWithoutStoryNestedInput
   likes?: Prisma.LikeUpdateManyWithoutStoryNestedInput
   comments?: Prisma.CommentUpdateManyWithoutStoryNestedInput
 }
@@ -1387,13 +1255,12 @@ export type StoryUncheckedUpdateWithoutBookmarksInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   updatedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tags?: Prisma.StoryTagUncheckedUpdateManyWithoutStoryNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutStoryNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutStoryNestedInput
 }
@@ -1407,11 +1274,11 @@ export type StoryCreateManyAuthorInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   createdById?: number | null
   updatedById?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type StoryCreateManyCreatedByInput = {
@@ -1423,11 +1290,11 @@ export type StoryCreateManyCreatedByInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   authorId: number
   updatedById?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type StoryCreateManyUpdatedByInput = {
@@ -1439,11 +1306,11 @@ export type StoryCreateManyUpdatedByInput = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: number
-  deletedAt?: Date | string | null
   authorId: number
   createdById?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type StoryUpdateWithoutAuthorInput = {
@@ -1454,12 +1321,11 @@ export type StoryUpdateWithoutAuthorInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdBy?: Prisma.UserUpdateOneWithoutStoriesCreatedNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutStoriesUpdatedNestedInput
-  tags?: Prisma.StoryTagUpdateManyWithoutStoryNestedInput
   likes?: Prisma.LikeUpdateManyWithoutStoryNestedInput
   comments?: Prisma.CommentUpdateManyWithoutStoryNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutStoryNestedInput
@@ -1474,12 +1340,11 @@ export type StoryUncheckedUpdateWithoutAuthorInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   updatedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tags?: Prisma.StoryTagUncheckedUpdateManyWithoutStoryNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutStoryNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutStoryNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutStoryNestedInput
@@ -1494,11 +1359,11 @@ export type StoryUncheckedUpdateManyWithoutAuthorInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   updatedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type StoryUpdateWithoutCreatedByInput = {
@@ -1509,12 +1374,11 @@ export type StoryUpdateWithoutCreatedByInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutStoriesNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutStoriesUpdatedNestedInput
-  tags?: Prisma.StoryTagUpdateManyWithoutStoryNestedInput
   likes?: Prisma.LikeUpdateManyWithoutStoryNestedInput
   comments?: Prisma.CommentUpdateManyWithoutStoryNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutStoryNestedInput
@@ -1529,12 +1393,11 @@ export type StoryUncheckedUpdateWithoutCreatedByInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   updatedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tags?: Prisma.StoryTagUncheckedUpdateManyWithoutStoryNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutStoryNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutStoryNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutStoryNestedInput
@@ -1549,11 +1412,11 @@ export type StoryUncheckedUpdateManyWithoutCreatedByInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   updatedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type StoryUpdateWithoutUpdatedByInput = {
@@ -1564,12 +1427,11 @@ export type StoryUpdateWithoutUpdatedByInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutStoriesNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutStoriesCreatedNestedInput
-  tags?: Prisma.StoryTagUpdateManyWithoutStoryNestedInput
   likes?: Prisma.LikeUpdateManyWithoutStoryNestedInput
   comments?: Prisma.CommentUpdateManyWithoutStoryNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutStoryNestedInput
@@ -1584,12 +1446,11 @@ export type StoryUncheckedUpdateWithoutUpdatedByInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tags?: Prisma.StoryTagUncheckedUpdateManyWithoutStoryNestedInput
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutStoryNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutStoryNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutStoryNestedInput
@@ -1604,11 +1465,11 @@ export type StoryUncheckedUpdateManyWithoutUpdatedByInput = {
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPremium?: Prisma.BoolFieldUpdateOperationsInput | boolean
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1617,14 +1478,12 @@ export type StoryUncheckedUpdateManyWithoutUpdatedByInput = {
  */
 
 export type StoryCountOutputType = {
-  tags: number
   likes: number
   comments: number
   bookmarks: number
 }
 
 export type StoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tags?: boolean | StoryCountOutputTypeCountTagsArgs
   likes?: boolean | StoryCountOutputTypeCountLikesArgs
   comments?: boolean | StoryCountOutputTypeCountCommentsArgs
   bookmarks?: boolean | StoryCountOutputTypeCountBookmarksArgs
@@ -1638,13 +1497,6 @@ export type StoryCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
    * Select specific fields to fetch from the StoryCountOutputType
    */
   select?: Prisma.StoryCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * StoryCountOutputType without action
- */
-export type StoryCountOutputTypeCountTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.StoryTagWhereInput
 }
 
 /**
@@ -1678,16 +1530,15 @@ export type StorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: boolean
-  deletedAt?: boolean
   authorId?: boolean
   createdById?: boolean
   updatedById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Story$createdByArgs<ExtArgs>
   updatedBy?: boolean | Prisma.Story$updatedByArgs<ExtArgs>
-  tags?: boolean | Prisma.Story$tagsArgs<ExtArgs>
   likes?: boolean | Prisma.Story$likesArgs<ExtArgs>
   comments?: boolean | Prisma.Story$commentsArgs<ExtArgs>
   bookmarks?: boolean | Prisma.Story$bookmarksArgs<ExtArgs>
@@ -1703,12 +1554,12 @@ export type StorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: boolean
-  deletedAt?: boolean
   authorId?: boolean
   createdById?: boolean
   updatedById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Story$createdByArgs<ExtArgs>
   updatedBy?: boolean | Prisma.Story$updatedByArgs<ExtArgs>
@@ -1723,12 +1574,12 @@ export type StorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: boolean
-  deletedAt?: boolean
   authorId?: boolean
   createdById?: boolean
   updatedById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Story$createdByArgs<ExtArgs>
   updatedBy?: boolean | Prisma.Story$updatedByArgs<ExtArgs>
@@ -1743,20 +1594,19 @@ export type StorySelectScalar = {
   isPublished?: boolean
   isPremium?: boolean
   viewCount?: boolean
-  deletedAt?: boolean
   authorId?: boolean
   createdById?: boolean
   updatedById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
 }
 
-export type StoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "content" | "coverImage" | "isPublished" | "isPremium" | "viewCount" | "deletedAt" | "authorId" | "createdById" | "updatedById" | "createdAt" | "updatedAt", ExtArgs["result"]["story"]>
+export type StoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "content" | "coverImage" | "isPublished" | "isPremium" | "viewCount" | "authorId" | "createdById" | "updatedById" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["story"]>
 export type StoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Story$createdByArgs<ExtArgs>
   updatedBy?: boolean | Prisma.Story$updatedByArgs<ExtArgs>
-  tags?: boolean | Prisma.Story$tagsArgs<ExtArgs>
   likes?: boolean | Prisma.Story$likesArgs<ExtArgs>
   comments?: boolean | Prisma.Story$commentsArgs<ExtArgs>
   bookmarks?: boolean | Prisma.Story$bookmarksArgs<ExtArgs>
@@ -1779,7 +1629,6 @@ export type $StoryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     author: Prisma.$UserPayload<ExtArgs>
     createdBy: Prisma.$UserPayload<ExtArgs> | null
     updatedBy: Prisma.$UserPayload<ExtArgs> | null
-    tags: Prisma.$StoryTagPayload<ExtArgs>[]
     likes: Prisma.$LikePayload<ExtArgs>[]
     comments: Prisma.$CommentPayload<ExtArgs>[]
     bookmarks: Prisma.$BookmarkPayload<ExtArgs>[]
@@ -1793,12 +1642,12 @@ export type $StoryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     isPublished: boolean
     isPremium: boolean
     viewCount: number
-    deletedAt: Date | null
     authorId: number
     createdById: number | null
     updatedById: number | null
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
   }, ExtArgs["result"]["story"]>
   composites: {}
 }
@@ -2196,7 +2045,6 @@ export interface Prisma__StoryClient<T, Null = never, ExtArgs extends runtime.Ty
   author<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   createdBy<T extends Prisma.Story$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Story$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   updatedBy<T extends Prisma.Story$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Story$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  tags<T extends Prisma.Story$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Story$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   likes<T extends Prisma.Story$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Story$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.Story$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Story$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bookmarks<T extends Prisma.Story$bookmarksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Story$bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookmarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2237,12 +2085,12 @@ export interface StoryFieldRefs {
   readonly isPublished: Prisma.FieldRef<"Story", 'Boolean'>
   readonly isPremium: Prisma.FieldRef<"Story", 'Boolean'>
   readonly viewCount: Prisma.FieldRef<"Story", 'Int'>
-  readonly deletedAt: Prisma.FieldRef<"Story", 'DateTime'>
   readonly authorId: Prisma.FieldRef<"Story", 'Int'>
   readonly createdById: Prisma.FieldRef<"Story", 'Int'>
   readonly updatedById: Prisma.FieldRef<"Story", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Story", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Story", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"Story", 'DateTime'>
 }
     
 
@@ -2679,30 +2527,6 @@ export type Story$updatedByArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   include?: Prisma.UserInclude<ExtArgs> | null
   where?: Prisma.UserWhereInput
-}
-
-/**
- * Story.tags
- */
-export type Story$tagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the StoryTag
-   */
-  select?: Prisma.StoryTagSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the StoryTag
-   */
-  omit?: Prisma.StoryTagOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.StoryTagInclude<ExtArgs> | null
-  where?: Prisma.StoryTagWhereInput
-  orderBy?: Prisma.StoryTagOrderByWithRelationInput | Prisma.StoryTagOrderByWithRelationInput[]
-  cursor?: Prisma.StoryTagWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.StoryTagScalarFieldEnum | Prisma.StoryTagScalarFieldEnum[]
 }
 
 /**

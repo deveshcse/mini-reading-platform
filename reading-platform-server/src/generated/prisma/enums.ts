@@ -61,11 +61,3 @@ export const SubscriptionPlanName = {
 } as const
 
 export type SubscriptionPlanName = (typeof SubscriptionPlanName)[keyof typeof SubscriptionPlanName]
-
-
-export const StoryAccessReason = {
-  SUBSCRIPTION: 'SUBSCRIPTION',
-  DIRECT_PURCHASE: 'DIRECT_PURCHASE'
-} as const
-
-export type StoryAccessReason = (typeof StoryAccessReason)[keyof typeof StoryAccessReason]

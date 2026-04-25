@@ -52,10 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  UserToRole: 'UserToRole',
+  Account: 'Account',
   Story: 'Story',
-  Tag: 'Tag',
-  StoryTag: 'StoryTag',
   Like: 'Like',
   Comment: 'Comment',
   Bookmark: 'Bookmark',
@@ -85,6 +83,18 @@ export const UserScalarFieldEnum = {
   email: 'email',
   firstName: 'firstName',
   lastName: 'lastName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const AccountScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  role: 'role',
   password: 'password',
   isEmailVerified: 'isEmailVerified',
   emailVerificationToken: 'emailVerificationToken',
@@ -93,22 +103,11 @@ export const UserScalarFieldEnum = {
   forgotPasswordTokenExpiresAt: 'forgotPasswordTokenExpiresAt',
   refreshToken: 'refreshToken',
   refreshTokenExpiresAt: 'refreshTokenExpiresAt',
-  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
-export const UserToRoleScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  role: 'role',
-  createdAt: 'createdAt'
-} as const
-
-export type UserToRoleScalarFieldEnum = (typeof UserToRoleScalarFieldEnum)[keyof typeof UserToRoleScalarFieldEnum]
+export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
 
 
 export const StoryScalarFieldEnum = {
@@ -120,31 +119,15 @@ export const StoryScalarFieldEnum = {
   isPublished: 'isPublished',
   isPremium: 'isPremium',
   viewCount: 'viewCount',
-  deletedAt: 'deletedAt',
   authorId: 'authorId',
   createdById: 'createdById',
   updatedById: 'updatedById',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type StoryScalarFieldEnum = (typeof StoryScalarFieldEnum)[keyof typeof StoryScalarFieldEnum]
-
-
-export const TagScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
-} as const
-
-export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
-
-
-export const StoryTagScalarFieldEnum = {
-  storyId: 'storyId',
-  tagId: 'tagId'
-} as const
-
-export type StoryTagScalarFieldEnum = (typeof StoryTagScalarFieldEnum)[keyof typeof StoryTagScalarFieldEnum]
 
 
 export const LikeScalarFieldEnum = {
@@ -163,9 +146,9 @@ export const CommentScalarFieldEnum = {
   userId: 'userId',
   storyId: 'storyId',
   parentId: 'parentId',
-  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]

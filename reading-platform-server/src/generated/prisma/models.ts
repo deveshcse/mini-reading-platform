@@ -9,10 +9,8 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User.js'
-export type * from './models/UserToRole.js'
+export type * from './models/Account.js'
 export type * from './models/Story.js'
-export type * from './models/Tag.js'
-export type * from './models/StoryTag.js'
 export type * from './models/Like.js'
 export type * from './models/Comment.js'
 export type * from './models/Bookmark.js'

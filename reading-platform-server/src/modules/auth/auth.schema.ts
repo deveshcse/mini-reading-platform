@@ -25,6 +25,9 @@ export const loginSchema = z.object({
   body: z.object({
     email: z.email("Invalid email address"),
     password: z.string().min(1, "Password is required"),
+    role: z.enum(["READER", "AUTHOR"], {
+      message: "Role must be either READER or AUTHOR",
+    }),
   }),
 });
 
@@ -44,7 +47,7 @@ export type RefreshInput = z.infer<typeof refreshSchema>["body"];
 
 export const forgotPasswordSchema = z.object({
   body: z.object({
-    email: z.email("Invalid email address"),
+    email: z.string().email("Invalid email address"),
   }),
 });
 
