@@ -8,13 +8,19 @@ export {};
 interface AuthUser {
   userId: string;
   email: string;
-  roles: Role[];
+  role: Role;
 }
 
 declare global {
   namespace Express {
     interface Request {
       user?: AuthUser;
+      /** Filled by `validate` middleware: parsed { body, query, params } from Zod */
+      validated?: {
+        body?: unknown;
+        query?: unknown;
+        params?: unknown;
+      };
     }
   }
 }

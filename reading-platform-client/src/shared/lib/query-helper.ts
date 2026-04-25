@@ -87,7 +87,7 @@ export const useAppQuery = <TQueryFnData = unknown, TError = AxiosError, TData =
     (async () => {
       if (!url) throw new Error("URL is required if queryFn is not provided");
       const response = await apiClient.get(url, { params });
-      return response.data.data;
+      return response.data.data as TQueryFnData;
     });
 
   return useQuery<TQueryFnData, TError, TData>({

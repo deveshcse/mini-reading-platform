@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
@@ -125,8 +126,44 @@
     }
   button, [role="button"] {
     @apply cursor-pointer;
-    }
+  }
   html {
     @apply font-sans;
-    }
+  }
+}
+
+/* Tiptap / ProseMirror (StoryRichTextEditor) */
+@layer components {
+  .story-editor .ProseMirror {
+    @apply min-h-[min(50vh,420px)] w-full;
+  }
+  .story-editor .ProseMirror:focus {
+    @apply outline-none;
+  }
+  .story-editor .ProseMirror p {
+    @apply my-2 leading-relaxed;
+  }
+  .story-editor .ProseMirror h2 {
+    @apply mt-6 mb-2 text-2xl font-black uppercase tracking-tight;
+  }
+  .story-editor .ProseMirror h3 {
+    @apply mt-4 mb-1 text-xl font-black uppercase tracking-tight;
+  }
+  .story-editor .ProseMirror a {
+    @apply text-primary underline font-semibold;
+  }
+  .story-editor .ProseMirror blockquote {
+    @apply border-l-4 border-primary/40 pl-4 my-3 italic text-muted-foreground;
+  }
+  .story-editor .ProseMirror ul,
+  .story-editor .ProseMirror ol {
+    @apply pl-6 my-2;
+  }
+  .story-editor .ProseMirror img {
+    @apply max-w-full h-auto my-2 border-2 border-border;
+  }
+  .story-editor .ProseMirror p.is-editor-empty:first-child::before {
+    @apply text-muted-foreground float-left h-0 pointer-events-none;
+    content: attr(data-placeholder);
+  }
 }

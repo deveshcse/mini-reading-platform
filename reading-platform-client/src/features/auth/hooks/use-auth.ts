@@ -2,15 +2,17 @@ import { AxiosError } from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAppMutation } from "@/shared/lib/query-helper";
 import { authStore } from "@/features/auth/store/auth-store";
+import { normalizeUser } from "@/features/auth/lib/normalize-user";
 import { AuthResponse } from "@/features/auth/types";
 import { useAuthContext } from "@/features/auth/components/auth-provider";
 import { useRouter } from "next/navigation";
-import { 
-  ForgotPasswordInput, 
-  ResetPasswordInput, 
-  LoginInput, 
-  RegisterInput 
+import {
+  ForgotPasswordInput,
+  ResetPasswordInput,
+  LoginInput,
+  RegisterInput,
 } from "@/features/auth/schema/auth-schema";
+import apiClient from "@/shared/api/api-client";
 
 export const useAuth = () => {
   const queryClient = useQueryClient();
@@ -25,23 +27,28 @@ export const useAuth = () => {
     onSuccess: (data) => {
       authStore.bumpAuthEpoch();
       authStore.setToken(data.accessToken);
-      setUser(data.user);
+      setUser(normalizeUser(data.user));
       setIsAuthenticated(true);
       router.push("/stories");
     },
   });
 
   const registerMutation = useAppMutation<AuthResponse, AxiosError, RegisterInput>({
-    url: "/auth/register",
-    method: "POST",
     successMessage: "Account created successfully!",
     errorMessage: "Registration failed. Please try again.",
     onSuccess: (data) => {
       authStore.bumpAuthEpoch();
       authStore.setToken(data.accessToken);
-      setUser(data.user);
+      setUser(normalizeUser(data.user));
       setIsAuthenticated(true);
       router.push("/stories");
+    },
+    config: {
+      mutationFn: async (variables: RegisterInput) => {
+        const { "confirm-password": _confirm, ...body } = variables;
+        const response = await apiClient.post("/auth/register", body);
+        return response.data.data;
+      },
     },
   });
 
@@ -52,6 +59,7 @@ export const useAuth = () => {
     config: {
       onSettled: (_data, error) => {
         authStore.reset();
+        queryClient.clear();
         setUser(null);
         setIsAuthenticated(false);
         if (!error) {
@@ -68,11 +76,16 @@ export const useAuth = () => {
   });
 
   const resetPasswordMutation = useAppMutation<unknown, AxiosError, ResetPasswordInput>({
-    url: "/auth/reset-password",
-    method: "POST",
     successMessage: "Password reset successfully! Please login.",
     onSuccess: () => {
       router.push("/login");
+    },
+    config: {
+      mutationFn: async (variables: ResetPasswordInput) => {
+        const { "confirm-password": _confirm, ...body } = variables;
+        const response = await apiClient.post("/auth/reset-password", body);
+        return response.data.data;
+      },
     },
   });
 

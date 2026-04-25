@@ -121,6 +121,9 @@ apiClient.interceptors.response.use(
     } catch (refreshError) {
       processQueue(refreshError, null);
       authStore.clearToken();
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("auth:session-expired"));
+      }
       return Promise.reject(refreshError);
     } finally {
       isRefreshing = false;

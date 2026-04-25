@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { User } from "@/features/auth/types";
+import { normalizeUser } from "@/features/auth/lib/normalize-user";
 import { authStore } from "@/features/auth/store/auth-store";
 import apiClient from "@/shared/api/api-client";
 
@@ -39,6 +40,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       // Server logout failed; local session is still cleared below.
     } finally {
       authStore.reset();
+      queryClient.clear();
       setUser(null);
       setIsAuthenticated(false);
     }
@@ -59,14 +61,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         const response = await apiClient.post("/auth/refresh", {});
 
-        const { user, accessToken } = response.data.data;
+        const { user: rawUser, accessToken } = response.data.data;
 
         if (!accessToken || typeof accessToken !== "string") {
           throw new Error("Invalid refresh response");
         }
 
         authStore.setToken(accessToken);
-        setUser(user);
+        setUser(normalizeUser(rawUser));
         setIsAuthenticated(true);
       } catch {
         // Login/register may have completed while refresh was in flight; do not wipe that session.
@@ -82,6 +84,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     silentRefresh();
   }, []);
+
+  useEffect(() => {
+    const onSessionExpired = () => {
+      authStore.clearToken();
+      queryClient.clear();
+      setUser(null);
+      setIsAuthenticated(false);
+    };
+    if (typeof window === "undefined") return;
+    window.addEventListener("auth:session-expired", onSessionExpired);
+    return () => window.removeEventListener("auth:session-expired", onSessionExpired);
+  }, [queryClient]);
 
   const contextValue = useMemo(
     () => ({
