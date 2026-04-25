@@ -232,7 +232,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  accounts?: Prisma.AccountListRelationFilter
+  account?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
   stories?: Prisma.StoryListRelationFilter
   storiesCreated?: Prisma.StoryListRelationFilter
   storiesUpdated?: Prisma.StoryListRelationFilter
@@ -251,7 +251,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  accounts?: Prisma.AccountOrderByRelationAggregateInput
+  account?: Prisma.AccountOrderByWithRelationInput
   stories?: Prisma.StoryOrderByRelationAggregateInput
   storiesCreated?: Prisma.StoryOrderByRelationAggregateInput
   storiesUpdated?: Prisma.StoryOrderByRelationAggregateInput
@@ -273,7 +273,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  accounts?: Prisma.AccountListRelationFilter
+  account?: Prisma.XOR<Prisma.AccountNullableScalarRelationFilter, Prisma.AccountWhereInput> | null
   stories?: Prisma.StoryListRelationFilter
   storiesCreated?: Prisma.StoryListRelationFilter
   storiesUpdated?: Prisma.StoryListRelationFilter
@@ -319,7 +319,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -338,7 +338,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -356,7 +356,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -375,7 +375,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -483,18 +483,18 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type UserCreateNestedOneWithoutAccountsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountsInput
+export type UserCreateNestedOneWithoutAccountInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAccountInput, Prisma.UserUncheckedCreateWithoutAccountInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountsInput
-  upsert?: Prisma.UserUpsertWithoutAccountsInput
+export type UserUpdateOneRequiredWithoutAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAccountInput, Prisma.UserUncheckedCreateWithoutAccountInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountInput
+  upsert?: Prisma.UserUpsertWithoutAccountInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAccountsInput, Prisma.UserUpdateWithoutAccountsInput>, Prisma.UserUncheckedUpdateWithoutAccountsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAccountInput, Prisma.UserUpdateWithoutAccountInput>, Prisma.UserUncheckedUpdateWithoutAccountInput>
 }
 
 export type UserCreateNestedOneWithoutStoriesInput = {
@@ -613,7 +613,7 @@ export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentsInput, Prisma.UserUpdateWithoutPaymentsInput>, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
 }
 
-export type UserCreateWithoutAccountsInput = {
+export type UserCreateWithoutAccountInput = {
   email: string
   firstName: string
   lastName: string
@@ -630,7 +630,7 @@ export type UserCreateWithoutAccountsInput = {
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutAccountsInput = {
+export type UserUncheckedCreateWithoutAccountInput = {
   id?: number
   email: string
   firstName: string
@@ -648,23 +648,23 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutAccountsInput = {
+export type UserCreateOrConnectWithoutAccountInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAccountInput, Prisma.UserUncheckedCreateWithoutAccountInput>
 }
 
-export type UserUpsertWithoutAccountsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutAccountsInput, Prisma.UserUncheckedUpdateWithoutAccountsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
+export type UserUpsertWithoutAccountInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAccountInput, Prisma.UserUncheckedUpdateWithoutAccountInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAccountInput, Prisma.UserUncheckedCreateWithoutAccountInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutAccountsInput = {
+export type UserUpdateToOneWithWhereWithoutAccountInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutAccountsInput, Prisma.UserUncheckedUpdateWithoutAccountsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAccountInput, Prisma.UserUncheckedUpdateWithoutAccountInput>
 }
 
-export type UserUpdateWithoutAccountsInput = {
+export type UserUpdateWithoutAccountInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -681,7 +681,7 @@ export type UserUpdateWithoutAccountsInput = {
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutAccountsInput = {
+export type UserUncheckedUpdateWithoutAccountInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -706,7 +706,7 @@ export type UserCreateWithoutStoriesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountCreateNestedOneWithoutUserInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
@@ -724,7 +724,7 @@ export type UserUncheckedCreateWithoutStoriesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
@@ -746,7 +746,7 @@ export type UserCreateWithoutStoriesCreatedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
@@ -764,7 +764,7 @@ export type UserUncheckedCreateWithoutStoriesCreatedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
@@ -786,7 +786,7 @@ export type UserCreateWithoutStoriesUpdatedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
@@ -804,7 +804,7 @@ export type UserUncheckedCreateWithoutStoriesUpdatedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
@@ -837,7 +837,7 @@ export type UserUpdateWithoutStoriesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUpdateOneWithoutUserNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
@@ -855,7 +855,7 @@ export type UserUncheckedUpdateWithoutStoriesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
@@ -883,7 +883,7 @@ export type UserUpdateWithoutStoriesCreatedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
@@ -901,7 +901,7 @@ export type UserUncheckedUpdateWithoutStoriesCreatedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
@@ -929,7 +929,7 @@ export type UserUpdateWithoutStoriesUpdatedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
@@ -947,7 +947,7 @@ export type UserUncheckedUpdateWithoutStoriesUpdatedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
@@ -964,7 +964,7 @@ export type UserCreateWithoutLikesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -982,7 +982,7 @@ export type UserUncheckedCreateWithoutLikesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -1015,7 +1015,7 @@ export type UserUpdateWithoutLikesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -1033,7 +1033,7 @@ export type UserUncheckedUpdateWithoutLikesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -1050,7 +1050,7 @@ export type UserCreateWithoutCommentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -1068,7 +1068,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -1101,7 +1101,7 @@ export type UserUpdateWithoutCommentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -1119,7 +1119,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -1136,7 +1136,7 @@ export type UserCreateWithoutBookmarksInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -1154,7 +1154,7 @@ export type UserUncheckedCreateWithoutBookmarksInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -1187,7 +1187,7 @@ export type UserUpdateWithoutBookmarksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -1205,7 +1205,7 @@ export type UserUncheckedUpdateWithoutBookmarksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -1222,7 +1222,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -1240,7 +1240,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -1273,7 +1273,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -1291,7 +1291,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -1308,7 +1308,7 @@ export type UserCreateWithoutPaymentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryCreateNestedManyWithoutUpdatedByInput
@@ -1326,7 +1326,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  account?: Prisma.AccountUncheckedCreateNestedOneWithoutUserInput
   stories?: Prisma.StoryUncheckedCreateNestedManyWithoutAuthorInput
   storiesCreated?: Prisma.StoryUncheckedCreateNestedManyWithoutCreatedByInput
   storiesUpdated?: Prisma.StoryUncheckedCreateNestedManyWithoutUpdatedByInput
@@ -1359,7 +1359,7 @@ export type UserUpdateWithoutPaymentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUpdateManyWithoutUpdatedByNestedInput
@@ -1377,7 +1377,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  account?: Prisma.AccountUncheckedUpdateOneWithoutUserNestedInput
   stories?: Prisma.StoryUncheckedUpdateManyWithoutAuthorNestedInput
   storiesCreated?: Prisma.StoryUncheckedUpdateManyWithoutCreatedByNestedInput
   storiesUpdated?: Prisma.StoryUncheckedUpdateManyWithoutUpdatedByNestedInput
@@ -1393,7 +1393,6 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
  */
 
 export type UserCountOutputType = {
-  accounts: number
   stories: number
   storiesCreated: number
   storiesUpdated: number
@@ -1405,7 +1404,6 @@ export type UserCountOutputType = {
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   stories?: boolean | UserCountOutputTypeCountStoriesArgs
   storiesCreated?: boolean | UserCountOutputTypeCountStoriesCreatedArgs
   storiesUpdated?: boolean | UserCountOutputTypeCountStoriesUpdatedArgs
@@ -1424,13 +1422,6 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Select specific fields to fetch from the UserCountOutputType
    */
   select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AccountWhereInput
 }
 
 /**
@@ -1498,7 +1489,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
-  accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
+  account?: boolean | Prisma.User$accountArgs<ExtArgs>
   stories?: boolean | Prisma.User$storiesArgs<ExtArgs>
   storiesCreated?: boolean | Prisma.User$storiesCreatedArgs<ExtArgs>
   storiesUpdated?: boolean | Prisma.User$storiesUpdatedArgs<ExtArgs>
@@ -1542,7 +1533,7 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "firstName" | "lastName" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
+  account?: boolean | Prisma.User$accountArgs<ExtArgs>
   stories?: boolean | Prisma.User$storiesArgs<ExtArgs>
   storiesCreated?: boolean | Prisma.User$storiesCreatedArgs<ExtArgs>
   storiesUpdated?: boolean | Prisma.User$storiesUpdatedArgs<ExtArgs>
@@ -1559,7 +1550,7 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    accounts: Prisma.$AccountPayload<ExtArgs>[]
+    account: Prisma.$AccountPayload<ExtArgs> | null
     stories: Prisma.$StoryPayload<ExtArgs>[]
     storiesCreated: Prisma.$StoryPayload<ExtArgs>[]
     storiesUpdated: Prisma.$StoryPayload<ExtArgs>[]
@@ -1971,7 +1962,7 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  account<T extends Prisma.User$accountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountArgs<ExtArgs>>): Prisma.Prisma__AccountClient<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   stories<T extends Prisma.User$storiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$storiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   storiesCreated<T extends Prisma.User$storiesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$storiesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   storiesUpdated<T extends Prisma.User$storiesUpdatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$storiesUpdatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2409,9 +2400,9 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.accounts
+ * User.account
  */
-export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$accountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Account
    */
@@ -2425,11 +2416,6 @@ export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   include?: Prisma.AccountInclude<ExtArgs> | null
   where?: Prisma.AccountWhereInput
-  orderBy?: Prisma.AccountOrderByWithRelationInput | Prisma.AccountOrderByWithRelationInput[]
-  cursor?: Prisma.AccountWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.AccountScalarFieldEnum | Prisma.AccountScalarFieldEnum[]
 }
 
 /**

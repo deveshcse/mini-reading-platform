@@ -29,9 +29,9 @@ export async function getStories(
   try {
     const query = req.query as unknown as StoryQueryInput;
     const requesterId = req.user ? Number(req.user.userId) : undefined;
-    const requesterRoles = req.user?.roles;
+    const requesterRole = req.user?.role;
 
-    const result = await storyService.getStories(query, requesterId, requesterRoles);
+    const result = await storyService.getStories(query, requesterId, requesterRole);
     sendSuccess(res, result);
   } catch (error) {
     next(error);
@@ -46,9 +46,9 @@ export async function getStoryById(
   try {
     const id = Number(req.params.id);
     const requesterId = req.user ? Number(req.user.userId) : undefined;
-    const requesterRoles = req.user?.roles;
+    const requesterRole = req.user?.role;
 
-    const result = await storyService.getStoryById(id, requesterId, requesterRoles);
+    const result = await storyService.getStoryById(id, requesterId, requesterRole);
     sendSuccess(res, result);
   } catch (error) {
     next(error);
@@ -63,9 +63,9 @@ export async function updateStory(
   try {
     const id = Number(req.params.id);
     const userId = Number(req.user!.userId);
-    const roles = req.user!.roles;
+    const role = req.user!.role;
 
-    const result = await storyService.updateStory(id, req.body as UpdateStoryInput, userId, roles);
+    const result = await storyService.updateStory(id, req.body as UpdateStoryInput, userId, role);
     sendSuccess(res, result);
   } catch (error) {
     next(error);
@@ -80,9 +80,9 @@ export async function deleteStory(
   try {
     const id = Number(req.params.id);
     const userId = Number(req.user!.userId);
-    const roles = req.user!.roles;
+    const role = req.user!.role;
 
-    const result = await storyService.deleteStory(id, userId, roles);
+    const result = await storyService.deleteStory(id, userId, role);
     sendSuccess(res, result);
   } catch (error) {
     next(error);

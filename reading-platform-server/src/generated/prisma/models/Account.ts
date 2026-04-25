@@ -306,14 +306,13 @@ export type AccountOrderByWithRelationInput = {
 
 export type AccountWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  userId?: number
   emailVerificationToken?: string
   forgotPasswordToken?: string
   refreshToken?: string
-  userId_role?: Prisma.AccountUserIdRoleCompoundUniqueInput
   AND?: Prisma.AccountWhereInput | Prisma.AccountWhereInput[]
   OR?: Prisma.AccountWhereInput[]
   NOT?: Prisma.AccountWhereInput | Prisma.AccountWhereInput[]
-  userId?: Prisma.IntFilter<"Account"> | number
   role?: Prisma.EnumRoleFilter<"Account"> | $Enums.Role
   password?: Prisma.StringFilter<"Account"> | string
   isEmailVerified?: Prisma.BoolFilter<"Account"> | boolean
@@ -323,7 +322,7 @@ export type AccountWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Account"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Account"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "emailVerificationToken" | "forgotPasswordToken" | "refreshToken" | "userId_role">
+}, "id" | "userId" | "emailVerificationToken" | "forgotPasswordToken" | "refreshToken">
 
 export type AccountOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -377,7 +376,7 @@ export type AccountCreateInput = {
   refreshTokenExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutAccountsInput
+  user: Prisma.UserCreateNestedOneWithoutAccountInput
 }
 
 export type AccountUncheckedCreateInput = {
@@ -408,7 +407,7 @@ export type AccountUpdateInput = {
   refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutAccountsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutAccountNestedInput
 }
 
 export type AccountUncheckedUpdateInput = {
@@ -473,19 +472,9 @@ export type AccountUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type AccountListRelationFilter = {
-  every?: Prisma.AccountWhereInput
-  some?: Prisma.AccountWhereInput
-  none?: Prisma.AccountWhereInput
-}
-
-export type AccountOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type AccountUserIdRoleCompoundUniqueInput = {
-  userId: number
-  role: $Enums.Role
+export type AccountNullableScalarRelationFilter = {
+  is?: Prisma.AccountWhereInput | null
+  isNot?: Prisma.AccountWhereInput | null
 }
 
 export type AccountCountOrderByAggregateInput = {
@@ -546,46 +535,36 @@ export type AccountSumOrderByAggregateInput = {
   userId?: Prisma.SortOrder
 }
 
-export type AccountCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.AccountCreateWithoutUserInput, Prisma.AccountUncheckedCreateWithoutUserInput> | Prisma.AccountCreateWithoutUserInput[] | Prisma.AccountUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutUserInput | Prisma.AccountCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.AccountCreateManyUserInputEnvelope
-  connect?: Prisma.AccountWhereUniqueInput | Prisma.AccountWhereUniqueInput[]
+export type AccountCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutUserInput, Prisma.AccountUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutUserInput
+  connect?: Prisma.AccountWhereUniqueInput
 }
 
-export type AccountUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.AccountCreateWithoutUserInput, Prisma.AccountUncheckedCreateWithoutUserInput> | Prisma.AccountCreateWithoutUserInput[] | Prisma.AccountUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutUserInput | Prisma.AccountCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.AccountCreateManyUserInputEnvelope
-  connect?: Prisma.AccountWhereUniqueInput | Prisma.AccountWhereUniqueInput[]
+export type AccountUncheckedCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutUserInput, Prisma.AccountUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutUserInput
+  connect?: Prisma.AccountWhereUniqueInput
 }
 
-export type AccountUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.AccountCreateWithoutUserInput, Prisma.AccountUncheckedCreateWithoutUserInput> | Prisma.AccountCreateWithoutUserInput[] | Prisma.AccountUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutUserInput | Prisma.AccountCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.AccountUpsertWithWhereUniqueWithoutUserInput | Prisma.AccountUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.AccountCreateManyUserInputEnvelope
-  set?: Prisma.AccountWhereUniqueInput | Prisma.AccountWhereUniqueInput[]
-  disconnect?: Prisma.AccountWhereUniqueInput | Prisma.AccountWhereUniqueInput[]
-  delete?: Prisma.AccountWhereUniqueInput | Prisma.AccountWhereUniqueInput[]
-  connect?: Prisma.AccountWhereUniqueInput | Prisma.AccountWhereUniqueInput[]
-  update?: Prisma.AccountUpdateWithWhereUniqueWithoutUserInput | Prisma.AccountUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.AccountUpdateManyWithWhereWithoutUserInput | Prisma.AccountUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.AccountScalarWhereInput | Prisma.AccountScalarWhereInput[]
+export type AccountUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutUserInput, Prisma.AccountUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutUserInput
+  upsert?: Prisma.AccountUpsertWithoutUserInput
+  disconnect?: Prisma.AccountWhereInput | boolean
+  delete?: Prisma.AccountWhereInput | boolean
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutUserInput, Prisma.AccountUpdateWithoutUserInput>, Prisma.AccountUncheckedUpdateWithoutUserInput>
 }
 
-export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.AccountCreateWithoutUserInput, Prisma.AccountUncheckedCreateWithoutUserInput> | Prisma.AccountCreateWithoutUserInput[] | Prisma.AccountUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutUserInput | Prisma.AccountCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.AccountUpsertWithWhereUniqueWithoutUserInput | Prisma.AccountUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.AccountCreateManyUserInputEnvelope
-  set?: Prisma.AccountWhereUniqueInput | Prisma.AccountWhereUniqueInput[]
-  disconnect?: Prisma.AccountWhereUniqueInput | Prisma.AccountWhereUniqueInput[]
-  delete?: Prisma.AccountWhereUniqueInput | Prisma.AccountWhereUniqueInput[]
-  connect?: Prisma.AccountWhereUniqueInput | Prisma.AccountWhereUniqueInput[]
-  update?: Prisma.AccountUpdateWithWhereUniqueWithoutUserInput | Prisma.AccountUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.AccountUpdateManyWithWhereWithoutUserInput | Prisma.AccountUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.AccountScalarWhereInput | Prisma.AccountScalarWhereInput[]
+export type AccountUncheckedUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.AccountCreateWithoutUserInput, Prisma.AccountUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.AccountCreateOrConnectWithoutUserInput
+  upsert?: Prisma.AccountUpsertWithoutUserInput
+  disconnect?: Prisma.AccountWhereInput | boolean
+  delete?: Prisma.AccountWhereInput | boolean
+  connect?: Prisma.AccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AccountUpdateToOneWithWhereWithoutUserInput, Prisma.AccountUpdateWithoutUserInput>, Prisma.AccountUncheckedUpdateWithoutUserInput>
 }
 
 export type EnumRoleFieldUpdateOperationsInput = {
@@ -634,59 +613,15 @@ export type AccountCreateOrConnectWithoutUserInput = {
   create: Prisma.XOR<Prisma.AccountCreateWithoutUserInput, Prisma.AccountUncheckedCreateWithoutUserInput>
 }
 
-export type AccountCreateManyUserInputEnvelope = {
-  data: Prisma.AccountCreateManyUserInput | Prisma.AccountCreateManyUserInput[]
-  skipDuplicates?: boolean
-}
-
-export type AccountUpsertWithWhereUniqueWithoutUserInput = {
-  where: Prisma.AccountWhereUniqueInput
+export type AccountUpsertWithoutUserInput = {
   update: Prisma.XOR<Prisma.AccountUpdateWithoutUserInput, Prisma.AccountUncheckedUpdateWithoutUserInput>
   create: Prisma.XOR<Prisma.AccountCreateWithoutUserInput, Prisma.AccountUncheckedCreateWithoutUserInput>
+  where?: Prisma.AccountWhereInput
 }
 
-export type AccountUpdateWithWhereUniqueWithoutUserInput = {
-  where: Prisma.AccountWhereUniqueInput
+export type AccountUpdateToOneWithWhereWithoutUserInput = {
+  where?: Prisma.AccountWhereInput
   data: Prisma.XOR<Prisma.AccountUpdateWithoutUserInput, Prisma.AccountUncheckedUpdateWithoutUserInput>
-}
-
-export type AccountUpdateManyWithWhereWithoutUserInput = {
-  where: Prisma.AccountScalarWhereInput
-  data: Prisma.XOR<Prisma.AccountUpdateManyMutationInput, Prisma.AccountUncheckedUpdateManyWithoutUserInput>
-}
-
-export type AccountScalarWhereInput = {
-  AND?: Prisma.AccountScalarWhereInput | Prisma.AccountScalarWhereInput[]
-  OR?: Prisma.AccountScalarWhereInput[]
-  NOT?: Prisma.AccountScalarWhereInput | Prisma.AccountScalarWhereInput[]
-  id?: Prisma.IntFilter<"Account"> | number
-  userId?: Prisma.IntFilter<"Account"> | number
-  role?: Prisma.EnumRoleFilter<"Account"> | $Enums.Role
-  password?: Prisma.StringFilter<"Account"> | string
-  isEmailVerified?: Prisma.BoolFilter<"Account"> | boolean
-  emailVerificationToken?: Prisma.StringNullableFilter<"Account"> | string | null
-  emailVerificationTokenExpiresAt?: Prisma.DateTimeNullableFilter<"Account"> | Date | string | null
-  forgotPasswordToken?: Prisma.StringNullableFilter<"Account"> | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.DateTimeNullableFilter<"Account"> | Date | string | null
-  refreshToken?: Prisma.StringNullableFilter<"Account"> | string | null
-  refreshTokenExpiresAt?: Prisma.DateTimeNullableFilter<"Account"> | Date | string | null
-  createdAt?: Prisma.DateTimeFilter<"Account"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Account"> | Date | string
-}
-
-export type AccountCreateManyUserInput = {
-  id?: number
-  role: $Enums.Role
-  password: string
-  isEmailVerified?: boolean
-  emailVerificationToken?: string | null
-  emailVerificationTokenExpiresAt?: Date | string | null
-  forgotPasswordToken?: string | null
-  forgotPasswordTokenExpiresAt?: Date | string | null
-  refreshToken?: string | null
-  refreshTokenExpiresAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type AccountUpdateWithoutUserInput = {
@@ -704,21 +639,6 @@ export type AccountUpdateWithoutUserInput = {
 }
 
 export type AccountUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  forgotPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  forgotPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refreshTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type AccountUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   password?: Prisma.StringFieldUpdateOperationsInput | string

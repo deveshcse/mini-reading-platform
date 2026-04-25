@@ -8,7 +8,7 @@ import { Role } from "../generated/prisma/enums.js";
 interface AccessTokenPayload {
   userId: string;
   email: string;
-  roles: Role[];
+  role: Role;
 }
 
 
@@ -38,7 +38,7 @@ export const authenticate = (
     req.user = {
       userId: decoded.userId,
       email: decoded.email,
-      roles: decoded.roles,
+      role: decoded.role,
     };
 
     next();

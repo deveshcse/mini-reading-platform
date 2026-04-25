@@ -26,7 +26,7 @@ export async function createStory(data: CreateStoryInput, authorId: number) {
 export async function getStories(
   query: StoryQueryInput,
   requesterId?: number,
-  requesterRoles?: Role[]
+  requesterRole?: Role
 ) {
   const { page, pageSize, authorId, isPublished, isPremium } = query;
   const skip = (page - 1) * pageSize;
@@ -42,7 +42,7 @@ export async function getStories(
   // Visibility logic:
   // If no requester, or requester is not ADMIN and not the author of specific stories,
   // we must show only published content.
-  const isAdmin = requesterRoles?.includes(Role.ADMIN);
+  const isAdmin = requesterRole === Role.ADMIN;
 
   if (!isAdmin) {
     if (isPublished !== undefined) {
@@ -93,7 +93,7 @@ export async function getStories(
 export async function getStoryById(
   id: number,
   requesterId?: number,
-  requesterRoles?: Role[]
+  requesterRole?: Role
 ) {
   const story = await prisma.story.findUnique({
     where: { id, deletedAt: null },
@@ -109,7 +109,7 @@ export async function getStoryById(
   }
 
   // 1. Ownership/Visibility Check
-  const isAdmin = requesterRoles?.includes(Role.ADMIN);
+  const isAdmin = requesterRole === Role.ADMIN;
   const isAuthor = requesterId === story.authorId;
 
   if (!story.isPublished && !isAdmin && !isAuthor) {
@@ -157,7 +157,7 @@ export async function updateStory(
   id: number,
   data: UpdateStoryInput,
   requesterId: number,
-  requesterRoles: Role[]
+  requesterRole: Role
 ) {
   const story = await prisma.story.findUnique({
     where: { id, deletedAt: null },
@@ -165,7 +165,7 @@ export async function updateStory(
 
   if (!story) throw new NotFoundError("Story not found");
 
-  const isAdmin = requesterRoles.includes(Role.ADMIN);
+  const isAdmin = requesterRole === Role.ADMIN;
   if (story.authorId !== requesterId && !isAdmin) {
     throw new ForbiddenError("You are not authorized to update this story");
   }
@@ -185,7 +185,7 @@ export async function updateStory(
 export async function deleteStory(
   id: number,
   requesterId: number,
-  requesterRoles: Role[]
+  requesterRole: Role
 ) {
   const story = await prisma.story.findUnique({
     where: { id, deletedAt: null },
@@ -193,7 +193,7 @@ export async function deleteStory(
 
   if (!story) throw new NotFoundError("Story not found");
 
-  const isAdmin = requesterRoles.includes(Role.ADMIN);
+  const isAdmin = requesterRole === Role.ADMIN;
   if (story.authorId !== requesterId && !isAdmin) {
     throw new ForbiddenError("You are not authorized to delete this story");
   }

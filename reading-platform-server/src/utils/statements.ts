@@ -64,13 +64,13 @@ export const roles = {
 // ─── 5. Permission check function (usable outside middleware too) ─────────────
 
 export function can(
-  userRoles: Role[],
+  userRole: Role,
   resource: Resource,
   action: string
 ): boolean {
-  return userRoles.some((role) => {
-    const permissions = roles[role];
-    const allowed = permissions[resource as keyof typeof permissions] as string[] | undefined;
-    return allowed?.includes(action) ?? false;
-  });
+  const permissions = roles[userRole];
+  const allowed = permissions[resource as keyof typeof permissions] as
+    | string[]
+    | undefined;
+  return allowed?.includes(action) ?? false;
 }

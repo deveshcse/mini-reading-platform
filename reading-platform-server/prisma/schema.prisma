@@ -61,7 +61,7 @@ model User {
   firstName String
   lastName  String
 
-  accounts       Account[]
+  account        Account?
   stories        Story[]        @relation("StoryAuthor")
   storiesCreated Story[]        @relation("StoryCreatedBy")
   storiesUpdated Story[]        @relation("StoryUpdatedBy")
@@ -80,12 +80,12 @@ model User {
 }
 
 // ─────────────────────────────────────────
-// ACCOUNT (credentials + auth tokens, scoped per role)
+// ACCOUNT (credentials + auth tokens; one per user, single role)
 // ─────────────────────────────────────────
 
 model Account {
   id     Int  @id @default(autoincrement())
-  userId Int
+  userId Int  @unique
   role   Role
 
   password String
@@ -108,8 +108,6 @@ model Account {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([userId, role])
-  @@index([userId])
   @@map("accounts")
 }
 

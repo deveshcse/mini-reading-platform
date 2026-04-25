@@ -15,13 +15,7 @@ export const authorize = (resource: Resource, action: Action<typeof resource>) =
       return next(new UnauthorizedError("Authentication required"));
     }
 
-    const { roles } = req.user;
-
-    if (!roles?.length) {
-      return next(new ForbiddenError("No roles assigned"));
-    }
-
-    if (!can(roles, resource, action)) {
+    if (!can(req.user.role, resource, action)) {
       return next(new ForbiddenError(`Cannot ${action} ${resource}`));
     }
 

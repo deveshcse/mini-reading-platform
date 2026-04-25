@@ -6,8 +6,8 @@ import { ENV } from "../../config/env.config.js";
 import {
   BadRequestError,
   ConflictError,
-  UnauthorizedError,
   NotFoundError,
+  UnauthorizedError,
 } from "../../utils/api-error.js";
 import {
   type RegisterInput,
@@ -17,14 +17,13 @@ import {
 } from "./auth.schema.js";
 import { Role } from "../../generated/prisma/enums.js";
 import { sendResetPasswordEmail } from "../../utils/email.js";
-import { logger } from "../../config/logger.config.js";
 
 // ── Token helpers ─────────────────────────────────────────────────────────────
 
 function signAccessToken(payload: {
   userId: string;
   email: string;
-  roles: Role[];
+  role: Role;
 }): string {
   return jwt.sign(payload, ENV.JWT_SECRET, {
     expiresIn: ENV.JWT_ACCESS_EXPIRES as jwt.SignOptions["expiresIn"],
@@ -41,88 +40,49 @@ function signRefreshToken(payload: { accountId: string }): string {
 // ── Register ──────────────────────────────────────────────────────────────────
 
 export async function register(input: RegisterInput) {
-  let user = await prisma.user.findFirst({
+  const existing = await prisma.user.findFirst({
     where: { email: input.email, deletedAt: null },
-    include: { accounts: true },
   });
 
-  if (user) {
-    // Check if the user already has an account for the requested role
-    const existingAccount = user.accounts.find((a) => a.role === input.role);
-    if (existingAccount) {
-      // For idempotency and "linking" support, we check if password matches
-      const isMatch = await bcrypt.compare(input.password, existingAccount.password);
-      if (!isMatch) {
-        throw new ConflictError("An account with this email and role already exists");
-      }
-      // If it matches, we treat it as a login
-    } else {
-      // Verify password against at least ONE of the existing accounts for security
-      // (This ensures the same person is adding the role)
-      const matchesAny = await Promise.all(
-        user.accounts.map((acc) => bcrypt.compare(input.password, acc.password))
-      );
-      if (!matchesAny.some(Boolean)) {
-        throw new ConflictError("An account with this email already exists");
-      }
+  if (existing) {
+    throw new ConflictError("An account with this email already exists");
+  }
 
-      const hashedPassword = await bcrypt.hash(input.password, 12);
-      await prisma.account.create({
-        data: {
-          userId: user.id,
-          role: input.role,
+  const hashedPassword = await bcrypt.hash(input.password, 12);
+  const user = await prisma.user.create({
+    data: {
+      email: input.email,
+      firstName: input.firstName,
+      lastName: input.lastName,
+      account: {
+        create: {
+          role: input.role as Role,
           password: hashedPassword,
         },
-      });
-      // Refresh user to get updated accounts
-      user = (await prisma.user.findUnique({
-        where: { id: user.id },
-        include: { accounts: true },
-      })) as any;
-    }
-  } else {
-    // Brand new user
-    const hashedPassword = await bcrypt.hash(input.password, 12);
-    user = await prisma.user.create({
-      data: {
-        email: input.email,
-        firstName: input.firstName,
-        lastName: input.lastName,
-        accounts: {
-          create: {
-            role: input.role,
-            password: hashedPassword,
-          },
-        },
       },
-      include: {
-        accounts: true,
-      },
-    });
-  }
+    },
+    include: { account: true },
+  });
 
-  if (!user) {
-    throw new NotFoundError("User not found after registration");
+  if (!user.account) {
+    throw new Error("Registration failed to create account");
   }
-
-  const roles = user!.accounts.map((a) => a.role);
-  const account = user!.accounts.find((a) => a.role === input.role)!;
 
   const accessToken = signAccessToken({
     userId: String(user.id),
     email: user.email,
-    roles,
+    role: user.account.role,
   });
-  const refreshToken = signRefreshToken({ accountId: String(account.id) });
+  const refreshToken = signRefreshToken({ accountId: String(user.account.id) });
 
   const hashedRefresh = await bcrypt.hash(refreshToken, 10);
   await prisma.account.update({
-    where: { id: account.id },
+    where: { id: user.account.id },
     data: { refreshToken: hashedRefresh },
   });
 
-  const { accounts: _acc, ...safeUser } = user;
-  return { user: { ...safeUser, roles }, accessToken, refreshToken };
+  const { account: _account, ...safeUser } = user;
+  return { user: { ...safeUser, role: user.account.role }, accessToken, refreshToken };
 }
 
 
@@ -131,45 +91,34 @@ export async function register(input: RegisterInput) {
 export async function login(input: LoginInput) {
   const user = await prisma.user.findFirst({
     where: { email: input.email, deletedAt: null },
-    include: { accounts: true },
+    include: { account: true },
   });
 
-  if (!user || user.accounts.length === 0) {
+  if (!user?.account) {
     await bcrypt.compare(input.password, "$2b$12$invalidsaltfortimingprotect");
     throw new UnauthorizedError("Invalid email or password");
   }
 
-  // Find the first account that matches the password
-  let matchedAccount: any = null;
-  for (const account of user.accounts) {
-    const isMatch = await bcrypt.compare(input.password, account.password);
-    if (isMatch) {
-      matchedAccount = account;
-      break;
-    }
-  }
-
-  if (!matchedAccount) {
+  const isMatch = await bcrypt.compare(input.password, user.account.password);
+  if (!isMatch) {
     throw new UnauthorizedError("Invalid email or password");
   }
-
-  const roles = user.accounts.map((a) => a.role);
 
   const accessToken = signAccessToken({
     userId: String(user.id),
     email: user.email,
-    roles,
+    role: user.account.role,
   });
-  const refreshToken = signRefreshToken({ accountId: String(matchedAccount.id) });
+  const refreshToken = signRefreshToken({ accountId: String(user.account.id) });
 
   const hashedRefresh = await bcrypt.hash(refreshToken, 10);
   await prisma.account.update({
-    where: { id: matchedAccount.id },
+    where: { id: user.account.id },
     data: { refreshToken: hashedRefresh },
   });
 
-  const { accounts: _acc, ...safeUser } = user;
-  return { user: { ...safeUser, roles }, accessToken, refreshToken };
+  const { account: _account, ...safeUser } = user;
+  return { user: { ...safeUser, role: user.account.role }, accessToken, refreshToken };
 }
 
 
@@ -187,10 +136,10 @@ export async function refresh(incomingToken: string) {
 
   const account = await prisma.account.findUnique({
     where: { id: Number(payload.accountId) },
-    include: { 
+    include: {
       user: {
-        include: { accounts: true }
-      }
+        include: { account: true },
+      },
     },
   });
 
@@ -210,12 +159,14 @@ export async function refresh(incomingToken: string) {
   }
 
   const user = account.user;
-  const roles = user.accounts.map((a) => a.role);
+  if (!user.account) {
+    throw new UnauthorizedError("Session not found — please log in again");
+  }
 
   const accessToken = signAccessToken({
     userId: String(user.id),
     email: user.email,
-    roles,
+    role: user.account.role,
   });
   const newRefreshToken = signRefreshToken({ accountId: String(account.id) });
   const hashedRefresh = await bcrypt.hash(newRefreshToken, 10);
@@ -225,21 +176,19 @@ export async function refresh(incomingToken: string) {
     data: { refreshToken: hashedRefresh },
   });
 
-  const { accounts: _acc, ...safeUser } = user;
-  return { user: { ...safeUser, roles }, accessToken, refreshToken: newRefreshToken };
+  const { account: _acc, ...safeUser } = user;
+  return { user: { ...safeUser, role: user.account.role }, accessToken, refreshToken: newRefreshToken };
 }
 
 
 // ── Logout ────────────────────────────────────────────────────────────────────
 
 /**
- * Logout from a specific account's session.
- * In this multi-account model, we need the accountId or we clear all if preferred.
- * For now, we clear the one matching the current session's role.
+ * Clears the refresh token for this user's auth record (no client role hint).
  */
-export async function logout(userId: string, role: Role) {
+export async function logout(userId: string) {
   await prisma.account.updateMany({
-    where: { userId: Number(userId), role },
+    where: { userId: Number(userId) },
     data: { refreshToken: null },
   });
 }
@@ -248,16 +197,12 @@ export async function logout(userId: string, role: Role) {
 // ── Forgot Password ───────────────────────────────────────────────────────────
 
 export async function forgotPassword(input: ForgotPasswordInput) {
-  // Since we have multiple accounts, we might need a role here too,
-  // or we reset all of them. Let's assume we reset based on the primary or all.
-  // For simplicity and matching the "Register" flow, let's reset ALL accounts 
-  // for this user, or just the accounts that exist.
   const user = await prisma.user.findFirst({
     where: { email: input.email, deletedAt: null },
-    include: { accounts: true }
+    include: { account: true },
   });
 
-  if (!user || user.accounts.length === 0) {
+  if (!user?.account) {
     throw new NotFoundError("No active account found with this email address");
   }
 
@@ -267,12 +212,11 @@ export async function forgotPassword(input: ForgotPasswordInput) {
     .update(resetToken)
     .digest("hex");
 
-  // Reset ALL accounts for this email
-  await prisma.account.updateMany({
-    where: { userId: user.id },
+  await prisma.account.update({
+    where: { id: user.account.id },
     data: {
       forgotPasswordToken: hashedToken,
-      forgotPasswordTokenExpiresAt: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
+      forgotPasswordTokenExpiresAt: new Date(Date.now() + 60 * 60 * 1000),
     },
   });
 
@@ -301,10 +245,8 @@ export async function resetPassword(input: ResetPasswordInput) {
 
   const hashedPassword = await bcrypt.hash(input.password, 12);
 
-  // Update password for ALL accounts of this user to keep them in sync 
-  // (Optional behavior, but usually desired for a single user entity)
-  await prisma.account.updateMany({
-    where: { userId: account.userId },
+  await prisma.account.update({
+    where: { id: account.id },
     data: {
       password: hashedPassword,
       forgotPasswordToken: null,
@@ -312,4 +254,3 @@ export async function resetPassword(input: ResetPasswordInput) {
     },
   });
 }
-
