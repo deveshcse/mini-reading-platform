@@ -1,8 +1,9 @@
 import { Router } from "express";
 import * as likeController from "./like.controller.js";
+import { asyncHandler } from "../../utils/async-handler.js";
 import { authenticate } from "../../middleware/authenticate.middleware.js";
 import { validate } from "../../middleware/validate.middleware.js";
-import { likeParamsSchema, likeQuerySchema } from "./like.schema.js";
+import { likeListSchema, likeParamsSchema } from "./like.schema.js";
 
 const router = Router();
 
@@ -36,7 +37,7 @@ router.post(
   "/:storyId/like",
   authenticate,
   validate(likeParamsSchema),
-  likeController.toggleLike
+  asyncHandler(likeController.toggleLike)
 );
 
 /**
@@ -62,9 +63,8 @@ router.post(
  */
 router.get(
   "/:storyId/likes",
-  validate(likeParamsSchema),
-  validate(likeQuerySchema),
-  likeController.getStoryLikes
+  validate(likeListSchema),
+  asyncHandler(likeController.getStoryLikes)
 );
 
 /**
@@ -88,7 +88,7 @@ router.get(
   "/:storyId/like-status",
   authenticate,
   validate(likeParamsSchema),
-  likeController.checkUserLiked
+  asyncHandler(likeController.checkUserLiked)
 );
 
 export default router;

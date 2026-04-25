@@ -6,8 +6,8 @@ import { can, type Resource, type Action } from "../utils/statements.js";
  * RBAC authorization middleware.
  *
  * @example
- * router.post("/", authenticate, authorize("story", "create"), controller.create);
- * router.delete("/:id", authenticate, authorize("story", "delete"), controller.delete);
+ * router.post("/", authenticate, authorize("story", "create"), asyncHandler(controller.create));
+ * router.delete("/:id", authenticate, authorize("story", "delete"), asyncHandler(controller.remove));
  */
 export const authorize = (resource: Resource, action: Action<typeof resource>) => {
   return (req: Request, _res: Response, next: NextFunction) => {

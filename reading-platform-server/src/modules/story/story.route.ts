@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as storyController from "./story.controller.js";
+import { asyncHandler } from "../../utils/async-handler.js";
 import { authenticate, optionalAuthenticate } from "../../middleware/authenticate.middleware.js";
 import { authorize } from "../../middleware/authorize.middleware.js";
 import { validate } from "../../middleware/validate.middleware.js";
@@ -61,7 +62,7 @@ router.post(
   authenticate,
   authorize("story", "create"),
   validate(createStorySchema),
-  storyController.createStory
+  asyncHandler(storyController.createStory)
 );
 
 /**
@@ -95,7 +96,7 @@ router.get(
   "/",
   optionalAuthenticate,
   validate(storyQuerySchema),
-  storyController.getStories
+  asyncHandler(storyController.getStories)
 );
 
 /**
@@ -117,7 +118,11 @@ router.get(
  *       404:
  *         description: Story not found
  */
-router.get("/:id", optionalAuthenticate, storyController.getStoryById);
+router.get(
+  "/:id",
+  optionalAuthenticate,
+  asyncHandler(storyController.getStoryById)
+);
 
 /**
  * @swagger
@@ -153,7 +158,7 @@ router.patch(
   authenticate,
   authorize("story", "update"),
   validate(updateStorySchema),
-  storyController.updateStory
+  asyncHandler(storyController.updateStory)
 );
 
 /**
@@ -179,7 +184,7 @@ router.delete(
   "/:id",
   authenticate,
   authorize("story", "delete"),
-  storyController.deleteStory
+  asyncHandler(storyController.deleteStory)
 );
 
 export default router;

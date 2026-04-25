@@ -1,4 +1,5 @@
 import { prisma } from "../../config/db.config.js";
+import { Prisma } from "../../generated/prisma/client.js";
 import { ForbiddenError, NotFoundError } from "../../utils/api-error.js";
 import { Role } from "../../generated/prisma/enums.js";
 import {
@@ -6,6 +7,8 @@ import {
   type UpdateStoryInput,
   type StoryQueryInput,
 } from "./story.schema.js";
+
+const noStories: Prisma.StoryWhereInput = { id: { in: [] } };
 
 /**
  * Create a new story
@@ -30,33 +33,46 @@ export async function getStories(
 ) {
   const { page, pageSize, authorId, isPublished, isPremium } = query;
   const skip = (page - 1) * pageSize;
-
-  // Base filters: ignore soft-deleted stories
-  const where: any = {
-    deletedAt: null,
-  };
-
-  if (authorId) where.authorId = authorId;
-  if (isPremium !== undefined) where.isPremium = isPremium;
-
-  // Visibility logic:
-  // If no requester, or requester is not ADMIN and not the author of specific stories,
-  // we must show only published content.
   const isAdmin = requesterRole === Role.ADMIN;
 
-  if (!isAdmin) {
-    if (isPublished !== undefined) {
-      // Explicit filter from query
-      where.isPublished = isPublished;
+  const where: Prisma.StoryWhereInput = { deletedAt: null };
+
+  if (isPremium !== undefined) {
+    where.isPremium = isPremium;
+  }
+
+  if (isAdmin) {
+    if (authorId !== undefined) where.authorId = authorId;
+    if (isPublished !== undefined) where.isPublished = isPublished;
+  } else if (isPublished === false) {
+    if (requesterId === undefined) {
+      Object.assign(where, noStories);
+    } else if (authorId !== undefined && authorId !== requesterId) {
+      Object.assign(where, noStories);
     } else {
-      // Default visibility: published stories OR requester's own stories
+      where.isPublished = false;
+      where.authorId = requesterId;
+    }
+  } else if (isPublished === true) {
+    where.isPublished = true;
+    if (authorId !== undefined) where.authorId = authorId;
+  } else {
+    if (authorId !== undefined) {
+      where.AND = [
+        { authorId },
+        {
+          OR: [
+            { isPublished: true },
+            ...(requesterId !== undefined ? [{ authorId: requesterId }] : []),
+          ],
+        },
+      ];
+    } else {
       where.OR = [
         { isPublished: true },
-        ...(requesterId ? [{ authorId: requesterId }] : []),
+        ...(requesterId !== undefined ? [{ authorId: requesterId }] : []),
       ];
     }
-  } else if (isPublished !== undefined) {
-    where.isPublished = isPublished;
   }
 
   const [total, stories] = await Promise.all([
@@ -80,7 +96,7 @@ export async function getStories(
       total,
       page,
       pageSize,
-      totalPages: Math.ceil(total / pageSize),
+      totalPages: Math.ceil(total / pageSize) || 0,
       hasNextPage: page < Math.ceil(total / pageSize),
       hasPrevPage: page > 1,
     },
@@ -95,7 +111,7 @@ export async function getStoryById(
   requesterId?: number,
   requesterRole?: Role
 ) {
-  const story = await prisma.story.findUnique({
+  const story = await prisma.story.findFirst({
     where: { id, deletedAt: null },
     include: {
       author: {
@@ -108,7 +124,6 @@ export async function getStoryById(
     throw new NotFoundError("Story not found");
   }
 
-  // 1. Ownership/Visibility Check
   const isAdmin = requesterRole === Role.ADMIN;
   const isAuthor = requesterId === story.authorId;
 
@@ -116,8 +131,8 @@ export async function getStoryById(
     throw new ForbiddenError("You do not have access to this unpublished story");
   }
 
-  // 2. Premium Access Check & Teaser Logic
   let isLocked = false;
+  let content = story.content;
 
   if (story.isPremium && !isAdmin && !isAuthor) {
     let hasSubscription = false;
@@ -135,18 +150,17 @@ export async function getStoryById(
 
     if (!hasSubscription) {
       isLocked = true;
-      // Provide a 200-character teaser
-      (story as any).content = story.content.substring(0, 200) + "...";
+      content =
+        content.length <= 200 ? content : content.substring(0, 200) + "...";
     }
   }
 
-  // 3. Analytics: Increment view count
   await prisma.story.update({
     where: { id },
     data: { viewCount: { increment: 1 } },
   });
 
-  return { ...story, isLocked };
+  return { ...story, content, isLocked };
 }
 
 
@@ -159,7 +173,7 @@ export async function updateStory(
   requesterId: number,
   requesterRole: Role
 ) {
-  const story = await prisma.story.findUnique({
+  const story = await prisma.story.findFirst({
     where: { id, deletedAt: null },
   });
 
@@ -187,7 +201,7 @@ export async function deleteStory(
   requesterId: number,
   requesterRole: Role
 ) {
-  const story = await prisma.story.findUnique({
+  const story = await prisma.story.findFirst({
     where: { id, deletedAt: null },
   });
 

@@ -1,4 +1,4 @@
-import { type Request, type Response, type NextFunction } from "express";
+import { type Request, type Response } from "express";
 import * as authService from "./auth.service.js";
 import { sendSuccess } from "../../utils/api-response.js";
 import {
@@ -21,129 +21,63 @@ function setRefreshTokenCookie(res: Response, token: string) {
   res.cookie("refreshToken", token, COOKIE_OPTIONS);
 }
 
-// ── register ──────────────────────────────────────────────────────────────────
-
-export async function register(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> {
-  try {
-    const input = req.body as RegisterInput;
-    const result = await authService.register(input);
-
-    // Set cookie
-    setRefreshTokenCookie(res, result.refreshToken);
-
-    sendSuccess(res, result, 201);
-  } catch (error) {
-    next(error);
-  }
+export async function register(req: Request, res: Response): Promise<void> {
+  const result = await authService.register(
+    req.validated!.body as RegisterInput
+  );
+  setRefreshTokenCookie(res, result.refreshToken);
+  sendSuccess(res, result, 201);
 }
 
-// ── login ─────────────────────────────────────────────────────────────────────
-
-export async function login(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> {
-  try {
-    const input = req.body as LoginInput;
-    const result = await authService.login(input);
-
-    // Set cookie
-    setRefreshTokenCookie(res, result.refreshToken);
-
-    sendSuccess(res, result);
-  } catch (error) {
-    next(error);
-  }
+export async function login(req: Request, res: Response): Promise<void> {
+  const result = await authService.login(req.validated!.body as LoginInput);
+  setRefreshTokenCookie(res, result.refreshToken);
+  sendSuccess(res, result);
 }
 
-// ── refresh ───────────────────────────────────────────────────────────────────
+export async function refresh(req: Request, res: Response): Promise<void> {
+  const refreshToken =
+    (req.validated?.body as RefreshInput | undefined)?.refreshToken ||
+    req.cookies.refreshToken;
 
-export async function refresh(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> {
-  try {
-    // Check body first, then fallback to cookie
-    const refreshToken = (req.body as RefreshInput).refreshToken || req.cookies.refreshToken;
-
-    if (!refreshToken) {
-      res.status(401).json({ success: false, message: "No refresh token provided" });
-      return;
-    }
-
-    const result = await authService.refresh(refreshToken);
-
-    // Rotate: Set new refresh token cookie
-    setRefreshTokenCookie(res, result.refreshToken);
-
-    sendSuccess(res, result);
-  } catch (error) {
-    next(error);
+  if (!refreshToken) {
+    res.status(401).json({ success: false, message: "No refresh token provided" });
+    return;
   }
+
+  const result = await authService.refresh(refreshToken);
+  setRefreshTokenCookie(res, result.refreshToken);
+  sendSuccess(res, result);
 }
 
-// ── logout ────────────────────────────────────────────────────────────────────
-
-export async function logout(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> {
-  try {
-    if (!req.user) {
-      res.status(401).json({ success: false, message: "Unauthorized" });
-      return;
-    }
-    await authService.logout(req.user.userId);
-
-
-    // Clear cookie
-    res.clearCookie("refreshToken", COOKIE_OPTIONS);
-
-    sendSuccess(res, { message: "Logged out successfully" });
-  } catch (error) {
-    next(error);
+export async function logout(req: Request, res: Response): Promise<void> {
+  if (!req.user) {
+    res.status(401).json({ success: false, message: "Unauthorized" });
+    return;
   }
+  await authService.logout(req.user.userId);
+  res.clearCookie("refreshToken", COOKIE_OPTIONS);
+  sendSuccess(res, { message: "Logged out successfully" });
 }
-
-// ── forgotPassword ───────────────────────────────────────────────────────────
-// POST /api/v1/auth/forgot-password
 
 export async function forgotPassword(
   req: Request,
-  res: Response,
-  next: NextFunction
+  res: Response
 ): Promise<void> {
-  try {
-    const input = req.body as ForgotPasswordInput;
-    await authService.forgotPassword(input);
-    sendSuccess(res, {
-      message: "Password reset link has been sent to your email.",
-    });
-  } catch (error) {
-    next(error);
-  }
+  await authService.forgotPassword(
+    req.validated!.body as ForgotPasswordInput
+  );
+  sendSuccess(res, {
+    message: "Password reset link has been sent to your email.",
+  });
 }
-
-// ── resetPassword ────────────────────────────────────────────────────────────
-// POST /api/v1/auth/reset-password
 
 export async function resetPassword(
   req: Request,
-  res: Response,
-  next: NextFunction
+  res: Response
 ): Promise<void> {
-  try {
-    const input = req.body as ResetPasswordInput;
-    await authService.resetPassword(input);
-    sendSuccess(res, { message: "Password has been reset successfully." });
-  } catch (error) {
-    next(error);
-  }
+  await authService.resetPassword(
+    req.validated!.body as ResetPasswordInput
+  );
+  sendSuccess(res, { message: "Password has been reset successfully." });
 }

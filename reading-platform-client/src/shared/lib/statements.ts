@@ -61,16 +61,17 @@ export const roles = {
   }),
 } satisfies Record<Role, ReturnType<typeof ac.newRole>>;
 
-// ─── 5. Permission check function (usable outside middleware too) ─────────────
+// ─── 5. Permission check function (mirrors server `statements.ts` + `can`) ─────
 
 export function can(
-  userRoles: Role[],
+  userRole: Role | null | undefined,
   resource: Resource,
   action: string
 ): boolean {
-  return userRoles.some((role) => {
-    const permissions = roles[role];
-    const allowed = permissions[resource as keyof typeof permissions] as string[] | undefined;
-    return allowed?.includes(action) ?? false;
-  });
+  if (!userRole) return false;
+  const permissions = roles[userRole];
+  const allowed = permissions[resource as keyof typeof permissions] as
+    | string[]
+    | undefined;
+  return allowed?.includes(action) ?? false;
 }

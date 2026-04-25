@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as authController from "./auth.controller.js";
+import { asyncHandler } from "../../utils/async-handler.js";
 import { authenticate } from "../../middleware/authenticate.middleware.js";
 import { validate } from "../../middleware/validate.middleware.js";
 import {
@@ -59,7 +60,11 @@ const router = Router();
  *       409:
  *         description: Email already registered
  */
-router.post("/register", validate(registerSchema), authController.register);
+router.post(
+  "/register",
+  validate(registerSchema),
+  asyncHandler(authController.register)
+);
 
 /**
  * @swagger
@@ -90,7 +95,11 @@ router.post("/register", validate(registerSchema), authController.register);
  *       401:
  *         description: Invalid credentials
  */
-router.post("/login", validate(loginSchema), authController.login);
+router.post(
+  "/login",
+  validate(loginSchema),
+  asyncHandler(authController.login)
+);
 
 /**
  * @swagger
@@ -114,7 +123,11 @@ router.post("/login", validate(loginSchema), authController.login);
  *       401:
  *         description: Invalid, expired, or reused refresh token
  */
-router.post("/refresh", validate(refreshSchema), authController.refresh);
+router.post(
+  "/refresh",
+  validate(refreshSchema),
+  asyncHandler(authController.refresh)
+);
 
 /**
  * @swagger
@@ -130,7 +143,7 @@ router.post("/refresh", validate(refreshSchema), authController.refresh);
  *       401:
  *         description: Unauthorized
  */
-router.post("/logout", authenticate, authController.logout);
+router.post("/logout", authenticate, asyncHandler(authController.logout));
 
 /**
  * @swagger
@@ -156,7 +169,7 @@ router.post("/logout", authenticate, authController.logout);
 router.post(
   "/forgot-password",
   validate(forgotPasswordSchema),
-  authController.forgotPassword
+  asyncHandler(authController.forgotPassword)
 );
 
 /**
@@ -186,7 +199,7 @@ router.post(
 router.post(
   "/reset-password",
   validate(resetPasswordSchema),
-  authController.resetPassword
+  asyncHandler(authController.resetPassword)
 );
 
 export default router;
