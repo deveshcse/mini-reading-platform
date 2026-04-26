@@ -111,14 +111,14 @@ export function Header({ variant = "default" }: HeaderProps) {
                 size="sm"
                 className="h-9 rounded-none border-2 px-3 font-bold sm:h-10 sm:px-4"
               >
-                <Link href="/register">Register</Link>
+                <Link href="/auth/register">Register</Link>
               </Button>
               <Button
                 asChild
                 size="sm"
                 className="h-9 rounded-none border-2 border-primary px-3 font-bold sm:h-10 sm:px-4"
               >
-                <Link href="/login">Sign in</Link>
+                <Link href="/auth/login">Sign in</Link>
               </Button>
             </div>
           )}
