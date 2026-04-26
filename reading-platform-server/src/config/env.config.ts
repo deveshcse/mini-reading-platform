@@ -12,6 +12,8 @@ const envSchema = z.object({
   JWT_ACCESS_EXPIRES: z.string().min(1),
   JWT_REFRESH_EXPIRES: z.string().min(1),
   RESEND_API_KEY: z.string().min(1),
+  RAZORPAY_KEY_ID: z.string().min(1),
+  RAZORPAY_KEY_SECRET: z.string().min(1),
   FRONTEND_URL: z.string(),
 });
 

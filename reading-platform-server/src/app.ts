@@ -13,6 +13,8 @@ import { errorHandler } from "./middleware/error.middleware.js";
 import authRoutes from "./modules/auth/auth.route.js";
 import storyRoutes from "./modules/story/story.route.js";
 import likeRoutes from "./modules/like/like.route.js";
+import paymentRoutes from "./modules/payment/payment.route.js";
+import planRoutes from "./modules/plan/plan.route.js";
 
 
 
@@ -33,6 +35,8 @@ const apiRouter = express.Router();
 apiRouter.use("/auth", authRoutes);
 apiRouter.use("/stories", storyRoutes);
 apiRouter.use("/stories", likeRoutes);
+apiRouter.use("/payments", paymentRoutes);
+apiRouter.use("/plans", planRoutes);
 
 
 

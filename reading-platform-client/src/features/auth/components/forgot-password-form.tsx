@@ -56,7 +56,7 @@ export function ForgotPasswordForm({
         </CardHeader>
         <CardContent className="flex flex-col gap-4 text-center">
           <p className="text-sm text-muted-foreground">
-            The link will expire in 1 hour. Please check your spam folder if you don't see it.
+            The link will expire in 1 hour. Please check your spam folder if you don&apos;t see it.
           </p>
           <Button asChild variant="outline" className="mt-2 rounded-none h-11 border-2 font-bold transition-all hover:bg-accent hover:translate-y-[-1px]">
             <Link href="/auth/login">
@@ -75,7 +75,7 @@ export function ForgotPasswordForm({
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold tracking-tight">Forgot Password</CardTitle>
           <CardDescription>
-            Enter your email address and we'll send you a link to reset your password.
+            Enter your email address and we&apos;ll send you a link to reset your password.
           </CardDescription>
         </CardHeader>
         <CardContent>

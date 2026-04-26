@@ -50,14 +50,16 @@ export const roles = {
 
   [Role.AUTHOR]: ac.newRole({
     story:        ["create", "read", "update", "delete", "publish"],
-    comment:      ["create", "read", "update"],
-    tag:          ["create", "read"],
+    plan:         ["read"],
+    payment:      ["read"],
+    subscription: ["read"],
   }),
 
   [Role.READER]: ac.newRole({
     story:        ["read"],
-    comment:      ["create", "read"],
     subscription: ["read"],
+    payment:      ["read"],
+    plan:         ["read"],
   }),
 } satisfies Record<Role, ReturnType<typeof ac.newRole>>;
 
