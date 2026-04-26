@@ -20,7 +20,7 @@ import { createPlanSchema } from "@/features/plans/schema";
 import {
   PlanInterval,
   SubscriptionPlanName,
-  type CreateOrderResponse,
+  type CreateSubscriptionResponse,
   type Plan,
 } from "@/features/plans/types";
 import apiClient from "@/shared/api/api-client";
@@ -38,9 +38,7 @@ interface RazorpayFailureResponse {
 
 interface RazorpayOptions {
   key: string;
-  amount: number;
-  currency: string;
-  order_id: string;
+  subscription_id: string;
   name: string;
   description: string;
   handler: (response: RazorpayCheckoutSuccess) => void | Promise<void>;
@@ -50,8 +48,8 @@ interface RazorpayOptions {
 }
 
 interface RazorpayCheckoutSuccess {
-  razorpay_order_id: string;
   razorpay_payment_id: string;
+  razorpay_subscription_id: string;
   razorpay_signature: string;
 }
 
@@ -86,6 +84,12 @@ function intervalLabel(interval: string, intervalCount: number) {
   return intervalCount > 1 ? `${intervalCount} ${base}` : base;
 }
 
+function subscriptionTotalCount(interval: Plan["interval"]): number {
+  if (interval === PlanInterval.YEARLY) return 1;
+  if (interval === PlanInterval.QUARTERLY) return 4;
+  return 12;
+}
+
 export function PlansSubscriptionPage() {
   const [scriptReady, setScriptReady] = useState(false);
   const [selectedPlanId, setSelectedPlanId] = useState<number | null>(null);
@@ -118,7 +122,7 @@ export function PlansSubscriptionPage() {
       interval: form.interval,
       intervalCount: Number(form.intervalCount),
       isActive: form.isActive,
-      razorpayPlanId: form.razorpayPlanId || undefined,
+      razorpayPlanId: form.razorpayPlanId.trim() || undefined,
     });
 
     if (!parsed.success) {
@@ -141,7 +145,7 @@ export function PlansSubscriptionPage() {
       interval: editingPlan.interval,
       intervalCount: editingPlan.intervalCount,
       isActive: editingPlan.isActive,
-      razorpayPlanId: editingPlan.razorpayPlanId,
+      razorpayPlanId: editingPlan.razorpayPlanId?.trim() || null,
     });
     setEditingPlan(null);
   };
@@ -161,32 +165,36 @@ export function PlansSubscriptionPage() {
 
     setPayingPlanId(selectedPlan.id);
     try {
-      const amountInPaise = Math.round(selectedPlan.price * 100);
-      if (amountInPaise < 100) {
-        throw new Error("Plan amount must be at least INR 1.00");
+      const normalizedRazorpayPlanId = selectedPlan.razorpayPlanId?.trim();
+      if (!normalizedRazorpayPlanId) {
+        throw new Error("Selected plan is missing Razorpay plan id.");
       }
 
-      const orderRes = await apiClient.post("/payments/create-order", {
-        amount: amountInPaise,
-        currency: selectedPlan.currency,
-        receipt: `plan_${selectedPlan.id}_${Date.now()}`,
+      if (normalizedRazorpayPlanId !== selectedPlan.razorpayPlanId) {
+        await apiClient.patch(`/plans/${selectedPlan.id}`, {
+          razorpayPlanId: normalizedRazorpayPlanId,
+        });
+      }
+
+      const subscriptionRes = await apiClient.post("/payments/create-subscription", {
+        planId: selectedPlan.id,
+        totalCount: subscriptionTotalCount(selectedPlan.interval),
       });
 
-      const order = orderRes.data?.data as CreateOrderResponse;
-      const razorpayKey = order.key_id || fallbackRazorpayKey;
+      const subscription = subscriptionRes.data?.data as CreateSubscriptionResponse;
+      const razorpayKey = subscription.key_id || fallbackRazorpayKey;
       if (!razorpayKey) throw new Error("Missing Razorpay key id.");
+      if (!subscription.subscription_id) throw new Error("Missing Razorpay subscription id.");
 
       const checkout = new RazorpayCtor({
         key: razorpayKey,
-        amount: order.amount,
-        currency: order.currency,
-        order_id: order.order_id,
+        subscription_id: subscription.subscription_id,
         name: "Mini Reading Platform",
         description: `${selectedPlan.name} subscription`,
         handler: async (response: RazorpayCheckoutSuccess) => {
-          await apiClient.post("/payments/verify-payment", {
-            razorpay_order_id: response.razorpay_order_id,
+          await apiClient.post("/payments/verify-subscription", {
             razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_subscription_id: response.razorpay_subscription_id,
             razorpay_signature: response.razorpay_signature,
           });
           toast.success("Payment verified successfully.");
@@ -241,7 +249,7 @@ export function PlansSubscriptionPage() {
             </CardContent>
           </Card>
         ) : (
-          <section className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          <section className="grid grid-cols-1 gap-5 md:gap-10 md:grid-cols-2">
             {activePlans.map((plan) => {
               const selected = selectedPlan?.id === plan.id;
               const paying = payingPlanId === plan.id;
