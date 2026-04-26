@@ -3,16 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import type { Story } from "@/features/stories/types";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  BookMarked,
-  BookOpen,
-  Loader2,
-  AlertCircle,
-  Lock,
-  ArrowRight,
-} from "lucide-react";
+import { BookMarked, BookOpen, Loader2, AlertCircle, Lock, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface StoryListProps {
@@ -33,36 +25,30 @@ export function StoryList({
   if (isLoading) {
     return (
       <div className={cn("flex min-h-[40vh] flex-col items-center justify-center gap-3", className)}>
-        <Loader2 className="h-10 w-10 animate-spin text-primary/50" />
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Loading</p>
+        <Loader2 className="h-8 w-8 animate-spin text-primary/40" />
+        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">
+          Loading
+        </p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div
-        className={cn(
-          "flex min-h-[40vh] flex-col items-center justify-center gap-3 text-center",
-          className
-        )}
-      >
-        <AlertCircle className="h-10 w-10 text-destructive" />
-        <p className="text-sm font-bold text-muted-foreground">Could not load stories. Try again later.</p>
+      <div className={cn("flex min-h-[40vh] flex-col items-center justify-center gap-3 text-center", className)}>
+        <AlertCircle className="h-8 w-8 text-destructive" />
+        <p className="text-sm font-bold text-muted-foreground">
+          Could not load stories. Try again later.
+        </p>
       </div>
     );
   }
 
   if (!stories?.length) {
     return (
-      <div
-        className={cn(
-          "flex min-h-[40vh] flex-col items-center justify-center gap-4 border-2 border-dashed border-muted-foreground/30 p-12 text-center",
-          className
-        )}
-      >
-        <BookOpen className="h-12 w-12 text-muted-foreground/50" />
-        <p className="max-w-sm text-sm font-bold uppercase tracking-tight text-muted-foreground">
+      <div className={cn("flex min-h-[40vh] flex-col items-center justify-center gap-4 border-2 border-dashed border-muted-foreground/25 p-12 text-center", className)}>
+        <BookOpen className="h-10 w-10 text-muted-foreground/40" />
+        <p className="max-w-xs text-sm font-bold uppercase tracking-tight text-muted-foreground">
           {emptyMessage}
         </p>
       </div>
@@ -79,126 +65,102 @@ export function StoryList({
         return (
           <li key={story.id}>
             <Link href={`/stories/${story.id}`} className="block h-full group">
-              <Card
+              <article
                 className={cn(
-                  "h-full overflow-hidden rounded-none border-2 shadow-none transition-all group-focus-visible:ring-2 group-focus-visible:ring-ring",
+                  "flex h-full flex-col overflow-hidden border-2 transition-colors",
                   isPremium
-                    ? "border-amber-500/55 bg-gradient-to-b from-amber-500/[0.12] via-card to-card hover:-translate-y-0.5 hover:border-amber-500/90 hover:shadow-[0_0_0_1px] hover:shadow-amber-500/30"
-                    : "border-border bg-card hover:-translate-y-0.5 hover:border-primary/60"
+                    ? "border-amber-500/40 bg-amber-500/5 hover:border-amber-500/70"
+                    : "border-border bg-card hover:border-primary/50"
                 )}
               >
+                {/* Cover image */}
                 {story.coverImage && (
-                  <div
-                    className={cn(
-                      "relative aspect-[16/10] w-full overflow-hidden border-b-2 bg-muted",
-                      isPremium ? "border-amber-500/30" : "border-border"
-                    )}
-                  >
+                  <div className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-inherit bg-muted">
                     <img
                       src={story.coverImage}
                       alt=""
-                      className={cn("h-full w-full object-cover", isPremium && "scale-[1.01]")}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                     />
-                    {isPremium && (
-                      <>
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-amber-500/5" />
-                        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between gap-2 border-t border-amber-500/20 bg-background/80 px-3 py-2 backdrop-blur-sm">
-                          <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-amber-700 dark:text-amber-200">
-                            <Lock className="size-3.5 shrink-0" />
-                            Subscriber story
-                          </span>
-                          <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
-                            Teaser
-                          </span>
-                        </div>
-                      </>
-                    )}
                   </div>
                 )}
 
-                {!story.coverImage && isPremium && (
-                  <div className="border-b-2 border-amber-500/30 bg-amber-500/10 px-3 py-2">
-                    <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-amber-800 dark:text-amber-200">
-                      <Lock className="size-3.5" />
-                      Premium — preview on detail page
-                    </span>
-                  </div>
-                )}
+                {/* Card body */}
+                <div className="flex flex-1 flex-col gap-3 p-4">
 
-                <CardHeader
-                  className={cn("space-y-2 pb-2", isPremium && "bg-gradient-to-b from-transparent to-amber-500/[0.04]")}
-                >
-                  <div className="flex flex-wrap items-center gap-2">
+                  {/* Badges */}
+                  <div className="flex flex-wrap items-center gap-1.5">
                     {!story.isPublished && (
                       <Badge
                         variant="secondary"
-                        className="rounded-none text-[9px] font-black uppercase"
+                        className="rounded-none text-[9px] font-black uppercase h-5"
                       >
                         Draft
                       </Badge>
                     )}
                     {isPremium && (
-                      <Badge
-                        className="rounded-none border-2 border-amber-600/40 bg-amber-500/20 text-amber-950 dark:border-amber-400/40 dark:bg-amber-500/15 dark:text-amber-100"
-                      >
+                      <Badge className="rounded-none border-2 border-amber-600/40 bg-amber-500/15 text-amber-900 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-100 h-5">
                         <span className="flex items-center gap-1 text-[9px] font-black uppercase">
-                          <BookMarked className="size-3" />
-                          Paid
+                          <BookMarked className="size-3" aria-hidden />
+                          Premium
                         </span>
                       </Badge>
                     )}
                   </div>
-                  <CardTitle
+
+                  {/* Title */}
+                  <h2
                     className={cn(
-                      "line-clamp-2 text-base font-black uppercase leading-tight tracking-tight",
+                      "line-clamp-2 text-base font-black uppercase leading-tight tracking-tight transition-colors",
                       isPremium
-                        ? "text-amber-950 group-hover:text-amber-800 dark:group-hover:text-amber-200 dark:text-amber-100"
+                        ? "text-amber-950 dark:text-amber-100 group-hover:text-amber-800 dark:group-hover:text-amber-200"
                         : "group-hover:text-primary"
                     )}
                   >
                     {story.title}
-                  </CardTitle>
+                  </h2>
+
+                  {/* Author */}
                   {author && (
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                       {author.firstName} {author.lastName}
                     </p>
                   )}
-                </CardHeader>
 
-                <CardContent className="space-y-2 pt-0">
-                  {isPremium && (
-                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-amber-700/90 dark:text-amber-300/90">
-                      Public teaser
-                    </p>
-                  )}
-                  {teaser ? (
-                    <CardDescription
-                      className={cn(
-                        "line-clamp-3 text-xs font-medium leading-relaxed",
-                        isPremium && "text-foreground/90"
-                      )}
-                    >
-                      {teaser}
-                    </CardDescription>
-                  ) : isPremium ? (
-                    <CardDescription className="line-clamp-3 text-xs italic text-muted-foreground">
-                      This story is for subscribers. Open it to read a free preview, then unlock the
-                      full work with an active plan.
-                    </CardDescription>
-                  ) : null}
-                  {isPremium && (
-                    <p className="pt-1 text-[10px] font-bold leading-snug text-amber-800/80 dark:text-amber-200/80">
-                      Open the story page for a short free preview, then subscribe for the full work.
-                    </p>
-                  )}
-                  {isPremium && (
-                    <p className="pt-2 flex items-center justify-end gap-1 text-[10px] font-black uppercase tracking-widest text-amber-700 group-hover:text-amber-600 dark:text-amber-300">
-                      Read preview
-                      <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-                    </p>
-                  )}
-                </CardContent>
-              </Card>
+                  {/* Teaser or premium placeholder */}
+                  <p
+                    className={cn(
+                      "line-clamp-3 flex-1 text-xs leading-relaxed",
+                      isPremium ? "text-foreground/70" : "text-muted-foreground"
+                    )}
+                  >
+                    {teaser ?? (
+                      isPremium
+                        ? "Subscribers only. Open to read a free preview."
+                        : null
+                    )}
+                  </p>
+
+                  {/* CTA row */}
+                  <p
+                    className={cn(
+                      "mt-auto flex items-center gap-1 pt-1 text-[10px] font-black uppercase tracking-widest transition-colors",
+                      isPremium
+                        ? "text-amber-700 dark:text-amber-300 group-hover:text-amber-600"
+                        : "text-muted-foreground group-hover:text-primary"
+                    )}
+                  >
+                    {isPremium ? (
+                      <>
+                        <Lock className="size-3" aria-hidden />
+                        Read preview
+                      </>
+                    ) : (
+                      "Read story"
+                    )}
+                    <ArrowRight className="size-3 ml-auto transition-transform group-hover:translate-x-0.5" aria-hidden />
+                  </p>
+                </div>
+              </article>
             </Link>
           </li>
         );
