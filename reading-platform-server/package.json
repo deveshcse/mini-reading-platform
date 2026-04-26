@@ -1,8 +1,8 @@
 {
-  "name": "task-crud-server",
+  "name": "reading-platform-server",
   "version": "1.0.0",
-  "description": "task crud application",
-  "main": "server.js",
+  "description": "REST API for Mini Reading Platform — stories, auth, subscriptions",
+  "main": "dist/server.js",
   "type": "module",
   "scripts": {
     "dev": "prisma generate && tsx watch src/server.ts",
@@ -15,7 +15,6 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.6.0",
     "@prisma/client": "^7.6.0",
-    "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
