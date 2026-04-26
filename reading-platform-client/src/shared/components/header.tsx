@@ -10,6 +10,7 @@ import { dashboardHeaderShell } from "@/shared/lib/dashboard-shell"
 import {
   Sheet,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -77,10 +78,11 @@ export function Header() {
           )}
 
           <Button
-            variant="destructive"
+            type="button"
+            variant="outline"
             size="sm"
-            onClick={logout}
-            className="h-9 gap-1.5 rounded-none border-2 border-destructive px-2.5 font-bold transition-all hover:translate-y-[-1px] hover:bg-destructive/90 active:translate-y-0 sm:h-10 sm:gap-2 sm:px-4"
+            onClick={() => void logout()}
+            className="hidden h-9 gap-1.5 rounded-none border-2 border-destructive/40 bg-background px-2.5 font-bold text-destructive/40 transition-colors hover:border-destructive hover:text-destructive/80 active:border-destructive/90 active:text-destructive/90 md:inline-flex sm:h-10 sm:gap-2 sm:px-4"
           >
             <LogOut className="size-3.5 sm:size-4" />
             <span className="hidden sm:inline">Logout</span>
@@ -141,6 +143,20 @@ export function Header() {
                     Plans
                   </Link>
                 </nav>
+                <SheetFooter className="border-t-2 border-border p-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="h-11 w-full rounded-none border-2 border-destructive/50 font-bold text-destructive hover:border-destructive hover:text-destructive-foreground"
+                    onClick={() => {
+                      closeMobile()
+                      void logout()
+                    }}
+                  >
+                    <LogOut className="size-4" aria-hidden />
+                    Logout
+                  </Button>
+                </SheetFooter>
               </SheetContent>
             </Sheet>
           </div>
