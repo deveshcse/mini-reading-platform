@@ -46,7 +46,7 @@ export function StoryDetail({ story, className }: StoryDetailProps) {
       className={cn("w-full min-w-0 space-y-8 contain-[inline-size]", className)}
     >
       {/* ── Header ────────────────────────────────────────────────────────── */}
-      <header className="space-y-5 border-b-4 border-primary/20 pb-8">
+      <header className="space-y-4 border-b-4 border-primary/20 pb-6 sm:space-y-5 sm:pb-8">
 
         {/* Badges — only what matters, not all at once */}
         <div className="flex flex-wrap items-center gap-2">
@@ -74,12 +74,12 @@ export function StoryDetail({ story, className }: StoryDetailProps) {
           )}
         </div>
 
-        <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-tighter leading-none italic">
+        <h1 className="text-3xl font-black uppercase leading-none tracking-tighter italic sm:text-4xl md:text-5xl">
           {story.title}
         </h1>
 
         {/* Byline + views */}
-        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground sm:text-xs md:text-sm">
           <span>{byline}</span>
           <span className="text-border" aria-hidden>|</span>
           <span className="inline-flex items-center gap-1">
@@ -89,7 +89,7 @@ export function StoryDetail({ story, className }: StoryDetailProps) {
         </p>
 
         {story.description && (
-          <p className="border-l-4 border-primary/30 pl-4 text-base text-muted-foreground font-medium leading-relaxed">
+          <p className="border-l-4 border-primary/30 pl-3 text-sm font-medium leading-relaxed text-muted-foreground sm:pl-4 sm:text-base">
             {story.description}
           </p>
         )}

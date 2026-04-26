@@ -4,17 +4,19 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 import { PageBackLink } from "@/shared/components/page-back-link";
+import { dashboardPageShell } from "@/shared/lib/dashboard-shell";
+import { cn } from "@/lib/utils";
 
 /**
  * Placeholder for subscription / billing. Premium story CTAs link here until the payments API is wired.
  */
 export default function SubscribePage() {
   return (
-    <div className="app-page space-y-6">
+    <div className={cn(dashboardPageShell, "space-y-6")}>
       <PageBackLink href="/stories" label="Back to feed" />
-      <div className="mx-auto max-w-2xl space-y-8 border-2 border-border bg-card p-8 sm:p-12">
+      <div className="mx-auto w-full max-w-2xl space-y-6 border-2 border-border bg-card p-5 sm:space-y-8 sm:p-8 lg:p-12">
         <div className="space-y-2">
-          <h1 className="text-4xl font-black uppercase tracking-tighter italic">
+          <h1 className="text-2xl font-black uppercase tracking-tighter italic sm:text-3xl md:text-4xl">
             Choose a <span className="not-italic text-primary">Plan</span>
           </h1>
           <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground">

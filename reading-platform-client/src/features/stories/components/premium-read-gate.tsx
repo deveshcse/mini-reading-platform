@@ -12,7 +12,7 @@ import { Lock, Sparkles } from "lucide-react";
 export function PremiumReadGate() {
   return (
     <section
-      className="border-2 border-amber-500/40 bg-amber-500/5 px-6 py-10 sm:px-10"
+      className="border-2 border-amber-500/40 bg-amber-500/5 px-4 py-8 sm:px-8 sm:py-10 md:px-10"
       aria-labelledby="premium-gate-title"
     >
       <div className="mx-auto max-w-md space-y-6 text-center">

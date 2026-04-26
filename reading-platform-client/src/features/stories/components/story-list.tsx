@@ -56,7 +56,12 @@ export function StoryList({
   }
 
   return (
-    <ul className={cn("grid gap-6 sm:grid-cols-2 lg:grid-cols-3", className)}>
+    <ul
+      className={cn(
+        "grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3",
+        className
+      )}
+    >
       {stories.map((story) => {
         const author = story.author;
         const isPremium = story.isPremium;

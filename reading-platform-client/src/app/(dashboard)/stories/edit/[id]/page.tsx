@@ -8,7 +8,8 @@ import { Loader2 } from "lucide-react";
 import { RoleGuard } from "@/features/auth/components/role-guard";
 import { Role } from "@/shared/types/enums";
 import { StoryForm } from "@/features/stories/components/story-form";
-
+import { dashboardPageShell } from "@/shared/lib/dashboard-shell";
+import { cn } from "@/lib/utils";
 
 const STORY_COMPOSE_ROLES = [Role.AUTHOR, Role.ADMIN] as const;
 
@@ -32,8 +33,8 @@ export default function EditStoryPage() {
   if (isLoadingStory) {
     return (
       <RoleGuard allowedRoles={STORY_COMPOSE_ROLES}>
-        <div className="flex min-h-[60vh] items-center justify-center">
-          <Loader2 className="w-12 h-12 animate-spin text-primary/60" />
+        <div className={cn(dashboardPageShell, "flex min-h-[50vh] items-center justify-center py-12")}>
+          <Loader2 className="size-12 animate-spin text-primary/60" />
         </div>
       </RoleGuard>
     );
@@ -41,13 +42,12 @@ export default function EditStoryPage() {
 
   return (
     <RoleGuard allowedRoles={STORY_COMPOSE_ROLES}>
-    <div className="p-8">
-      <div className="max-w-5xl mx-auto space-y-12">
-        <div className="border-b-4 border-primary pb-8">
-          <h1 className="text-5xl font-black tracking-tighter uppercase leading-none italic">
+      <div className={cn(dashboardPageShell, "space-y-8 sm:space-y-12")}>
+        <div className="border-b-4 border-primary pb-6 sm:pb-8">
+          <h1 className="text-3xl font-black uppercase leading-none tracking-tighter italic sm:text-4xl md:text-5xl">
             Edit <span className="text-primary not-italic">Story</span>
           </h1>
-          <p className="text-muted-foreground font-bold tracking-tight uppercase text-sm mt-2">
+          <p className="mt-2 text-xs font-bold uppercase tracking-tight text-muted-foreground sm:text-sm">
             Refine your words and perfect your narrative.
           </p>
         </div>
@@ -58,7 +58,6 @@ export default function EditStoryPage() {
           isLoading={isUpdating}
         />
       </div>
-    </div>
     </RoleGuard>
   );
 }

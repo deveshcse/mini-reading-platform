@@ -93,9 +93,9 @@ export function StoryForm({
       noValidate
     >
       {/* ── Sticky top bar ───────────────────────────────────────────────── */}
-      <div className="sticky top-0 z-50 flex items-center justify-between gap-4 border-b-2 border-input bg-background/95 px-4 py-2 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <div className="sticky top-0 z-50 flex flex-col gap-3 border-b-2 border-input bg-background/95 px-3 py-2 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/80 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-4">
         {/* Left: status flags */}
-        <div className="flex items-center gap-5">
+        <div className="flex min-w-0 flex-wrap items-center gap-3 sm:gap-5">
           {/* Published toggle */}
           <Controller
             name="isPublished"
@@ -127,7 +127,7 @@ export function StoryForm({
             )}
           />
 
-          <div className="h-4 w-px bg-border" />
+          <div className="hidden h-4 w-px bg-border sm:block" aria-hidden />
 
           {/* Premium toggle */}
           <Controller
@@ -163,7 +163,7 @@ export function StoryForm({
           type="submit"
           size="sm"
           disabled={isLoading}
-          className="h-9 gap-2 rounded-none border-2 px-5 font-black tracking-widest uppercase"
+          className="h-9 w-full shrink-0 gap-2 rounded-none border-2 px-4 font-black tracking-widest uppercase sm:w-auto sm:px-5"
         >
           {isLoading ? (
             <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -177,7 +177,7 @@ export function StoryForm({
       </div>
 
       {/* ── Form body ────────────────────────────────────────────────────── */}
-      <FieldGroup className="max-w-3xl space-y-6 pt-6">
+      <FieldGroup className="w-full min-w-0 space-y-6 pt-4 sm:pt-6">
         {/* Title */}
         <Field>
           <FieldLabel
