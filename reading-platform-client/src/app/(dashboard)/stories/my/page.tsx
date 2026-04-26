@@ -62,6 +62,7 @@ export default function MyStoriesPage() {
           stories={data?.stories}
           isLoading={isLoading}
           error={error}
+          enableDeleteAction
           meta={data?.meta}
           onPageChange={setPage}
           pageSize={pageSize}

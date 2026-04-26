@@ -381,7 +381,7 @@ export function ProfilePage() {
           ) : activityQuery.error ? (
             <p className="text-sm text-muted-foreground">Failed to load activity.</p>
           ) : (
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4">
               <Card className="border-2">
                 <CardHeader>
                   <CardTitle className="text-sm font-black uppercase">Recent stories</CardTitle>
@@ -395,44 +395,6 @@ export function ProfilePage() {
                     ))
                   ) : (
                     <p className="text-muted-foreground">No stories yet.</p>
-                  )}
-                </CardContent>
-              </Card>
-
-              <Card className="border-2">
-                <CardHeader>
-                  <CardTitle className="text-sm font-black uppercase">Recent comments</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2 text-sm">
-                  {activityQuery.data?.recentComments.length ? (
-                    activityQuery.data.recentComments.map((comment) => (
-                      <div key={comment.id} className="border-2 p-2">
-                        {comment.content}
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-muted-foreground">No comments yet.</p>
-                  )}
-                </CardContent>
-              </Card>
-
-              <Card className="border-2">
-                <CardHeader>
-                  <CardTitle className="text-sm font-black uppercase">Bookmarks</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2 text-sm">
-                  {activityQuery.data?.bookmarks.length ? (
-                    activityQuery.data.bookmarks.map((bookmark) => (
-                      <Link
-                        key={bookmark.id}
-                        href={`/stories/${bookmark.story.id}`}
-                        className="block border-2 p-2 hover:border-primary/40"
-                      >
-                        {bookmark.story.title}
-                      </Link>
-                    ))
-                  ) : (
-                    <p className="text-muted-foreground">No bookmarks yet.</p>
                   )}
                 </CardContent>
               </Card>

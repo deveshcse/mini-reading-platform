@@ -1,11 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { StoriesMeta, Story } from "@/features/stories/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import {
   Pagination,
   PaginationContent,
@@ -33,8 +44,12 @@ import {
   ChevronLeft,
   ChevronRight,
   UsersRound,
+  Trash2,
+  Pencil,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Can } from "@/shared/components/can";
+import { useDeleteStory } from "@/features/stories/hooks/use-stories";
 
 const DEFAULT_PAGE_SIZE_OPTIONS = [6, 9, 12, 24] as const;
 
@@ -51,6 +66,209 @@ export interface StoryListProps {
   pageSize?: number;
   onPageSizeChange?: (pageSize: number) => void;
   pageSizeOptions?: readonly number[];
+  enableDeleteAction?: boolean;
+}
+
+interface StoryCardProps {
+  story: Story;
+  enableDeleteAction: boolean;
+}
+
+function StoryCard({ story, enableDeleteAction }: StoryCardProps) {
+  const router = useRouter();
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const deleteStoryMutation = useDeleteStory(story.id);
+  const author = story.author;
+  const isPremium = story.isPremium;
+  const teaser = story.description?.trim() || null;
+
+  return (
+    <li key={story.id}>
+      <Link href={`/stories/${story.id}`} className="block h-full group">
+        <article
+          className={cn(
+            "flex h-full flex-col overflow-hidden border-2 transition-colors",
+            isPremium
+              ? "border-amber-500/40 bg-amber-500/5 hover:border-amber-500/70"
+              : "border-border bg-card hover:border-primary/50"
+          )}
+        >
+          {/* Cover image */}
+          {story.coverImage && (
+            <div className="relative aspect-video w-full overflow-hidden border-b-2 border-inherit bg-muted">
+              <Image
+                src={story.coverImage}
+                alt=""
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+          )}
+
+          {/* Card body */}
+          <div className="flex flex-1 flex-col gap-3 p-4">
+            {/* Badges — fixed min height so free/paid cards align when only premium shows a badge */}
+            <div className="flex min-h-6 items-center gap-1.5">
+              <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
+                {!story.isPublished && (
+                  <Badge
+                    variant="secondary"
+                    className="rounded-none text-[9px] font-black uppercase h-5"
+                  >
+                    Draft
+                  </Badge>
+                )}
+                {isPremium ? (
+                  <Badge className="rounded-none border-2 border-amber-600/40 bg-amber-500/15 text-amber-900 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-100 h-5">
+                    <span className="flex items-center gap-1 text-[9px] font-black uppercase">
+                      <BookMarked className="size-3" aria-hidden />
+                      Premium
+                    </span>
+                  </Badge>
+                ) : (
+                  <Badge className="rounded-none border-2 border-primary/35 bg-primary/10 text-foreground dark:border-primary/40 dark:bg-primary/15 h-5">
+                    <span className="flex items-center gap-1 text-[9px] font-black uppercase">
+                      <UsersRound className="size-3 text-primary" aria-hidden />
+                      Community
+                    </span>
+                  </Badge>
+                )}
+              </div>
+              {enableDeleteAction && (
+                <div className="flex items-center gap-1">
+                  <Can resource="story" action="update">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon-xs"
+                          className="shrink-0 border-2"
+                          aria-label={`Edit ${story.title}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            router.push(`/stories/edit/${story.id}`);
+                          }}
+                        >
+                          <Pencil className="size-3.5" aria-hidden />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent side="left">Edit story</TooltipContent>
+                    </Tooltip>
+                  </Can>
+
+                  <Can resource="story" action="delete">
+                    <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="icon-xs"
+                            className="shrink-0"
+                            aria-label={`Delete ${story.title}`}
+                            disabled={deleteStoryMutation.isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setIsDeleteOpen(true);
+                            }}
+                          >
+                            <Trash2 className="size-3.5" aria-hidden />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="left">Delete story</TooltipContent>
+                      </Tooltip>
+                      <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete this story?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This removes <span className="font-semibold">{story.title}</span> from your archive.
+                            This action cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            variant="destructive"
+                            onClick={async (e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              await deleteStoryMutation.mutateAsync();
+                              setIsDeleteOpen(false);
+                            }}
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </Can>
+                </div>
+              )}
+            </div>
+
+            {/* Title */}
+            <h2
+              className={cn(
+                "line-clamp-2 min-h-11 text-base font-semibold leading-snug tracking-tight transition-colors",
+                isPremium
+                  ? "text-amber-950 dark:text-amber-100 group-hover:text-amber-800 dark:group-hover:text-amber-200"
+                  : "text-foreground group-hover:text-primary"
+              )}
+            >
+              {story.title}
+            </h2>
+
+            {/* Author */}
+            {author && (
+              <p className="text-xs text-muted-foreground">
+                {author.firstName} {author.lastName}
+              </p>
+            )}
+
+            {/* Teaser or premium placeholder */}
+            <p
+              className={cn(
+                "line-clamp-3 flex-1 text-sm leading-relaxed",
+                isPremium
+                  ? "text-primary/90 dark:text-primary"
+                  : "text-muted-foreground"
+              )}
+            >
+              {teaser ?? (
+                isPremium
+                  ? "Open the story for a short preview; subscribers see the full text."
+                  : null
+              )}
+            </p>
+
+            {/* CTA row */}
+            <p
+              className={cn(
+                "mt-auto flex items-center gap-1.5 pt-2 text-xs font-medium transition-colors",
+                isPremium
+                  ? "text-amber-800 dark:text-amber-300 group-hover:text-amber-700 dark:group-hover:text-amber-200"
+                  : "text-muted-foreground group-hover:text-primary"
+              )}
+            >
+              {isPremium ? (
+                <>
+                  <Lock className="size-3.5 shrink-0 text-primary" aria-hidden />
+                  Preview
+                </>
+              ) : (
+                "Read"
+              )}
+              <ArrowRight className="size-3 ml-auto transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </p>
+          </div>
+        </article>
+      </Link>
+    </li>
+  );
 }
 
 export function StoryList({
@@ -64,6 +282,7 @@ export function StoryList({
   pageSize,
   onPageSizeChange,
   pageSizeOptions = DEFAULT_PAGE_SIZE_OPTIONS,
+  enableDeleteAction = false,
 }: StoryListProps) {
   if (isLoading) {
     return (
@@ -111,125 +330,13 @@ export function StoryList({
 
   const list = (
     <ul className={gridClass}>
-      {stories.map((story) => {
-        const author = story.author;
-        const isPremium = story.isPremium;
-        const teaser = story.description?.trim() || null;
-
-        return (
-          <li key={story.id}>
-            <Link href={`/stories/${story.id}`} className="block h-full group">
-              <article
-                className={cn(
-                  "flex h-full flex-col overflow-hidden border-2 transition-colors",
-                  isPremium
-                    ? "border-amber-500/40 bg-amber-500/5 hover:border-amber-500/70"
-                    : "border-border bg-card hover:border-primary/50"
-                )}
-              >
-                {/* Cover image */}
-                {story.coverImage && (
-                  <div className="relative aspect-video w-full overflow-hidden border-b-2 border-inherit bg-muted">
-                    <Image
-                      src={story.coverImage}
-                      alt=""
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
-                )}
-
-                {/* Card body */}
-                <div className="flex flex-1 flex-col gap-3 p-4">
-
-                  {/* Badges — fixed min height so free/paid cards align when only premium shows a badge */}
-                  <div className="flex min-h-6 flex-wrap items-center gap-1.5">
-                    {!story.isPublished && (
-                      <Badge
-                        variant="secondary"
-                        className="rounded-none text-[9px] font-black uppercase h-5"
-                      >
-                        Draft
-                      </Badge>
-                    )}
-                    {isPremium ? (
-                      <Badge className="rounded-none border-2 border-amber-600/40 bg-amber-500/15 text-amber-900 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-100 h-5">
-                        <span className="flex items-center gap-1 text-[9px] font-black uppercase">
-                          <BookMarked className="size-3" aria-hidden />
-                          Premium
-                        </span>
-                      </Badge>
-                    ) : (
-                      <Badge className="rounded-none border-2 border-primary/35 bg-primary/10 text-foreground dark:border-primary/40 dark:bg-primary/15 h-5">
-                        <span className="flex items-center gap-1 text-[9px] font-black uppercase">
-                          <UsersRound className="size-3 text-primary" aria-hidden />
-                          Community
-                        </span>
-                      </Badge>
-                    )}
-                  </div>
-
-                  {/* Title */}
-                  <h2
-                    className={cn(
-                      "line-clamp-2 text-base font-semibold leading-snug tracking-tight transition-colors",
-                      isPremium
-                        ? "text-amber-950 dark:text-amber-100 group-hover:text-amber-800 dark:group-hover:text-amber-200"
-                        : "text-foreground group-hover:text-primary"
-                    )}
-                  >
-                    {story.title}
-                  </h2>
-
-                  {/* Author */}
-                    {author && (
-                    <p className="text-xs text-muted-foreground">
-                      {author.firstName} {author.lastName}
-                    </p>
-                  )}
-
-                  {/* Teaser or premium placeholder */}
-                  <p
-                    className={cn(
-                      "line-clamp-3 flex-1 text-sm leading-relaxed",
-                      isPremium
-                        ? "text-primary/90 dark:text-primary"
-                        : "text-muted-foreground"
-                    )}
-                  >
-                    {teaser ?? (
-                      isPremium
-                        ? "Open the story for a short preview; subscribers see the full text."
-                        : null
-                    )}
-                  </p>
-
-                  {/* CTA row */}
-                  <p
-                    className={cn(
-                      "mt-auto flex items-center gap-1.5 pt-2 text-xs font-medium transition-colors",
-                      isPremium
-                        ? "text-amber-800 dark:text-amber-300 group-hover:text-amber-700 dark:group-hover:text-amber-200"
-                        : "text-muted-foreground group-hover:text-primary"
-                    )}
-                  >
-                    {isPremium ? (
-                      <>
-                        <Lock className="size-3.5 shrink-0 text-primary" aria-hidden />
-                        Preview
-                      </>
-                    ) : (
-                      "Read"
-                    )}
-                    <ArrowRight className="size-3 ml-auto transition-transform group-hover:translate-x-0.5" aria-hidden />
-                  </p>
-                </div>
-              </article>
-            </Link>
-          </li>
-        );
-      })}
+      {stories.map((story) => (
+        <StoryCard
+          key={story.id}
+          story={story}
+          enableDeleteAction={enableDeleteAction}
+        />
+      ))}
     </ul>
   );
 

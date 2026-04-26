@@ -20,6 +20,11 @@ function hasVisibleText(html: string): boolean {
   return text.length > 0;
 }
 
+function normalizeDescription(s: string): string | undefined {
+  const trimmed = s.trim();
+  return trimmed === "" ? undefined : trimmed;
+}
+
 const storyContentField = z
   .string()
   .refine((html) => hasVisibleText(html), "Content is required");
@@ -28,8 +33,15 @@ export const createStorySchema = z.object({
   title: z.string().min(1, "Title is required").max(255),
   description: z
     .string()
+    .refine(
+      (s) => {
+        const value = normalizeDescription(s);
+        return value === undefined || value.length >= 150;
+      },
+      "Description must be at least 150 characters"
+    )
     .max(1000)
-    .transform((s) => s.trim() || undefined),
+    .transform(normalizeDescription),
   content: storyContentField,
   coverImage: optionalCover,
   isPublished: z.boolean().default(false),
@@ -42,7 +54,19 @@ export type CreateStoryFormValues = z.input<typeof createStorySchema>;
 /** Partial for PATCH; still validate `content` when present (non-empty HTML). */
 export const updateStorySchema = z.object({
   title: z.string().min(1, "Title is required").max(255).optional(),
-  description: z.string().max(1000).optional().transform((s) => s?.trim() || undefined),
+  description: z
+    .string()
+    .max(1000)
+    .optional()
+    .refine(
+      (s) => {
+        if (s === undefined) return true;
+        const value = normalizeDescription(s);
+        return value === undefined || value.length >= 150;
+      },
+      "Description must be at least 150 characters"
+    )
+    .transform((s) => (s === undefined ? undefined : normalizeDescription(s))),
   content: z
     .string()
     .optional()
