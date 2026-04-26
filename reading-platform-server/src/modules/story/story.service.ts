@@ -9,6 +9,19 @@ import {
 } from "./story.schema.js";
 
 const noStories: Prisma.StoryWhereInput = { id: { in: [] } };
+const PREMIUM_TEASER_CHARS = 200;
+
+async function hasActiveSubscription(userId: number): Promise<boolean> {
+  const row = await prisma.subscription.findFirst({
+    where: {
+      userId,
+      status: "ACTIVE",
+      endDate: { gt: new Date() },
+    },
+    select: { id: true },
+  });
+  return row != null;
+}
 
 /**
  * Create a new story
@@ -44,7 +57,10 @@ export async function getStories(
   if (isAdmin) {
     if (authorId !== undefined) where.authorId = authorId;
     if (isPublished !== undefined) where.isPublished = isPublished;
-  } else if (isPublished === false) {
+  } else if (isPublished === false && requesterRole !== Role.READER) {
+    // "Unpublished only" = current user's drafts (authors / admin). READER has no
+    // drafts; if the client sends isPublished=false (common UI default), use the
+    // main discovery branch below instead of returning an empty list.
     if (requesterId === undefined) {
       Object.assign(where, noStories);
     } else if (authorId !== undefined && authorId !== requesterId) {
@@ -75,7 +91,7 @@ export async function getStories(
     }
   }
 
-  const [total, stories] = await Promise.all([
+  const [total, rows] = await Promise.all([
     prisma.story.count({ where }),
     prisma.story.findMany({
       where,
@@ -89,6 +105,28 @@ export async function getStories(
       },
     }),
   ]);
+
+  const hasSub =
+    requesterId != null ? await hasActiveSubscription(requesterId) : false;
+
+  const stories = rows.map((s) => {
+    const isAuthor = requesterId != null && s.authorId === requesterId;
+    if (!s.isPremium || isAdmin || isAuthor) {
+      return { ...s, isLocked: false };
+    }
+    if (hasSub) {
+      return { ...s, isLocked: false };
+    }
+    const c = s.content;
+    return {
+      ...s,
+      isLocked: true,
+      content:
+        c.length <= PREMIUM_TEASER_CHARS
+          ? c
+          : c.substring(0, PREMIUM_TEASER_CHARS) + "...",
+    };
+  });
 
   return {
     stories,
@@ -135,23 +173,15 @@ export async function getStoryById(
   let content = story.content;
 
   if (story.isPremium && !isAdmin && !isAuthor) {
-    let hasSubscription = false;
-
-    if (requesterId) {
-      const activeSubscription = await prisma.subscription.findFirst({
-        where: {
-          userId: requesterId,
-          status: "ACTIVE",
-          endDate: { gt: new Date() },
-        },
-      });
-      if (activeSubscription) hasSubscription = true;
-    }
+    const hasSubscription =
+      requesterId != null ? await hasActiveSubscription(requesterId) : false;
 
     if (!hasSubscription) {
       isLocked = true;
       content =
-        content.length <= 200 ? content : content.substring(0, 200) + "...";
+        content.length <= PREMIUM_TEASER_CHARS
+          ? content
+          : content.substring(0, PREMIUM_TEASER_CHARS) + "...";
     }
   }
 
