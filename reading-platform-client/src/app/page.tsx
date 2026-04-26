@@ -30,11 +30,11 @@ export default function Page() {
 
             <div className="flex w-full flex-wrap items-center justify-center gap-4 sm:w-auto">
               <Button asChild size="lg" className="h-12 min-w-[160px] px-8">
-                <Link href="/register">Start Reading</Link>
+                <Link href="/auth/register">Start Reading</Link>
               </Button>
 
               <Button asChild variant="outline" size="lg" className="h-12 min-w-[160px] px-8">
-                <Link href="/login">Sign In</Link>
+                <Link href="/auth/login">Sign In</Link>
               </Button>
             </div>
 
