@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import Script from "next/script";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Can } from "@/shared/components/can";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,7 @@ import {
   type Plan,
 } from "@/features/plans/types";
 import apiClient from "@/shared/api/api-client";
+import { cn } from "@/lib/utils";
 
 interface RazorpayInstance {
   open: () => void;
@@ -229,12 +230,14 @@ export function PlansSubscriptionPage() {
 
       <div className="space-y-8">
         <section className="text-center">
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Plans</p>
-          <h1 className="mt-2 text-3xl font-black uppercase tracking-tight sm:text-4xl">
-            Choose your subscription
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            Subscription
+          </p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Choose a plan
           </h1>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground">
-            Pick a plan, then pay securely using Razorpay checkout.
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+            Select the billing option that fits you. Checkout is handled securely by Razorpay.
           </p>
         </section>
 
@@ -249,23 +252,28 @@ export function PlansSubscriptionPage() {
             </CardContent>
           </Card>
         ) : (
-          <section className="grid grid-cols-1 gap-5 md:gap-10 md:grid-cols-2">
+          <section className="flex flex-wrap justify-center gap-6">
             {activePlans.map((plan) => {
               const selected = selectedPlan?.id === plan.id;
               const paying = payingPlanId === plan.id;
               return (
                 <Card
                   key={plan.id}
-                  className={selected ? "border-2 border-primary ring-2 ring-primary/20" : "border-2"}
+                  className={cn(
+                    "w-full max-w-sm border transition-colors",
+                    selected ? "border-primary/50 ring-1 ring-primary/15" : "border-border"
+                  )}
                 >
                   <CardHeader>
-                    <CardTitle className="text-xl font-black uppercase">{plan.name}</CardTitle>
-                    <CardDescription>{plan.description || "Premium access to paid stories."}</CardDescription>
+                    <CardTitle className="text-lg font-semibold tracking-tight">{plan.name}</CardTitle>
+                    <CardDescription>
+                      {plan.description || "Access paid stories and full reading on premium titles."}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <p className="text-3xl font-black">
+                    <p className="text-2xl font-semibold tracking-tight">
                       {formatPrice(plan.price, plan.currency)}
-                      <span className="ml-1 text-xs font-bold uppercase text-muted-foreground">
+                      <span className="ml-1 text-xs font-medium text-muted-foreground">
                         / {intervalLabel(plan.interval, plan.intervalCount)}
                       </span>
                     </p>
@@ -273,7 +281,8 @@ export function PlansSubscriptionPage() {
                       <Button
                         type="button"
                         variant={selected ? "default" : "outline"}
-                        className="rounded-none border-2 font-bold uppercase"
+                        size="sm"
+                        className="w-full font-medium"
                         onClick={() => setSelectedPlanId(plan.id)}
                       >
                         {selected ? "Selected" : "Select plan"}
@@ -281,9 +290,10 @@ export function PlansSubscriptionPage() {
                       {selected && (
                         <Button
                           type="button"
+                          size="sm"
                           onClick={() => void openCheckout()}
                           disabled={!scriptReady || Boolean(payingPlanId)}
-                          className="rounded-none border-2 font-black uppercase tracking-widest"
+                          className="w-full font-medium"
                         >
                           {paying ? (
                             <>
@@ -291,10 +301,7 @@ export function PlansSubscriptionPage() {
                               Processing...
                             </>
                           ) : (
-                            <>
-                              <Sparkles className="size-4" aria-hidden />
-                              Pay with Razorpay
-                            </>
+                            "Subscribe"
                           )}
                         </Button>
                       )}

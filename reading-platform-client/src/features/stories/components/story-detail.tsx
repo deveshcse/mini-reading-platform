@@ -118,6 +118,7 @@ export function StoryDetail({ story, className }: StoryDetailProps) {
 
   const isPaywalled = story.isPremium && story.isLocked;
   const hasFullPremiumAccess = story.isPremium && !story.isLocked;
+  const premiumAccessLabel = story.isPremium ? "Premium access" : "Standard access";
 
   return (
     <article
@@ -135,24 +136,25 @@ export function StoryDetail({ story, className }: StoryDetailProps) {
           )}
           {story.isPremium && (
             <Badge
+              variant="outline"
               className={cn(
-                "rounded-none text-[10px] font-black uppercase gap-1.5 h-6 border-2",
+                "h-6 gap-1.5 rounded-none border text-[10px] font-semibold uppercase",
                 hasFullPremiumAccess
-                  ? "border-emerald-600/40 bg-emerald-500/10 text-emerald-900 dark:text-emerald-100"
-                  : "border-amber-500/40 bg-amber-500/10 text-amber-900 dark:text-amber-100"
+                  ? "border-primary/40 text-foreground"
+                  : "border-muted-foreground/35 text-muted-foreground"
               )}
             >
               {hasFullPremiumAccess ? (
-                <CheckCircle2 className="size-3" aria-hidden />
+                <CheckCircle2 className="size-3 text-primary" aria-hidden />
               ) : (
                 <BookMarked className="size-3" aria-hidden />
               )}
-              {hasFullPremiumAccess ? "Full access" : "Premium"}
+              {hasFullPremiumAccess ? premiumAccessLabel : "Premium"}
             </Badge>
           )}
         </div>
 
-        <h1 className="text-3xl font-black uppercase leading-none tracking-tighter italic sm:text-4xl md:text-5xl">
+        <h1 className="text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl md:text-5xl">
           {story.title}
         </h1>
 
@@ -235,9 +237,9 @@ export function StoryDetail({ story, className }: StoryDetailProps) {
 
       {/* ── Full-access confirmation ───────────────────────────────────────── */}
       {hasFullPremiumAccess && (
-        <p className="flex items-center justify-center gap-2 border-2 border-emerald-500/20 bg-emerald-500/5 py-3 text-center text-xs font-bold uppercase tracking-widest text-emerald-800/90 dark:text-emerald-200/90">
-          <CheckCircle2 className="size-4 text-emerald-600" aria-hidden />
-          You&apos;re reading the full premium edition.
+        <p className="flex items-center justify-center gap-2 border border-primary/20 bg-muted/40 py-3 text-center text-sm text-muted-foreground">
+          <CheckCircle2 className="size-4 shrink-0 text-primary" aria-hidden />
+          You have {premiumAccessLabel.toLowerCase()} to this story.
         </p>
       )}
     </article>

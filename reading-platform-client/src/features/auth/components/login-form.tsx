@@ -12,7 +12,6 @@ import {
 import {
   Field,
   FieldError,
-  FieldDescription,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field"
@@ -106,12 +105,8 @@ export function LoginForm({
                 <FieldError>{errors.password?.message}</FieldError>
               </Field>
               <Field className="pt-2">
-                <Button 
-                  type="submit" 
-                  disabled={isLoggingIn}
-                  className="w-full rounded-none h-11 font-bold transition-all hover:bg-primary/90 hover:translate-y-[-1px] active:translate-y-[0px]"
-                >
-                  <LogIn className="mr-2 size-4" />
+                <Button type="submit" size="sm" disabled={isLoggingIn} className="w-full rounded-md font-medium">
+                  <LogIn className="mr-2 hidden size-4 sm:inline" aria-hidden />
                   {isLoggingIn ? "Signing in..." : "Sign in"}
                 </Button>
                 <p className="text-center text-sm text-muted-foreground pt-4">

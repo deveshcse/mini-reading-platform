@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import Link from "next/link"
 import React, { useState } from "react"
-import { Eye, EyeOff, User, BookOpen, PenTool, Mail, Lock } from "lucide-react"
+import { Eye, EyeOff, User, Mail, Lock } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { registerSchema, RegisterInput } from "@/features/auth/schema/auth-schema"
@@ -149,25 +149,25 @@ export function SignupForm({ className, ...props }: React.ComponentProps<typeof 
             <FieldError>{errors["confirm-password"]?.message}</FieldError>
           </Field>
 
-          <div className="grid grid-cols-2 gap-4 pt-2">
+          <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:gap-3">
             <Button
               type="submit"
+              size="sm"
               disabled={isRegistering}
               onClick={() => handleSignupAs("READER")}
-              className="rounded-none h-11 font-bold transition-all hover:bg-primary/90 hover:-translate-y-px active:translate-y-0"
+              className="w-full font-medium sm:flex-1"
             >
-              <BookOpen className="mr-2 size-4" />
-              {isRegistering ? "Wait..." : "Sign up as Reader"}
+              {isRegistering ? "Please wait…" : "Sign up as reader"}
             </Button>
             <Button
               type="submit"
               variant="outline"
+              size="sm"
               disabled={isRegistering}
               onClick={() => handleSignupAs("AUTHOR")}
-              className="rounded-none h-11 font-bold border-2 transition-all hover:bg-accent hover:-translate-y-px active:translate-y-0"
+              className="w-full font-medium sm:flex-1"
             >
-              <PenTool className="mr-2 size-4" />
-              {isRegistering ? "Wait..." : "Sign up as Author"}
+              {isRegistering ? "Please wait…" : "Sign up as author"}
             </Button>
           </div>
 

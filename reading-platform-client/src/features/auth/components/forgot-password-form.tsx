@@ -58,10 +58,10 @@ export function ForgotPasswordForm({
           <p className="text-sm text-muted-foreground">
             The link will expire in 1 hour. Please check your spam folder if you don&apos;t see it.
           </p>
-          <Button asChild variant="outline" className="mt-2 rounded-none h-11 border-2 font-bold transition-all hover:bg-accent hover:translate-y-[-1px]">
+          <Button asChild variant="outline" size="sm" className="mt-2 w-full rounded-md font-medium sm:w-auto">
             <Link href="/auth/login">
-              <ChevronLeft className="mr-2 size-4" />
-              Back to Login
+              <ChevronLeft className="mr-2 size-4" aria-hidden />
+              Back to sign in
             </Link>
           </Button>
         </CardContent>
@@ -97,12 +97,8 @@ export function ForgotPasswordForm({
                 <FieldError>{errors.email?.message}</FieldError>
               </Field>
               <Field className="pt-2">
-                <Button 
-                  type="submit" 
-                  disabled={isForgetting} 
-                  className="w-full rounded-none h-11 font-bold transition-all hover:bg-primary/90 hover:translate-y-[-1px] active:translate-y-[0px]"
-                >
-                  {isForgetting ? "Sending link..." : "Send Reset Link"}
+                <Button type="submit" size="sm" disabled={isForgetting} className="w-full rounded-md font-medium">
+                  {isForgetting ? "Sending link..." : "Send reset link"}
                 </Button>
                 <div className="text-center pt-4">
                   <Link 

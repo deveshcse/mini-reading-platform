@@ -120,10 +120,10 @@ export function StoryList({
             <Link href={`/stories/${story.id}`} className="block h-full group">
               <article
                 className={cn(
-                  "flex h-full flex-col overflow-hidden border-2 transition-colors",
+                  "flex h-full flex-col overflow-hidden border transition-colors",
                   isPremium
-                    ? "border-amber-500/40 bg-amber-500/5 hover:border-amber-500/70"
-                    : "border-border bg-card hover:border-primary/50"
+                    ? "border-primary/20 bg-primary/[0.03] hover:border-primary/35"
+                    : "border-border bg-card hover:border-primary/30"
                 )}
               >
                 {/* Cover image */}
@@ -153,9 +153,12 @@ export function StoryList({
                       </Badge>
                     )}
                     {isPremium && (
-                      <Badge className="rounded-none border-2 border-amber-600/40 bg-amber-500/15 text-amber-900 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-100 h-5">
-                        <span className="flex items-center gap-1 text-[9px] font-black uppercase">
-                          <BookMarked className="size-3" aria-hidden />
+                      <Badge
+                        variant="outline"
+                        className="h-5 rounded-none border-primary/40 text-[10px] font-semibold uppercase text-foreground"
+                      >
+                        <span className="flex items-center gap-1">
+                          <BookMarked className="size-3 text-primary" aria-hidden />
                           Premium
                         </span>
                       </Badge>
@@ -165,52 +168,42 @@ export function StoryList({
                   {/* Title */}
                   <h2
                     className={cn(
-                      "line-clamp-2 text-base font-black uppercase leading-tight tracking-tight transition-colors",
-                      isPremium
-                        ? "text-amber-950 dark:text-amber-100 group-hover:text-amber-800 dark:group-hover:text-amber-200"
-                        : "group-hover:text-primary"
+                      "line-clamp-2 text-base font-semibold leading-snug tracking-tight transition-colors text-foreground",
+                      "group-hover:text-primary"
                     )}
                   >
                     {story.title}
                   </h2>
 
                   {/* Author */}
-                  {author && (
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                    {author && (
+                    <p className="text-xs text-muted-foreground">
                       {author.firstName} {author.lastName}
                     </p>
                   )}
 
                   {/* Teaser or premium placeholder */}
                   <p
-                    className={cn(
-                      "line-clamp-3 flex-1 text-xs leading-relaxed",
-                      isPremium ? "text-foreground/70" : "text-muted-foreground"
-                    )}
+                    className="line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground"
                   >
                     {teaser ?? (
                       isPremium
-                        ? "Subscribers only. Open to read a free preview."
+                        ? "Premium — open the story for a short preview."
                         : null
                     )}
                   </p>
 
                   {/* CTA row */}
                   <p
-                    className={cn(
-                      "mt-auto flex items-center gap-1 pt-1 text-[10px] font-black uppercase tracking-widest transition-colors",
-                      isPremium
-                        ? "text-amber-700 dark:text-amber-300 group-hover:text-amber-600"
-                        : "text-muted-foreground group-hover:text-primary"
-                    )}
+                    className="mt-auto flex items-center gap-1.5 pt-2 text-xs font-medium text-muted-foreground transition-colors group-hover:text-primary"
                   >
                     {isPremium ? (
                       <>
-                        <Lock className="size-3" aria-hidden />
-                        Read preview
+                        <Lock className="size-3.5 shrink-0" aria-hidden />
+                        Preview
                       </>
                     ) : (
-                      "Read story"
+                      "Read"
                     )}
                     <ArrowRight className="size-3 ml-auto transition-transform group-hover:translate-x-0.5" aria-hidden />
                   </p>

@@ -117,12 +117,8 @@ export function ResetPasswordForm({
               </Field>
 
               <Field className="pt-2">
-                <Button 
-                  type="submit" 
-                  disabled={isResetting} 
-                  className="w-full rounded-none h-11 font-bold transition-all hover:bg-primary/90 hover:translate-y-[-1px] active:translate-y-[0px]"
-                >
-                  {isResetting ? "Updating..." : "Reset Password"}
+                <Button type="submit" size="sm" disabled={isResetting} className="w-full rounded-md font-medium">
+                  {isResetting ? "Updating..." : "Reset password"}
                 </Button>
               </Field>
             </FieldGroup>

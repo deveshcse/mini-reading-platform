@@ -5,6 +5,7 @@ import { useAuthContext } from "@/features/auth/components/auth-provider"
 import { Button } from "@/components/ui/button"
 import { LogOut, Menu, User as UserIcon } from "lucide-react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Can } from "@/shared/components/can"
 import { dashboardHeaderShell } from "@/shared/lib/dashboard-shell"
 import {
@@ -25,8 +26,10 @@ export interface HeaderProps {
 
 export function Header({ variant = "default" }: HeaderProps) {
   const { user, logout, isLoading } = useAuthContext()
+  const pathname = usePathname()
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const isPublic = variant === "public"
+  const isSubscribeRoute = pathname === "/subscribe"
 
   const closeMobile = () => setMobileNavOpen(false)
 
@@ -75,9 +78,13 @@ export function Header({ variant = "default" }: HeaderProps) {
           </Can>
           <Link
             href="/subscribe"
-            className="shrink-0 transition-colors hover:text-primary"
+            className={cn(
+              "shrink-0 transition-colors hover:text-primary",
+              isSubscribeRoute && "text-foreground"
+            )}
+            aria-current={isSubscribeRoute ? "page" : undefined}
           >
-            Plans
+            Subscription
           </Link>
           {user && (
             <Link
@@ -91,11 +98,11 @@ export function Header({ variant = "default" }: HeaderProps) {
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2 md:gap-3">
           {user && !isPublic && (
-            <div className="hidden items-center gap-2 text-xs font-bold md:flex md:text-sm">
-              <div className="flex size-8 items-center justify-center border-2 border-muted-foreground/20 bg-muted sm:size-9">
-                <UserIcon className="size-3.5 text-muted-foreground sm:size-4" />
+            <div className="hidden items-center gap-2 text-xs font-medium md:flex">
+              <div className="flex size-7 items-center justify-center rounded-md border border-border bg-muted/60">
+                <UserIcon className="size-3.5 text-muted-foreground" aria-hidden />
               </div>
-              <span className="max-w-25 truncate uppercase tracking-tight lg:max-w-35">
+              <span className="max-w-25 truncate text-foreground lg:max-w-35">
                 {user.firstName} {user.lastName}
               </span>
             </div>
@@ -113,19 +120,10 @@ export function Header({ variant = "default" }: HeaderProps) {
 
           {showGuestAuth && (
             <div className="hidden items-center gap-2 md:flex">
-              <Button
-                asChild
-                variant="outline"
-                size="sm"
-                className="h-9 rounded-none border-2 px-3 font-bold sm:h-10 sm:px-4"
-              >
+              <Button asChild variant="outline" size="sm" className="rounded-md font-medium">
                 <Link href="/auth/register">Register</Link>
               </Button>
-              <Button
-                asChild
-                size="sm"
-                className="h-9 rounded-none border-2 border-primary px-3 font-bold sm:h-10 sm:px-4"
-              >
+              <Button asChild size="sm" className="rounded-md font-medium">
                 <Link href="/auth/login">Sign in</Link>
               </Button>
             </div>
@@ -137,9 +135,9 @@ export function Header({ variant = "default" }: HeaderProps) {
               variant="outline"
               size="sm"
               onClick={() => void logout()}
-              className="hidden h-9 gap-1.5 rounded-none border-2 border-destructive/40 bg-background px-2.5 font-bold text-destructive transition-colors hover:border-destructive hover:text-destructive active:border-destructive/90 active:text-destructive/90 md:inline-flex sm:h-10 sm:gap-2 sm:px-4"
+              className="hidden gap-1.5 rounded-md border-destructive/35 text-destructive md:inline-flex"
             >
-              <LogOut className="size-3.5 shrink-0 text-inherit sm:size-4" aria-hidden />
+              <LogOut className="size-3.5 shrink-0" aria-hidden />
               <span className="hidden sm:inline">Logout</span>
             </Button>
           )}
@@ -150,8 +148,8 @@ export function Header({ variant = "default" }: HeaderProps) {
                 <Button
                   type="button"
                   variant="outline"
-                  size="icon-lg"
-                  className="shrink-0 rounded-none border-2"
+                  size="icon-sm"
+                  className="shrink-0 rounded-md border"
                   aria-label="Open menu"
                 >
                   <Menu className="size-5" aria-hidden />
@@ -204,7 +202,7 @@ export function Header({ variant = "default" }: HeaderProps) {
                     onClick={closeMobile}
                     className="rounded-none border-2 border-transparent px-3 py-3 text-xs font-black uppercase tracking-widest transition-colors hover:border-primary/30 hover:bg-muted/50"
                   >
-                    Plans
+                    Subscription
                   </Link>
                   {user && (
                     <Link
@@ -239,13 +237,14 @@ export function Header({ variant = "default" }: HeaderProps) {
                     <Button
                       type="button"
                       variant="outline"
-                      className="h-11 w-full rounded-none border-2 border-destructive/40 bg-background font-bold text-destructive transition-colors hover:border-destructive hover:text-destructive active:border-destructive/90 active:text-destructive/90"
+                      size="sm"
+                      className="w-full rounded-md border-destructive/35 font-medium text-destructive"
                       onClick={() => {
                         closeMobile()
                         void logout()
                       }}
                     >
-                      <LogOut className="size-4 shrink-0 text-inherit" aria-hidden />
+                      <LogOut className="size-3.5 shrink-0" aria-hidden />
                       Logout
                     </Button>
                   </SheetFooter>
@@ -253,7 +252,8 @@ export function Header({ variant = "default" }: HeaderProps) {
                   <SheetFooter className="flex flex-col gap-2 border-t-2 border-border p-4">
                     <Button
                       asChild
-                      className="h-11 w-full rounded-none border-2 font-bold"
+                      size="sm"
+                      className="w-full rounded-md font-medium"
                     >
                       <Link href="/auth/login" onClick={closeMobile}>
                         Sign in
