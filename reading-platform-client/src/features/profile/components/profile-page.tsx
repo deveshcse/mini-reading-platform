@@ -15,6 +15,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useProfileActivity, useProfileMe, useProfilePayments, useProfileSubscriptions } from "@/features/profile/hooks/use-profile";
+import type {
+  ProfilePayment,
+  ProfilePaymentSubscription,
+  ProfileSubscription,
+} from "@/features/profile/types";
 
 function dateFmt(value: string) {
   return new Date(value).toLocaleString();
@@ -22,6 +27,157 @@ function dateFmt(value: string) {
 
 function moneyFmt(amount: number, currency: string) {
   return new Intl.NumberFormat("en-IN", { style: "currency", currency }).format(amount);
+}
+
+function intervalFmt(interval: string, intervalCount: number) {
+  const i = interval.toLowerCase();
+  return intervalCount > 1 ? `${intervalCount} ${i}` : i;
+}
+
+function DetailRows({ rows }: { rows: { label: string; value: React.ReactNode }[] }) {
+  return (
+    <dl className="grid gap-2 sm:grid-cols-[minmax(7.5rem,auto)_1fr] sm:gap-x-4">
+      {rows.map(({ label, value }) => (
+        <React.Fragment key={label}>
+          <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</dt>
+          <dd className="min-w-0 text-sm wrap-break-word text-foreground">{value}</dd>
+        </React.Fragment>
+      ))}
+    </dl>
+  );
+}
+
+function SubscriptionPaymentsTable({ payments }: { payments: ProfilePayment[] }) {
+  if (!payments.length) return null;
+  return (
+    <div className="space-y-2 overflow-x-auto">
+      <p className="text-xs font-black uppercase tracking-wide text-muted-foreground">Payments for this subscription</p>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Date</TableHead>
+            <TableHead>Amount</TableHead>
+            <TableHead>Provider</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Razorpay payment</TableHead>
+            <TableHead>Order</TableHead>
+            <TableHead>Notes</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {payments.map((p) => (
+            <TableRow key={p.id}>
+              <TableCell className="whitespace-nowrap text-xs">{dateFmt(p.createdAt)}</TableCell>
+              <TableCell className="whitespace-nowrap text-xs">{moneyFmt(p.amount, p.currency)}</TableCell>
+              <TableCell className="text-xs">{p.provider}</TableCell>
+              <TableCell>
+                <Badge variant={p.status === "SUCCESS" ? "default" : "outline"} className="rounded-none text-[10px] uppercase">
+                  {p.status}
+                </Badge>
+              </TableCell>
+              <TableCell className="max-w-[140px] font-mono text-[10px] break-all">
+                {p.razorpayPaymentId ?? "—"}
+              </TableCell>
+              <TableCell className="max-w-[120px] font-mono text-[10px] break-all">
+                {p.razorpayOrderId ?? "—"}
+              </TableCell>
+              <TableCell className="max-w-[180px] text-xs text-muted-foreground">
+                {[
+                  p.failureReason ? `Error: ${p.failureReason}` : null,
+                  p.refundedAt ? `Refunded ${dateFmt(p.refundedAt)}` : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · ") || "—"}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
+function BillingSubscriptionCell({ sub }: { sub: ProfilePaymentSubscription }) {
+  const plan = sub.plan;
+  return (
+    <div className="max-w-[min(100%,20rem)] space-y-1.5 text-xs">
+      <p className="font-semibold leading-tight">{plan.name}</p>
+      {plan.description ? (
+        <p className="text-[11px] leading-snug text-muted-foreground">{plan.description}</p>
+      ) : null}
+      <p className="text-muted-foreground">
+        {moneyFmt(plan.price, plan.currency)} · {intervalFmt(plan.interval, plan.intervalCount)}
+      </p>
+      <div className="flex flex-wrap items-center gap-2 pt-0.5">
+        <Badge variant={sub.status === "ACTIVE" ? "default" : "outline"} className="rounded-none text-[10px] uppercase">
+          {sub.status}
+        </Badge>
+      </div>
+      <p className="text-[10px] text-muted-foreground">
+        <span className="font-medium text-foreground/80">Period:</span> {dateFmt(sub.startDate)} — {dateFmt(sub.endDate)}
+      </p>
+      {sub.razorpaySubscriptionId ? (
+        <p className="font-mono text-[10px] wrap-break-word text-muted-foreground">{sub.razorpaySubscriptionId}</p>
+      ) : null}
+    </div>
+  );
+}
+
+function SubscriptionDetailCard({ sub, title }: { sub: ProfileSubscription; title: string }) {
+  const plan = sub.plan;
+  const payments = sub.payments ?? [];
+
+  const rows: { label: string; value: React.ReactNode }[] = [
+    { label: "Plan", value: <span className="font-medium">{plan.name}</span> },
+    {
+      label: "Price",
+      value: `${moneyFmt(plan.price, plan.currency)} / ${intervalFmt(plan.interval, plan.intervalCount)}`,
+    },
+  ];
+
+  if (plan.description) {
+    rows.push({ label: "Plan description", value: plan.description });
+  }
+  if (plan.razorpayPlanId) {
+    rows.push({
+      label: "Razorpay plan id",
+      value: <span className="font-mono text-xs break-all">{plan.razorpayPlanId}</span>,
+    });
+  }
+
+  rows.push(
+    { label: "Started", value: dateFmt(sub.startDate) },
+    { label: "Current period ends", value: dateFmt(sub.endDate) },
+    { label: "Record created", value: dateFmt(sub.createdAt) },
+    { label: "Last updated", value: dateFmt(sub.updatedAt) }
+  );
+
+  if (sub.razorpaySubscriptionId) {
+    rows.push({
+      label: "Razorpay subscription",
+      value: <span className="font-mono text-xs break-all">{sub.razorpaySubscriptionId}</span>,
+    });
+  }
+
+  return (
+    <Card className="border-2">
+      <CardHeader className="space-y-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <CardTitle className="text-base font-black uppercase">{title}</CardTitle>
+          <Badge
+            variant={sub.status === "ACTIVE" ? "default" : "outline"}
+            className="rounded-none text-[10px] uppercase"
+          >
+            {sub.status}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <DetailRows rows={rows} />
+        <SubscriptionPaymentsTable payments={payments} />
+      </CardContent>
+    </Card>
+  );
 }
 
 export function ProfilePage() {
@@ -109,42 +265,39 @@ export function ProfilePage() {
           ) : (
             <div className="space-y-4">
               {subscriptionsQuery.data?.activeSubscription && (
-                <Card className="border-2">
-                  <CardHeader>
-                    <CardTitle className="text-base font-black uppercase">Current plan</CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-sm">
-                    <p>
-                      {subscriptionsQuery.data.activeSubscription.plan.name} ·{" "}
-                      {moneyFmt(
-                        subscriptionsQuery.data.activeSubscription.plan.price,
-                        subscriptionsQuery.data.activeSubscription.plan.currency
-                      )}
-                    </p>
-                    <p className="text-muted-foreground">
-                      Active until {dateFmt(subscriptionsQuery.data.activeSubscription.endDate)}
-                    </p>
-                  </CardContent>
-                </Card>
+                <SubscriptionDetailCard
+                  sub={subscriptionsQuery.data.activeSubscription}
+                  title="Active subscription"
+                />
               )}
 
-              <Card className="border-2">
-                <CardHeader>
-                  <CardTitle className="text-base font-black uppercase">History</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  {subscriptionsQuery.data?.subscriptions.map((sub) => (
-                    <div key={sub.id} className="border-2 p-3 text-sm">
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <p className="font-bold uppercase">
-                          {sub.plan.name} · {sub.status}
-                        </p>
-                        <span className="text-xs text-muted-foreground">{dateFmt(sub.createdAt)}</span>
-                      </div>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
+              {(() => {
+                const active = subscriptionsQuery.data?.activeSubscription;
+                const all = subscriptionsQuery.data?.subscriptions ?? [];
+                const pastSubs = active ? all.filter((s) => s.id !== active.id) : all;
+                return (
+                  <div className="space-y-4">
+                    <h3 className="text-xs font-black uppercase tracking-wide text-muted-foreground">
+                      {active ? "Other subscriptions" : "All subscriptions"}
+                    </h3>
+                    {pastSubs.length === 0 ? (
+                      <Card className="border-2">
+                        <CardContent className="py-6 text-center text-sm text-muted-foreground">
+                          {active ? "No past subscription records." : "No subscription records yet."}
+                        </CardContent>
+                      </Card>
+                    ) : (
+                      pastSubs.map((sub) => (
+                        <SubscriptionDetailCard
+                          key={sub.id}
+                          sub={sub}
+                          title={`${sub.plan.name} · ${sub.status}`}
+                        />
+                      ))
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           )}
         </TabsContent>
@@ -166,21 +319,50 @@ export function ProfilePage() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Date</TableHead>
-                      <TableHead>Plan</TableHead>
+                      <TableHead>Plan & subscription</TableHead>
                       <TableHead>Amount</TableHead>
-                      <TableHead>Status</TableHead>
+                      <TableHead>Provider</TableHead>
+                      <TableHead>Payment status</TableHead>
+                      <TableHead>Razorpay payment</TableHead>
+                      <TableHead>Notes</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {paymentsQuery.data?.payments.map((payment) => (
                       <TableRow key={payment.id}>
-                        <TableCell>{dateFmt(payment.createdAt)}</TableCell>
-                        <TableCell>{payment.subscription?.plan?.name ?? "-"}</TableCell>
-                        <TableCell>{moneyFmt(payment.amount, payment.currency)}</TableCell>
-                        <TableCell>
-                          <Badge variant={payment.status === "SUCCESS" ? "default" : "outline"}>
+                        <TableCell className="whitespace-nowrap align-top text-xs">
+                          {dateFmt(payment.createdAt)}
+                        </TableCell>
+                        <TableCell className="align-top">
+                          {payment.subscription ? (
+                            <BillingSubscriptionCell sub={payment.subscription} />
+                          ) : (
+                            <span className="text-xs text-muted-foreground">—</span>
+                          )}
+                        </TableCell>
+                        <TableCell className="whitespace-nowrap align-top text-xs">
+                          {moneyFmt(payment.amount, payment.currency)}
+                        </TableCell>
+                        <TableCell className="align-top text-xs">{payment.provider}</TableCell>
+                        <TableCell className="align-top">
+                          <Badge
+                            variant={payment.status === "SUCCESS" ? "default" : "outline"}
+                            className="rounded-none text-[10px] uppercase"
+                          >
                             {payment.status}
                           </Badge>
+                        </TableCell>
+                        <TableCell className="max-w-[140px] align-top font-mono text-[10px] wrap-break-word">
+                          {payment.razorpayPaymentId ?? "—"}
+                        </TableCell>
+                        <TableCell className="max-w-[180px] align-top text-xs text-muted-foreground">
+                          {[
+                            payment.razorpayOrderId ? `Order: ${payment.razorpayOrderId}` : null,
+                            payment.failureReason ? `Error: ${payment.failureReason}` : null,
+                            payment.refundedAt ? `Refunded ${dateFmt(payment.refundedAt)}` : null,
+                          ]
+                            .filter(Boolean)
+                            .join(" · ") || "—"}
                         </TableCell>
                       </TableRow>
                     ))}

@@ -86,6 +86,14 @@ export function Header({ variant = "default" }: HeaderProps) {
           >
             SUBSCRIPTION
           </Link>
+          <Can resource="plan" action="create">
+            <Link
+              href="/plans/manage"
+              className="shrink-0 transition-colors hover:text-primary"
+            >
+              Manage plans
+            </Link>
+          </Can>
           {user && (
             <Link
               href="/profile"
@@ -204,6 +212,15 @@ export function Header({ variant = "default" }: HeaderProps) {
                   >
                     SUBSCRIPTION
                   </Link>
+                  <Can resource="plan" action="create">
+                    <Link
+                      href="/plans/manage"
+                      onClick={closeMobile}
+                      className="rounded-none border-2 border-transparent px-3 py-3 text-xs font-black uppercase tracking-widest transition-colors hover:border-primary/30 hover:bg-muted/50"
+                    >
+                      Manage plans
+                    </Link>
+                  </Can>
                   {user && (
                     <Link
                       href="/profile"

@@ -8,7 +8,7 @@ const statement = {
   user:         ["read", "update", "delete", "manage"],
   plan:         ["create", "read", "update", "delete"],
   payment:      ["read"],
-  subscription: ["read", "update"],
+  subscription: ["create", "read", "update"],
   tag:          ["create", "read"],
 } as const;
 
@@ -44,7 +44,7 @@ export const roles = {
     user:         ["read", "update", "delete", "manage"],
     plan:         ["create", "read", "update", "delete"],
     payment:      ["read"],
-    subscription: ["read", "update"],
+    subscription: ["create", "read", "update"],
     tag:          ["create", "read"],
   }),
 
@@ -52,12 +52,12 @@ export const roles = {
     story:        ["create", "read", "update", "delete", "publish"],
     plan:         ["read"],
     payment:      ["read"],
-    subscription: ["read"],
+    subscription: ["create", "read",],
   }),
 
   [Role.READER]: ac.newRole({
     story:        ["read"],
-    subscription: ["read"],
+    subscription: ["create", "read"],
     payment:      ["read"],
     plan:         ["read"],
   }),

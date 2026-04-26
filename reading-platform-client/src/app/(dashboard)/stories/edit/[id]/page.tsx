@@ -44,8 +44,8 @@ export default function EditStoryPage() {
     <RoleGuard allowedRoles={STORY_COMPOSE_ROLES}>
       <div className={cn(dashboardPageShell, "space-y-8 sm:space-y-12")}>
         <div className="border-b-4 border-primary pb-6 sm:pb-8">
-          <h1 className="text-3xl font-black uppercase leading-none tracking-tighter italic sm:text-4xl md:text-5xl">
-            Edit <span className="text-primary not-italic">Story</span>
+          <h1 className="text-2xl font-black uppercase leading-none tracking-tighter sm:text-3xl md:text-4xl">
+            Edit <span className="text-primary">Story</span>
           </h1>
           <p className="mt-2 text-xs font-bold uppercase tracking-tight text-muted-foreground sm:text-sm">
             Refine your words and perfect your narrative.

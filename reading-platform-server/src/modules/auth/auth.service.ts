@@ -18,6 +18,38 @@ import {
 import { Role } from "../../generated/prisma/enums.js";
 import { sendResetPasswordEmail } from "../../utils/email.js";
 
+/** Fields safe to return to clients (omit provider secrets & internal ids). */
+const publicPlanSelect = {
+  id: true,
+  name: true,
+  description: true,
+  price: true,
+  currency: true,
+  interval: true,
+  intervalCount: true,
+} as const;
+
+const publicPaymentSelect = {
+  id: true,
+  amount: true,
+  currency: true,
+  provider: true,
+  status: true,
+  razorpayPaymentId: true,
+  failureReason: true,
+  refundedAt: true,
+  createdAt: true,
+} as const;
+
+const publicSubscriptionSelect = {
+  id: true,
+  status: true,
+  startDate: true,
+  endDate: true,
+  razorpaySubscriptionId: true,
+  plan: { select: publicPlanSelect },
+} as const;
+
 // ── Token helpers ─────────────────────────────────────────────────────────────
 
 function signAccessToken(payload: {
@@ -201,6 +233,7 @@ async function getMeBase(userId: string) {
       payments: {
         orderBy: { createdAt: "desc" },
         take: 10,
+        select: publicPaymentSelect,
       },
       stories: {
         where: { deletedAt: null },
@@ -241,7 +274,7 @@ export async function me(userId: string) {
   const { account: _account, ...safeUser } = user;
   const activeSubscription = await prisma.subscription.findFirst({
     where: { userId: Number(userId), status: "ACTIVE" },
-    include: { plan: true },
+    select: publicSubscriptionSelect,
     orderBy: { updatedAt: "desc" },
   });
 
@@ -274,11 +307,12 @@ export async function me(userId: string) {
 export async function meSubscriptions(userId: string) {
   const subscriptions = await prisma.subscription.findMany({
     where: { userId: Number(userId) },
-    include: {
-      plan: true,
+    select: {
+      ...publicSubscriptionSelect,
       payments: {
         orderBy: { createdAt: "desc" },
         take: 5,
+        select: publicPaymentSelect,
       },
     },
     orderBy: { createdAt: "desc" },
@@ -296,12 +330,9 @@ export async function meSubscriptions(userId: string) {
 export async function mePayments(userId: string) {
   const payments = await prisma.payment.findMany({
     where: { userId: Number(userId) },
-    include: {
-      subscription: {
-        include: {
-          plan: true,
-        },
-      },
+    select: {
+      ...publicPaymentSelect,
+      subscription: { select: publicSubscriptionSelect },
     },
     orderBy: { createdAt: "desc" },
     take: 25,

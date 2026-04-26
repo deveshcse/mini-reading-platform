@@ -9,10 +9,15 @@ export interface ProfileStats {
 export interface ProfilePlan {
   id: number;
   name: string;
+  description?: string | null;
   price: number;
   currency: string;
   interval: string;
   intervalCount: number;
+  isActive?: boolean;
+  razorpayPlanId?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ProfileSubscription {
@@ -27,19 +32,32 @@ export interface ProfileSubscription {
   payments?: ProfilePayment[];
 }
 
+/** Nested on each payment from `GET /auth/me/payments`. */
+export interface ProfilePaymentSubscription {
+  id: number;
+  status: string;
+  startDate: string;
+  endDate: string;
+  razorpaySubscriptionId: string | null;
+  plan: ProfilePlan;
+}
+
 export interface ProfilePayment {
   id: number;
+  userId?: number;
+  subscriptionId?: number | null;
   amount: number;
   currency: string;
   status: string;
   provider: string;
   razorpayPaymentId: string | null;
+  razorpayOrderId?: string | null;
+  razorpaySignature?: string | null;
+  failureReason?: string | null;
+  refundedAt?: string | null;
   createdAt: string;
-  subscription?: {
-    id: number;
-    status: string;
-    plan?: ProfilePlan;
-  } | null;
+  updatedAt?: string;
+  subscription?: ProfilePaymentSubscription | null;
 }
 
 export interface ProfileBookmark {
