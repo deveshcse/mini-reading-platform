@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import Link from "next/link"
 import React, { useState } from "react"
-import { Eye, EyeOff, User, Mail, Lock } from "lucide-react"
+import { Eye, EyeOff, User, Mail, Lock, BookOpen, PenTool } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { registerSchema, RegisterInput } from "@/features/auth/schema/auth-schema"
@@ -155,8 +155,9 @@ export function SignupForm({ className, ...props }: React.ComponentProps<typeof 
               size="sm"
               disabled={isRegistering}
               onClick={() => handleSignupAs("READER")}
-              className="w-full font-medium sm:flex-1"
+              className="w-full gap-2 font-medium sm:flex-1"
             >
+              <BookOpen className="size-3.5 shrink-0" aria-hidden />
               {isRegistering ? "Please wait…" : "Sign up as reader"}
             </Button>
             <Button
@@ -165,8 +166,9 @@ export function SignupForm({ className, ...props }: React.ComponentProps<typeof 
               size="sm"
               disabled={isRegistering}
               onClick={() => handleSignupAs("AUTHOR")}
-              className="w-full font-medium sm:flex-1"
+              className="w-full gap-2 font-medium sm:flex-1"
             >
+              <PenTool className="size-3.5 shrink-0" aria-hidden />
               {isRegistering ? "Please wait…" : "Sign up as author"}
             </Button>
           </div>

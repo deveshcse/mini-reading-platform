@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button"
 import { Header } from "@/shared/components/header"
-import Link from "next/link"
+import { LandingHeroCTAs } from "@/shared/components/landing-hero-ctas"
 import { BookOpen, Lock, Sparkles } from "lucide-react"
 import { LandingStoryFeed } from "@/features/stories/components/landing-page-story-feed"
 
@@ -18,51 +17,42 @@ export default function Page() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-6xl">
-                Discover & Share{" "}
-                <span className="text-primary italic">Stories</span>
+              <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-6xl">
+                Read and publish stories
               </h1>
-              <p className="mx-auto max-w-[600px] text-lg text-muted-foreground">
-                Explore engaging stories, publish your own, and unlock premium
-                content with seamless access.
+              <p className="mx-auto max-w-[600px] text-lg leading-relaxed text-muted-foreground">
+                Browse the library, share your own work, and subscribe when you
+                want full access to premium titles.
               </p>
             </div>
 
-            <div className="flex w-full flex-wrap items-center justify-center gap-4 sm:w-auto">
-              <Button asChild size="lg" className="h-12 min-w-[160px] px-8">
-                <Link href="/auth/register">Start Reading</Link>
-              </Button>
-
-              <Button asChild variant="outline" size="lg" className="h-12 min-w-[160px] px-8">
-                <Link href="/auth/login">Sign In</Link>
-              </Button>
-            </div>
+            <LandingHeroCTAs />
 
             <div className="mt-8 grid grid-cols-1 gap-8 text-sm sm:mt-12 sm:grid-cols-3">
               <div className="flex flex-col gap-2 rounded-xl border bg-card/50 p-4">
-                <span className="flex items-center gap-2 font-bold text-primary">
-                  <BookOpen className="size-4" /> Story Feed
+                <span className="flex items-center gap-2 font-semibold text-primary">
+                  <BookOpen className="size-4" aria-hidden /> Stories
                 </span>
                 <p className="text-muted-foreground">
-                  Browse and discover stories from different authors.
+                  Explore published pieces from the community.
                 </p>
               </div>
 
               <div className="flex flex-col gap-2 rounded-xl border bg-card/50 p-4">
-                <span className="flex items-center gap-2 font-bold text-primary">
-                  <Sparkles className="size-4" /> Create Stories
+                <span className="flex items-center gap-2 font-semibold text-primary">
+                  <Sparkles className="size-4" aria-hidden /> Write
                 </span>
                 <p className="text-muted-foreground">
-                  Write, edit, and publish your own content easily.
+                  Draft and publish your own stories when you sign up as an author.
                 </p>
               </div>
 
               <div className="flex flex-col gap-2 rounded-xl border bg-card/50 p-4">
-                <span className="flex items-center gap-2 font-bold text-primary">
-                  <Lock className="size-4" /> Premium Access
+                <span className="flex items-center gap-2 font-semibold text-primary">
+                  <Lock className="size-4" aria-hidden /> Premium
                 </span>
                 <p className="text-muted-foreground">
-                  Unlock exclusive stories via secure payments.
+                  Subscribe for full access to paid stories; checkout is secure.
                 </p>
               </div>
             </div>

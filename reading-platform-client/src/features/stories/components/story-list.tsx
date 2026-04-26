@@ -32,6 +32,7 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
+  UsersRound,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -120,10 +121,10 @@ export function StoryList({
             <Link href={`/stories/${story.id}`} className="block h-full group">
               <article
                 className={cn(
-                  "flex h-full flex-col overflow-hidden border transition-colors",
+                  "flex h-full flex-col overflow-hidden border-2 transition-colors",
                   isPremium
-                    ? "border-primary/20 bg-primary/[0.03] hover:border-primary/35"
-                    : "border-border bg-card hover:border-primary/30"
+                    ? "border-amber-500/40 bg-amber-500/5 hover:border-amber-500/70"
+                    : "border-border bg-card hover:border-primary/50"
                 )}
               >
                 {/* Cover image */}
@@ -142,8 +143,8 @@ export function StoryList({
                 {/* Card body */}
                 <div className="flex flex-1 flex-col gap-3 p-4">
 
-                  {/* Badges */}
-                  <div className="flex flex-wrap items-center gap-1.5">
+                  {/* Badges — fixed min height so free/paid cards align when only premium shows a badge */}
+                  <div className="flex min-h-6 flex-wrap items-center gap-1.5">
                     {!story.isPublished && (
                       <Badge
                         variant="secondary"
@@ -152,14 +153,18 @@ export function StoryList({
                         Draft
                       </Badge>
                     )}
-                    {isPremium && (
-                      <Badge
-                        variant="outline"
-                        className="h-5 rounded-none border-primary/40 text-[10px] font-semibold uppercase text-foreground"
-                      >
-                        <span className="flex items-center gap-1">
-                          <BookMarked className="size-3 text-primary" aria-hidden />
+                    {isPremium ? (
+                      <Badge className="rounded-none border-2 border-amber-600/40 bg-amber-500/15 text-amber-900 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-100 h-5">
+                        <span className="flex items-center gap-1 text-[9px] font-black uppercase">
+                          <BookMarked className="size-3" aria-hidden />
                           Premium
+                        </span>
+                      </Badge>
+                    ) : (
+                      <Badge className="rounded-none border-2 border-primary/35 bg-primary/10 text-foreground dark:border-primary/40 dark:bg-primary/15 h-5">
+                        <span className="flex items-center gap-1 text-[9px] font-black uppercase">
+                          <UsersRound className="size-3 text-primary" aria-hidden />
+                          Community
                         </span>
                       </Badge>
                     )}
@@ -168,8 +173,10 @@ export function StoryList({
                   {/* Title */}
                   <h2
                     className={cn(
-                      "line-clamp-2 text-base font-semibold leading-snug tracking-tight transition-colors text-foreground",
-                      "group-hover:text-primary"
+                      "line-clamp-2 text-base font-semibold leading-snug tracking-tight transition-colors",
+                      isPremium
+                        ? "text-amber-950 dark:text-amber-100 group-hover:text-amber-800 dark:group-hover:text-amber-200"
+                        : "text-foreground group-hover:text-primary"
                     )}
                   >
                     {story.title}
@@ -184,22 +191,32 @@ export function StoryList({
 
                   {/* Teaser or premium placeholder */}
                   <p
-                    className="line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground"
+                    className={cn(
+                      "line-clamp-3 flex-1 text-sm leading-relaxed",
+                      isPremium
+                        ? "text-primary/90 dark:text-primary"
+                        : "text-muted-foreground"
+                    )}
                   >
                     {teaser ?? (
                       isPremium
-                        ? "Premium — open the story for a short preview."
+                        ? "Open the story for a short preview; subscribers see the full text."
                         : null
                     )}
                   </p>
 
                   {/* CTA row */}
                   <p
-                    className="mt-auto flex items-center gap-1.5 pt-2 text-xs font-medium text-muted-foreground transition-colors group-hover:text-primary"
+                    className={cn(
+                      "mt-auto flex items-center gap-1.5 pt-2 text-xs font-medium transition-colors",
+                      isPremium
+                        ? "text-amber-800 dark:text-amber-300 group-hover:text-amber-700 dark:group-hover:text-amber-200"
+                        : "text-muted-foreground group-hover:text-primary"
+                    )}
                   >
                     {isPremium ? (
                       <>
-                        <Lock className="size-3.5 shrink-0" aria-hidden />
+                        <Lock className="size-3.5 shrink-0 text-primary" aria-hidden />
                         Preview
                       </>
                     ) : (

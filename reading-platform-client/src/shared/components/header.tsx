@@ -66,7 +66,7 @@ export function Header({ variant = "default" }: HeaderProps) {
             href="/stories"
             className="shrink-0 transition-colors hover:text-primary"
           >
-            Feed
+            Stories
           </Link>
           <Can resource="story" action="create">
             <Link
@@ -84,7 +84,7 @@ export function Header({ variant = "default" }: HeaderProps) {
             )}
             aria-current={isSubscribeRoute ? "page" : undefined}
           >
-            Subscription
+            SUBSCRIPTION
           </Link>
           {user && (
             <Link
@@ -186,7 +186,7 @@ export function Header({ variant = "default" }: HeaderProps) {
                     onClick={closeMobile}
                     className="rounded-none border-2 border-transparent px-3 py-3 text-xs font-black uppercase tracking-widest transition-colors hover:border-primary/30 hover:bg-muted/50"
                   >
-                    Feed
+                    Stories
                   </Link>
                   <Can resource="story" action="create">
                     <Link
@@ -202,7 +202,7 @@ export function Header({ variant = "default" }: HeaderProps) {
                     onClick={closeMobile}
                     className="rounded-none border-2 border-transparent px-3 py-3 text-xs font-black uppercase tracking-widest transition-colors hover:border-primary/30 hover:bg-muted/50"
                   >
-                    Subscription
+                    SUBSCRIPTION
                   </Link>
                   {user && (
                     <Link

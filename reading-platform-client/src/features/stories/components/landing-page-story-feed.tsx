@@ -30,17 +30,17 @@ export function LandingStoryFeed() {
       )}
       aria-labelledby="landing-feed-heading"
     >
-      <div className="border-b-4 border-primary pb-6 sm:pb-8">
+      <div className="border-b border-border pb-8">
         <h2
           id="landing-feed-heading"
-          className="text-2xl leading-none font-black tracking-tighter uppercase italic sm:text-3xl md:text-4xl"
+          className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
         >
-          Latest <span className="text-primary not-italic">stories</span>
+          Latest stories
         </h2>
-        <p className="mt-2 max-w-2xl text-xs font-bold tracking-tight text-muted-foreground uppercase sm:text-sm">
-          The same published feed as the app — browse as a guest or sign in to
-          save your place. Gold-bordered cards are premium; open one for a
-          preview or full read when your plan allows.
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          Browse published work from the community. Stories marked Premium
+          include a short preview here; subscribers can read the full piece on
+          the story page.
         </p>
       </div>
       <StoryList
