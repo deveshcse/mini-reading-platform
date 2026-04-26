@@ -51,11 +51,10 @@ export default function EditStoryPage() {
           </p>
         </div>
 
-        <StoryForm 
-          initialData={story} 
-          onSubmit={handleSubmit} 
-          isLoading={isUpdating} 
-          isEdit 
+        <StoryForm
+          initialData={story}
+          onSubmit={handleSubmit}
+          isLoading={isUpdating}
         />
       </div>
     </div>

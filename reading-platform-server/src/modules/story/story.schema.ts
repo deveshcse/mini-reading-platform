@@ -51,6 +51,7 @@ const optionalPositiveId = z.preprocess(
   z.coerce.number().int().positive().optional()
 );
 
+/** Query: omit `isPublished` for the default feed. `isPublished=true` = published only. `isPublished=false` = your unpublished drafts (authors only; READERs use the default feed if sent). */
 export const storyQuerySchema = z.object({
   query: z.object({
     page: z.coerce.number().int().min(1).max(10_000).default(1),

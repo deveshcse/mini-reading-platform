@@ -22,8 +22,11 @@ export function StoryFeed() {
             <h1 className="text-5xl font-black tracking-tighter uppercase leading-none italic">
               The <span className="text-primary not-italic">Inkwell</span> Feed
             </h1>
-            <p className="text-muted-foreground font-bold tracking-tight uppercase text-sm">
-              Discover the latest stories from our community of creators.
+            <p className="text-muted-foreground font-bold tracking-tight uppercase text-sm max-w-2xl">
+              Discover the latest stories.{" "}
+              <span className="text-foreground/80">
+                Gold-bordered cards are paid stories: you see a teaser here; the full text follows your plan on the story page.
+              </span>
             </p>
           </div>
 

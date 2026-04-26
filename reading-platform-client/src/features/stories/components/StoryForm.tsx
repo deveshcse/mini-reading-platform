@@ -1,21 +1,26 @@
-"use client";
+"use client"
 
-import React, { useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Save, Send } from "lucide-react";
+import React, { useEffect } from "react"
+import { useForm, Controller } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Globe, Loader2, Save, Send, Star } from "lucide-react"
 import {
   createStorySchema,
   type CreateStoryInput,
   type CreateStoryFormValues,
-} from "@/features/stories/schema";
-import type { Story } from "@/features/stories/types";
-import { StoryRichTextEditor } from "@/features/stories/components/story-rich-text-editor/StoryRichTextEditor";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { cn } from "@/lib/utils";
+} from "@/features/stories/schema"
+import type { Story } from "@/features/stories/types"
+import { StoryRichTextEditor } from "@/features/stories/components/story-rich-text-editor/StoryRichTextEditor"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { cn } from "@/lib/utils"
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -23,17 +28,15 @@ const defaultValues: CreateStoryFormValues = {
   title: "",
   description: "",
   content: "<p></p>",
-  coverImage: "",
   isPublished: false,
   isPremium: false,
-};
+}
 
 const textareaClass = cn(
-  "flex w-full min-w-0 rounded-none border-2 border-input bg-transparent px-3 py-2 text-sm outline-none transition-colors",
+  "flex w-full min-w-0 rounded-none border-2 border-input bg-transparent px-3 py-2 text-sm transition-colors outline-none",
   "placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50",
-  "disabled:pointer-events-none disabled:opacity-50 resize-y min-h-[88px]",
-  "aria-invalid:border-destructive aria-invalid:ring-destructive/20"
-);
+  "min-h-[88px] resize-y disabled:pointer-events-none disabled:opacity-50"
+)
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -42,25 +45,29 @@ function storyToFormValues(s: Story): CreateStoryFormValues {
     title: s.title,
     description: s.description?.trim() ?? "",
     content: s.content?.length > 0 ? s.content : "<p></p>",
-    coverImage: s.coverImage ?? "",
     isPublished: s.isPublished,
     isPremium: s.isPremium,
-  };
+  }
 }
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 export interface StoryFormProps {
-  initialData?: Story;
-  isLoading?: boolean;
-  onSubmit: (data: CreateStoryInput) => void;
-  className?: string;
+  initialData?: Story
+  isLoading?: boolean
+  onSubmit: (data: CreateStoryInput) => void
+  className?: string
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function StoryForm({ initialData, isLoading = false, onSubmit, className }: StoryFormProps) {
-  const isEdit = !!initialData;
+export function StoryForm({
+  initialData,
+  isLoading = false,
+  onSubmit,
+  className,
+}: StoryFormProps) {
+  const isEdit = !!initialData
 
   const {
     register,
@@ -71,23 +78,112 @@ export function StoryForm({ initialData, isLoading = false, onSubmit, className 
   } = useForm<CreateStoryFormValues, unknown, CreateStoryInput>({
     resolver: zodResolver(createStorySchema),
     defaultValues: initialData ? storyToFormValues(initialData) : defaultValues,
-  });
+  })
 
-  // Sync form when initialData loads asynchronously (e.g. after a fetch).
   useEffect(() => {
-    if (initialData) reset(storyToFormValues(initialData));
-  }, [initialData, reset]);
+    if (initialData) reset(storyToFormValues(initialData))
+  }, [initialData, reset])
 
-  // Remount the editor when the story record changes so Tiptap picks up the new content.
-  const editorKey = isEdit ? `rte-${initialData.id}` : "rte-new";
+  const editorKey = isEdit ? `rte-${initialData.id}` : "rte-new"
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={cn("space-y-8", className)} noValidate>
-      <FieldGroup className="space-y-6 max-w-3xl">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={cn("relative", className)}
+      noValidate
+    >
+      {/* ── Sticky top bar ───────────────────────────────────────────────── */}
+      <div className="sticky top-0 z-50 flex items-center justify-between gap-4 border-b-2 border-input bg-background/95 px-4 py-2 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        {/* Left: status flags */}
+        <div className="flex items-center gap-5">
+          {/* Published toggle */}
+          <Controller
+            name="isPublished"
+            control={control}
+            render={({ field: { value, onChange, onBlur, name, ref } }) => (
+              <label className="flex cursor-pointer items-center gap-2 select-none">
+                <Checkbox
+                  ref={ref}
+                  name={name}
+                  checked={value}
+                  onCheckedChange={(c) => onChange(c === true)}
+                  onBlur={onBlur}
+                  disabled={isLoading}
+                  id="story-published"
+                />
 
+                {/* Icon */}
+                <Globe
+                  className={`h-3.5 w-3.5 ${
+                    value ? "text-green-600" : "text-gray-400"
+                  }`}
+                />
+
+                {/* Text */}
+                <span className="text-xs font-bold tracking-widest uppercase">
+                  Published
+                </span>
+              </label>
+            )}
+          />
+
+          <div className="h-4 w-px bg-border" />
+
+          {/* Premium toggle */}
+          <Controller
+            name="isPremium"
+            control={control}
+            render={({ field: { value, onChange, onBlur, name, ref } }) => (
+              <label className="flex cursor-pointer items-center gap-2 select-none">
+                <Checkbox
+                  ref={ref}
+                  name={name}
+                  checked={value}
+                  onCheckedChange={(c) => onChange(c === true)}
+                  onBlur={onBlur}
+                  disabled={isLoading}
+                  id="story-premium"
+                />
+                <span className="flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase">
+                  <Star
+                    className={cn(
+                      "h-3.5 w-3.5",
+                      value ? "text-amber-500" : "text-muted-foreground"
+                    )}
+                  />
+                  Premium
+                </span>
+              </label>
+            )}
+          />
+        </div>
+
+        {/* Right: submit button */}
+        <Button
+          type="submit"
+          size="sm"
+          disabled={isLoading}
+          className="h-9 gap-2 rounded-none border-2 px-5 font-black tracking-widest uppercase"
+        >
+          {isLoading ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          ) : isEdit ? (
+            <Save className="h-3.5 w-3.5" />
+          ) : (
+            <Send className="h-3.5 w-3.5" />
+          )}
+          {isEdit ? "Save changes" : "Publish"}
+        </Button>
+      </div>
+
+      {/* ── Form body ────────────────────────────────────────────────────── */}
+      <FieldGroup className="max-w-3xl space-y-6 pt-6">
         {/* Title */}
         <Field>
-          <FieldLabel htmlFor="story-title" className="text-xs font-black uppercase tracking-widest">
+          <FieldLabel
+            htmlFor="story-title"
+            className="text-xs font-black tracking-widest uppercase"
+          >
             Title
           </FieldLabel>
           <Input
@@ -96,6 +192,7 @@ export function StoryForm({ initialData, isLoading = false, onSubmit, className 
             className="rounded-none border-2 text-base font-bold"
             disabled={isLoading}
             aria-invalid={!!errors.title}
+            maxLength={100}
             {...register("title")}
           />
           <FieldError>{errors.title?.message}</FieldError>
@@ -103,13 +200,19 @@ export function StoryForm({ initialData, isLoading = false, onSubmit, className 
 
         {/* Description */}
         <Field>
-          <FieldLabel htmlFor="story-description" className="text-xs font-black uppercase tracking-widest">
-            Description <span className="font-normal text-muted-foreground">(optional)</span>
+          <FieldLabel
+            htmlFor="story-description"
+            className="text-xs font-black tracking-widest uppercase"
+          >
+            Description{" "}
+            <span className="font-normal tracking-normal text-muted-foreground normal-case">
+              (optional)
+            </span>
           </FieldLabel>
           <textarea
             id="story-description"
             rows={3}
-            placeholder="Short blurb for lists and search"
+            placeholder="Short blurb shown in listings and search results"
             className={textareaClass}
             disabled={isLoading}
             aria-invalid={!!errors.description}
@@ -120,7 +223,10 @@ export function StoryForm({ initialData, isLoading = false, onSubmit, className 
 
         {/* Content */}
         <Field>
-          <FieldLabel htmlFor="story-content" className="text-xs font-black uppercase tracking-widest">
+          <FieldLabel
+            htmlFor="story-content"
+            className="text-xs font-black tracking-widest uppercase"
+          >
             Content
           </FieldLabel>
           <Controller
@@ -140,92 +246,7 @@ export function StoryForm({ initialData, isLoading = false, onSubmit, className 
           />
           <FieldError>{errors.content?.message}</FieldError>
         </Field>
-
-        {/* Cover image */}
-        <Field>
-          <FieldLabel htmlFor="story-cover" className="text-xs font-black uppercase tracking-widest">
-            Cover image URL <span className="font-normal text-muted-foreground">(optional)</span>
-          </FieldLabel>
-          <Input
-            id="story-cover"
-            type="url"
-            placeholder="https://… or /static/covers/…"
-            className="rounded-none border-2"
-            disabled={isLoading}
-            aria-invalid={!!errors.coverImage}
-            {...register("coverImage")}
-          />
-          <p className="text-[10px] font-bold uppercase tracking-tight text-muted-foreground">
-            Use a full https URL or a path starting with /
-          </p>
-          <FieldError>{errors.coverImage?.message as string | undefined}</FieldError>
-        </Field>
-
-        {/* Flags */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center border-2 border-dashed border-muted-foreground/25 p-4">
-          <Field orientation="horizontal" className="items-center gap-3">
-            <Controller
-              name="isPublished"
-              control={control}
-              render={({ field: { value, onChange, onBlur, name, ref } }) => (
-                <Checkbox
-                  id="story-published"
-                  ref={ref}
-                  name={name}
-                  checked={value}
-                  onCheckedChange={(c) => onChange(c === true)}
-                  onBlur={onBlur}
-                  disabled={isLoading}
-                />
-              )}
-            />
-            <FieldLabel htmlFor="story-published" className="text-xs font-bold uppercase tracking-widest">
-              Published
-            </FieldLabel>
-          </Field>
-
-          <Field orientation="horizontal" className="items-center gap-3">
-            <Controller
-              name="isPremium"
-              control={control}
-              render={({ field: { value, onChange, onBlur, name, ref } }) => (
-                <Checkbox
-                  id="story-premium"
-                  ref={ref}
-                  name={name}
-                  checked={value}
-                  onCheckedChange={(c) => onChange(c === true)}
-                  onBlur={onBlur}
-                  disabled={isLoading}
-                />
-              )}
-            />
-            <FieldLabel htmlFor="story-premium" className="text-xs font-bold uppercase tracking-widest">
-              Premium (requires subscription to read in full)
-            </FieldLabel>
-          </Field>
-        </div>
-
       </FieldGroup>
-
-      {/* Submit */}
-      <div className="flex flex-wrap items-center gap-3 pt-2 border-t-4 border-primary/20">
-        <Button
-          type="submit"
-          size="lg"
-          disabled={isLoading}
-          className="rounded-none h-12 px-8 font-black uppercase tracking-widest gap-2 border-2"
-        >
-          {isLoading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : isEdit ? (
-            <Save className="h-4 w-4" />
-          ) : (
-            <Send className="h-4 w-4" />
-          )}
-          {isEdit ? "Save changes" : "Publish to archive"}
-        </Button>
-      </div>
     </form>
-  );
+  )
 }
