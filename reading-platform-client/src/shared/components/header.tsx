@@ -79,6 +79,14 @@ export function Header({ variant = "default" }: HeaderProps) {
           >
             Plans
           </Link>
+          {user && (
+            <Link
+              href="/profile"
+              className="shrink-0 transition-colors hover:text-primary"
+            >
+              Profile
+            </Link>
+          )}
         </nav>
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2 md:gap-3">
@@ -198,6 +206,15 @@ export function Header({ variant = "default" }: HeaderProps) {
                   >
                     Plans
                   </Link>
+                  {user && (
+                    <Link
+                      href="/profile"
+                      onClick={closeMobile}
+                      className="rounded-none border-2 border-transparent px-3 py-3 text-xs font-black uppercase tracking-widest transition-colors hover:border-primary/30 hover:bg-muted/50"
+                    >
+                      Profile
+                    </Link>
+                  )}
                   {showGuestAuth && (
                     <>
                       <Link
