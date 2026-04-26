@@ -77,7 +77,7 @@ export function StoryList({
               >
                 {/* Cover image */}
                 {story.coverImage && (
-                  <div className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-inherit bg-muted">
+                  <div className="relative aspect-video w-full overflow-hidden border-b-2 border-inherit bg-muted">
                     <Image
                       src={story.coverImage}
                       alt=""
