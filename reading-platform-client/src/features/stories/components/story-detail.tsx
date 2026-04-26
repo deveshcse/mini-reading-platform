@@ -201,15 +201,12 @@ export function StoryDetail({ story, className }: StoryDetailProps) {
              */
             <div className="relative">
               <p
-                className={cn(
-                  "text-base font-medium leading-relaxed text-foreground/80",
-                  "line-clamp-[8]"
-                )}
+                className= "text-base font-medium leading-relaxed text-foreground/80 line-clamp-8"
               >
                 {stripHtml(story.content)}
               </p>
               <div
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-background to-transparent"
                 aria-hidden
               />
             </div>

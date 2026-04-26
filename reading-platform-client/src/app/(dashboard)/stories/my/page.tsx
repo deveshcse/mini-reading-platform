@@ -48,7 +48,7 @@ export default function MyStoriesPage() {
             <Button
               asChild
               size="lg"
-              className="h-12 w-full rounded-none border-b-4 border-r-4 border-primary/50 px-6 font-black uppercase tracking-widest italic shadow-[6px_6px_0px_0px_rgba(0,0,0,0.1)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:border-transparent sm:h-14 sm:w-auto sm:px-8"
+              className="h-12 w-full rounded-none border-b-4 border-r-4 border-primary/50 px-6 font-black uppercase tracking-widest italic shadow-[6px_6px_0px_0px_rgba(0,0,0,0.1)] transition-all hover:border-transparent sm:h-14 sm:w-auto sm:px-8"
             >
               <Link href="/stories/create" className="flex items-center justify-center gap-2">
                 <Plus className="size-5 not-italic" />

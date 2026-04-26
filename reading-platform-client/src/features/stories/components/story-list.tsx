@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import type { StoriesMeta, Story } from "@/features/stories/types";
 import { Badge } from "@/components/ui/badge";
@@ -127,11 +128,13 @@ export function StoryList({
               >
                 {/* Cover image */}
                 {story.coverImage && (
-                  <div className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-inherit bg-muted">
-                    <img
+                  <div className="relative aspect-video w-full overflow-hidden border-b-2 border-inherit bg-muted">
+                    <Image
                       src={story.coverImage}
                       alt=""
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                 )}
@@ -240,7 +243,7 @@ export function StoryList({
               >
                 <SelectTrigger
                   size="sm"
-                  className="h-8 w-[4.5rem] rounded-none border-2 font-bold"
+                  className="h-8 w-18 rounded-none border-2 font-bold"
                   aria-label="Stories per page"
                 >
                   <SelectValue />

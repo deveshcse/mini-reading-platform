@@ -34,7 +34,7 @@ export function Header({ variant = "default" }: HeaderProps) {
   const showGuestAuth = !isLoading && !user
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b-2 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b-2 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div
         className={cn(
           dashboardHeaderShell,
@@ -87,7 +87,7 @@ export function Header({ variant = "default" }: HeaderProps) {
               <div className="flex size-8 items-center justify-center border-2 border-muted-foreground/20 bg-muted sm:size-9">
                 <UserIcon className="size-3.5 text-muted-foreground sm:size-4" />
               </div>
-              <span className="max-w-[100px] truncate uppercase tracking-tight lg:max-w-[140px]">
+              <span className="max-w-25 truncate uppercase tracking-tight lg:max-w-35">
                 {user.firstName} {user.lastName}
               </span>
             </div>
