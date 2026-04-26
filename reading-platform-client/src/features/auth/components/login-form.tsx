@@ -17,8 +17,10 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { useAuth } from "@/features/auth/hooks/use-auth"
+import { getSafeRedirectPath } from "@/features/auth/lib/safe-redirect"
 import Link from "next/link"
-import React, { useState } from "react"
+import { useSearchParams } from "next/navigation"
+import React, { useMemo, useState } from "react"
 import { Eye, EyeOff, Mail, Lock, LogIn } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -29,6 +31,12 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const { login, isLoggingIn } = useAuth();
+  const searchParams = useSearchParams();
+  const redirectQuery = useMemo(() => {
+    const raw = searchParams.get("redirect") ?? searchParams.get("returnUrl");
+    const safe = getSafeRedirectPath(raw);
+    return safe ? `?redirect=${encodeURIComponent(safe)}` : "";
+  }, [searchParams]);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -111,8 +119,8 @@ export function LoginForm({
                 </Button>
                 <p className="text-center text-sm text-muted-foreground pt-4">
                   Don&apos;t have an account?{" "}
-                  <Link 
-                    href="/auth/register" 
+                  <Link
+                    href={`/auth/register${redirectQuery}`}
                     className="font-bold text-primary hover:underline underline-offset-4 transition-colors"
                   >
                     Create Account

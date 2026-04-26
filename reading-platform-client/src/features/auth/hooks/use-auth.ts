@@ -6,6 +6,7 @@ import { normalizeUser } from "@/features/auth/lib/normalize-user";
 import { AuthResponse } from "@/features/auth/types";
 import { useAuthContext } from "@/features/auth/components/auth-provider";
 import { useRouter } from "next/navigation";
+import { getSafeRedirectPath } from "@/features/auth/lib/safe-redirect";
 import {
   ForgotPasswordInput,
   ResetPasswordInput,
@@ -29,7 +30,11 @@ export const useAuth = () => {
       authStore.setToken(data.accessToken);
       setUser(normalizeUser(data.user));
       setIsAuthenticated(true);
-      router.push("/stories");
+      const params = new URLSearchParams(
+        typeof window !== "undefined" ? window.location.search : ""
+      );
+      const next = getSafeRedirectPath(params.get("redirect") ?? params.get("returnUrl"));
+      router.push(next ?? "/stories");
     },
   });
 
@@ -41,7 +46,11 @@ export const useAuth = () => {
       authStore.setToken(data.accessToken);
       setUser(normalizeUser(data.user));
       setIsAuthenticated(true);
-      router.push("/stories");
+      const params = new URLSearchParams(
+        typeof window !== "undefined" ? window.location.search : ""
+      );
+      const next = getSafeRedirectPath(params.get("redirect") ?? params.get("returnUrl"));
+      router.push(next ?? "/stories");
     },
     config: {
       mutationFn: async (variables: RegisterInput) => {
@@ -63,7 +72,7 @@ export const useAuth = () => {
         setUser(null);
         setIsAuthenticated(false);
         if (!error) {
-          router.push("/login");
+          router.push("/auth/login");
         }
       },
     },
@@ -78,7 +87,7 @@ export const useAuth = () => {
   const resetPasswordMutation = useAppMutation<unknown, AxiosError, ResetPasswordInput>({
     successMessage: "Password reset successfully! Please login.",
     onSuccess: () => {
-      router.push("/login");
+      router.push("/auth/login");
     },
     config: {
       mutationFn: async (variables: ResetPasswordInput) => {

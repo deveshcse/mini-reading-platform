@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Lock, Sparkles } from "lucide-react";
 
@@ -10,6 +11,9 @@ import { Lock, Sparkles } from "lucide-react";
 // }
 
 export function PremiumReadGate() {
+  const pathname = usePathname();
+  const subscribeHref = `/subscribe?redirect=${encodeURIComponent(pathname)}`;
+
   return (
     <section
       className="border-2 border-amber-500/40 bg-amber-500/5 px-4 py-8 sm:px-8 sm:py-10 md:px-10"
@@ -38,7 +42,7 @@ export function PremiumReadGate() {
             asChild
             className="rounded-none border-2 border-amber-600/60 bg-amber-600 font-black uppercase tracking-widest text-xs text-amber-50 hover:bg-amber-600/90 h-11 px-8"
           >
-            <Link href="/subscribe" className="inline-flex items-center gap-2">
+            <Link href={subscribeHref} className="inline-flex items-center gap-2">
               <Sparkles className="size-3.5" aria-hidden />
               View plans
             </Link>

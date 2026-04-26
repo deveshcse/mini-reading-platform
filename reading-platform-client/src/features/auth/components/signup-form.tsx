@@ -16,8 +16,10 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { useAuth } from "@/features/auth/hooks/use-auth"
+import { getSafeRedirectPath } from "@/features/auth/lib/safe-redirect"
 import Link from "next/link"
-import React, { useState } from "react"
+import { useSearchParams } from "next/navigation"
+import React, { useMemo, useState } from "react"
 import { Eye, EyeOff, User, Mail, Lock, BookOpen, PenTool } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -26,6 +28,12 @@ import { cn } from "@/lib/utils"
 
 export function SignupForm({ className, ...props }: React.ComponentProps<typeof Card>) {
   const { register: registerAction, isRegistering } = useAuth();
+  const searchParams = useSearchParams();
+  const redirectQuery = useMemo(() => {
+    const raw = searchParams.get("redirect") ?? searchParams.get("returnUrl");
+    const safe = getSafeRedirectPath(raw);
+    return safe ? `?redirect=${encodeURIComponent(safe)}` : "";
+  }, [searchParams]);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -176,7 +184,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<typeof 
           <p className="text-center text-sm text-muted-foreground pt-2">
             Already have an account?{" "}
             <Link
-              href="/auth/login"
+              href={`/auth/login${redirectQuery}`}
               className="font-bold text-primary hover:underline underline-offset-4 transition-colors"
             >
               Sign in

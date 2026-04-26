@@ -2,9 +2,12 @@
 
 import React, { useMemo, useState } from "react";
 import Script from "next/script";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Can } from "@/shared/components/can";
+import { useAuthContext } from "@/features/auth/components/auth-provider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -92,6 +95,9 @@ function subscriptionTotalCount(interval: Plan["interval"]): number {
 }
 
 export function PlansSubscriptionPage() {
+  const { isAuthenticated, isLoading: authLoading } = useAuthContext();
+  const pathname = usePathname();
+  const urlSearchParams = useSearchParams();
   const [scriptReady, setScriptReady] = useState(false);
   const [selectedPlanId, setSelectedPlanId] = useState<number | null>(null);
   const [payingPlanId, setPayingPlanId] = useState<number | null>(null);
@@ -112,6 +118,14 @@ export function PlansSubscriptionPage() {
 
   const selectedPlan =
     activePlans.find((plan) => plan.id === selectedPlanId) ?? activePlans[0] ?? null;
+
+  const postAuthReturnPath = useMemo(() => {
+    const qs = urlSearchParams.toString();
+    return `${pathname}${qs ? `?${qs}` : ""}`;
+  }, [pathname, urlSearchParams]);
+
+  const loginHref = `/auth/login?redirect=${encodeURIComponent(postAuthReturnPath)}`;
+  const registerHref = `/auth/register?redirect=${encodeURIComponent(postAuthReturnPath)}`;
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,6 +166,10 @@ export function PlansSubscriptionPage() {
   };
 
   const openCheckout = async () => {
+    if (!isAuthenticated) {
+      toast.message("Please sign in or create an account to subscribe.");
+      return;
+    }
     if (!selectedPlan) {
       toast.error("No active plan selected.");
       return;
@@ -287,24 +305,42 @@ export function PlansSubscriptionPage() {
                       >
                         {selected ? "Selected" : "Select plan"}
                       </Button>
-                      {selected && (
-                        <Button
-                          type="button"
-                          size="sm"
-                          onClick={() => void openCheckout()}
-                          disabled={!scriptReady || Boolean(payingPlanId)}
-                          className="w-full font-medium"
-                        >
-                          {paying ? (
-                            <>
-                              <Loader2 className="size-4 animate-spin" aria-hidden />
-                              Processing...
-                            </>
-                          ) : (
-                            "Subscribe"
-                          )}
-                        </Button>
-                      )}
+                      {selected &&
+                        (authLoading ? (
+                          <Button type="button" size="sm" disabled className="w-full font-medium">
+                            <Loader2 className="size-4 animate-spin" aria-hidden />
+                            Checking session…
+                          </Button>
+                        ) : !isAuthenticated ? (
+                          <div className="space-y-2 rounded-md border border-border bg-muted/30 p-3">
+                            <p className="text-center text-xs font-medium text-muted-foreground">
+                              Sign in or register to continue with checkout.
+                            </p>
+                            <Button asChild size="sm" className="w-full font-medium">
+                              <Link href={loginHref}>Sign in</Link>
+                            </Button>
+                            <Button asChild variant="outline" size="sm" className="w-full font-medium">
+                              <Link href={registerHref}>Create account</Link>
+                            </Button>
+                          </div>
+                        ) : (
+                          <Button
+                            type="button"
+                            size="sm"
+                            onClick={() => void openCheckout()}
+                            disabled={!scriptReady || Boolean(payingPlanId)}
+                            className="w-full font-medium"
+                          >
+                            {paying ? (
+                              <>
+                                <Loader2 className="size-4 animate-spin" aria-hidden />
+                                Processing...
+                              </>
+                            ) : (
+                              "Subscribe"
+                            )}
+                          </Button>
+                        ))}
                     </div>
                   </CardContent>
                 </Card>
