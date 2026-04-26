@@ -65,6 +65,24 @@ export async function me(req: Request, res: Response): Promise<void> {
   sendSuccess(res, result);
 }
 
+export async function meSubscriptions(
+  req: Request,
+  res: Response
+): Promise<void> {
+  const result = await authService.meSubscriptions(req.user!.userId);
+  sendSuccess(res, result);
+}
+
+export async function mePayments(req: Request, res: Response): Promise<void> {
+  const result = await authService.mePayments(req.user!.userId);
+  sendSuccess(res, result);
+}
+
+export async function meActivity(req: Request, res: Response): Promise<void> {
+  const result = await authService.meActivity(req.user!.userId);
+  sendSuccess(res, result);
+}
+
 export async function forgotPassword(
   req: Request,
   res: Response

@@ -193,21 +193,11 @@ export async function logout(userId: string) {
   });
 }
 
-export async function me(userId: string) {
+async function getMeBase(userId: string) {
   const user = await prisma.user.findFirst({
     where: { id: Number(userId), deletedAt: null },
     include: {
       account: true,
-      subscriptions: {
-        include: {
-          plan: true,
-          payments: {
-            orderBy: { createdAt: "desc" },
-            take: 5,
-          },
-        },
-        orderBy: { createdAt: "desc" },
-      },
       payments: {
         orderBy: { createdAt: "desc" },
         take: 10,
@@ -242,10 +232,18 @@ export async function me(userId: string) {
   if (!user || !user.account) {
     throw new NotFoundError("User profile not found");
   }
+  return user;
+}
 
-  const { account, ...safeUser } = user;
-  const activeSubscription =
-    user.subscriptions.find((s) => s.status === "ACTIVE") ?? null;
+export async function me(userId: string) {
+  const user = await getMeBase(userId);
+  const account = user.account!;
+  const { account: _account, ...safeUser } = user;
+  const activeSubscription = await prisma.subscription.findFirst({
+    where: { userId: Number(userId), status: "ACTIVE" },
+    include: { plan: true },
+    orderBy: { updatedAt: "desc" },
+  });
 
   return {
     user: {
@@ -261,15 +259,60 @@ export async function me(userId: string) {
       updatedAt: account.updatedAt,
     },
     stats: {
-      subscriptionsCount: user.subscriptions.length,
+      subscriptionsCount: await prisma.subscription.count({
+        where: { userId: Number(userId) },
+      }),
       paymentsCount: user.payments.length,
       storiesCount: user.stories.length,
       commentsCount: user.comments.length,
       bookmarksCount: user.bookmarks.length,
     },
     activeSubscription,
-    subscriptions: user.subscriptions,
-    payments: user.payments,
+  };
+}
+
+export async function meSubscriptions(userId: string) {
+  const subscriptions = await prisma.subscription.findMany({
+    where: { userId: Number(userId) },
+    include: {
+      plan: true,
+      payments: {
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const activeSubscription =
+    subscriptions.find((s) => s.status === "ACTIVE") ?? null;
+
+  return {
+    activeSubscription,
+    subscriptions,
+  };
+}
+
+export async function mePayments(userId: string) {
+  const payments = await prisma.payment.findMany({
+    where: { userId: Number(userId) },
+    include: {
+      subscription: {
+        include: {
+          plan: true,
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+    take: 25,
+  });
+
+  return { payments };
+}
+
+export async function meActivity(userId: string) {
+  const user = await getMeBase(userId);
+  return {
     recentStories: user.stories,
     recentComments: user.comments,
     bookmarks: user.bookmarks,

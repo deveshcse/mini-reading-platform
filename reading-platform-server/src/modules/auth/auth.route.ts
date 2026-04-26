@@ -165,6 +165,52 @@ router.get("/me", authenticate, asyncHandler(authController.me));
 
 /**
  * @swagger
+ * /auth/me/subscriptions:
+ *   get:
+ *     summary: Get current user's subscription details
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Active and historical subscriptions
+ */
+router.get(
+  "/me/subscriptions",
+  authenticate,
+  asyncHandler(authController.meSubscriptions)
+);
+
+/**
+ * @swagger
+ * /auth/me/payments:
+ *   get:
+ *     summary: Get current user's recent payments
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Recent payment records with subscription info
+ */
+router.get("/me/payments", authenticate, asyncHandler(authController.mePayments));
+
+/**
+ * @swagger
+ * /auth/me/activity:
+ *   get:
+ *     summary: Get current user's profile activity for profile page
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Recent stories, comments, and bookmarks
+ */
+router.get("/me/activity", authenticate, asyncHandler(authController.meActivity));
+
+/**
+ * @swagger
  * /auth/forgot-password:
  *   post:
  *     summary: Request a password reset email

@@ -43,9 +43,7 @@ export interface PlansResponse {
   meta: PlansMeta;
 }
 
-export interface CreateOrderResponse {
-  order_id: string;
-  amount: number;
-  currency: string;
+export interface CreateSubscriptionResponse {
+  subscription_id: string;
   key_id?: string;
 }
