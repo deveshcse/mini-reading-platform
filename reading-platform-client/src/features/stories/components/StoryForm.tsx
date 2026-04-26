@@ -14,13 +14,10 @@ import { StoryRichTextEditor } from "@/features/stories/components/story-rich-te
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
+
+// ─── Constants ────────────────────────────────────────────────────────────────
 
 const defaultValues: CreateStoryFormValues = {
   title: "",
@@ -31,33 +28,40 @@ const defaultValues: CreateStoryFormValues = {
   isPremium: false,
 };
 
+const textareaClass = cn(
+  "flex w-full min-w-0 rounded-none border-2 border-input bg-transparent px-3 py-2 text-sm outline-none transition-colors",
+  "placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50",
+  "disabled:pointer-events-none disabled:opacity-50 resize-y min-h-[88px]",
+  "aria-invalid:border-destructive aria-invalid:ring-destructive/20"
+);
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
 function storyToFormValues(s: Story): CreateStoryFormValues {
   return {
     title: s.title,
-    description: s.description?.trim() ? s.description : "",
-    content: s.content && s.content.length > 0 ? s.content : "<p></p>",
+    description: s.description?.trim() ?? "",
+    content: s.content?.length > 0 ? s.content : "<p></p>",
     coverImage: s.coverImage ?? "",
     isPublished: s.isPublished,
     isPremium: s.isPremium,
   };
 }
 
+// ─── Props ────────────────────────────────────────────────────────────────────
+
 export interface StoryFormProps {
-  /** When set, the form loads values for update flows. */
   initialData?: Story;
-  isEdit?: boolean;
   isLoading?: boolean;
   onSubmit: (data: CreateStoryInput) => void;
   className?: string;
 }
 
-export function StoryForm({
-  initialData,
-  isEdit = false,
-  isLoading = false,
-  onSubmit,
-  className,
-}: StoryFormProps) {
+// ─── Component ────────────────────────────────────────────────────────────────
+
+export function StoryForm({ initialData, isLoading = false, onSubmit, className }: StoryFormProps) {
+  const isEdit = !!initialData;
+
   const {
     register,
     handleSubmit,
@@ -66,22 +70,22 @@ export function StoryForm({
     formState: { errors },
   } = useForm<CreateStoryFormValues, unknown, CreateStoryInput>({
     resolver: zodResolver(createStorySchema),
-    defaultValues,
+    defaultValues: initialData ? storyToFormValues(initialData) : defaultValues,
   });
 
+  // Sync form when initialData loads asynchronously (e.g. after a fetch).
   useEffect(() => {
-    if (initialData) {
-      reset(storyToFormValues(initialData));
-    }
+    if (initialData) reset(storyToFormValues(initialData));
   }, [initialData, reset]);
 
+  // Remount the editor when the story record changes so Tiptap picks up the new content.
+  const editorKey = isEdit ? `rte-${initialData.id}` : "rte-new";
+
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={cn("space-y-8", className)}
-      noValidate
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className={cn("space-y-8", className)} noValidate>
       <FieldGroup className="space-y-6 max-w-3xl">
+
+        {/* Title */}
         <Field>
           <FieldLabel htmlFor="story-title" className="text-xs font-black uppercase tracking-widest">
             Title
@@ -97,6 +101,7 @@ export function StoryForm({
           <FieldError>{errors.title?.message}</FieldError>
         </Field>
 
+        {/* Description */}
         <Field>
           <FieldLabel htmlFor="story-description" className="text-xs font-black uppercase tracking-widest">
             Description <span className="font-normal text-muted-foreground">(optional)</span>
@@ -105,12 +110,7 @@ export function StoryForm({
             id="story-description"
             rows={3}
             placeholder="Short blurb for lists and search"
-            className={cn(
-              "flex w-full min-w-0 rounded-none border-2 border-input bg-transparent px-3 py-2 text-sm transition-colors outline-none",
-              "placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50",
-              "disabled:pointer-events-none disabled:opacity-50 resize-y min-h-[88px]",
-              "aria-invalid:border-destructive aria-invalid:ring-destructive/20"
-            )}
+            className={textareaClass}
             disabled={isLoading}
             aria-invalid={!!errors.description}
             {...register("description")}
@@ -118,11 +118,9 @@ export function StoryForm({
           <FieldError>{errors.description?.message}</FieldError>
         </Field>
 
+        {/* Content */}
         <Field>
-          <FieldLabel
-            className="text-xs font-black uppercase tracking-widest"
-            htmlFor="story-content"
-          >
+          <FieldLabel htmlFor="story-content" className="text-xs font-black uppercase tracking-widest">
             Content
           </FieldLabel>
           <Controller
@@ -130,6 +128,7 @@ export function StoryForm({
             control={control}
             render={({ field }) => (
               <StoryRichTextEditor
+                key={editorKey}
                 id="story-content"
                 value={field.value}
                 onChange={field.onChange}
@@ -142,6 +141,7 @@ export function StoryForm({
           <FieldError>{errors.content?.message}</FieldError>
         </Field>
 
+        {/* Cover image */}
         <Field>
           <FieldLabel htmlFor="story-cover" className="text-xs font-black uppercase tracking-widest">
             Cover image URL <span className="font-normal text-muted-foreground">(optional)</span>
@@ -161,6 +161,7 @@ export function StoryForm({
           <FieldError>{errors.coverImage?.message as string | undefined}</FieldError>
         </Field>
 
+        {/* Flags */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center border-2 border-dashed border-muted-foreground/25 p-4">
           <Field orientation="horizontal" className="items-center gap-3">
             <Controller
@@ -178,13 +179,11 @@ export function StoryForm({
                 />
               )}
             />
-            <FieldLabel
-              htmlFor="story-published"
-              className="text-xs font-bold uppercase tracking-widest"
-            >
+            <FieldLabel htmlFor="story-published" className="text-xs font-bold uppercase tracking-widest">
               Published
             </FieldLabel>
           </Field>
+
           <Field orientation="horizontal" className="items-center gap-3">
             <Controller
               name="isPremium"
@@ -201,16 +200,15 @@ export function StoryForm({
                 />
               )}
             />
-            <FieldLabel
-              htmlFor="story-premium"
-              className="text-xs font-bold uppercase tracking-widest"
-            >
+            <FieldLabel htmlFor="story-premium" className="text-xs font-bold uppercase tracking-widest">
               Premium (requires subscription to read in full)
             </FieldLabel>
           </Field>
         </div>
+
       </FieldGroup>
 
+      {/* Submit */}
       <div className="flex flex-wrap items-center gap-3 pt-2 border-t-4 border-primary/20">
         <Button
           type="submit"
