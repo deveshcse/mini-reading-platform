@@ -59,7 +59,7 @@ export function ForgotPasswordForm({
             The link will expire in 1 hour. Please check your spam folder if you don't see it.
           </p>
           <Button asChild variant="outline" className="mt-2 rounded-none h-11 border-2 font-bold transition-all hover:bg-accent hover:translate-y-[-1px]">
-            <Link href="/login">
+            <Link href="/auth/login">
               <ChevronLeft className="mr-2 size-4" />
               Back to Login
             </Link>
@@ -106,7 +106,7 @@ export function ForgotPasswordForm({
                 </Button>
                 <div className="text-center pt-4">
                   <Link 
-                    href="/login" 
+                    href="/auth/login" 
                     className="text-sm font-bold text-primary hover:underline underline-offset-4 flex items-center justify-center transition-colors"
                   >
                     <ChevronLeft className="mr-1 size-4" />

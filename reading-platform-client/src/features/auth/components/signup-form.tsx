@@ -11,7 +11,6 @@ import {
 import {
   Field,
   FieldError,
-  FieldDescription,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field"
@@ -155,7 +154,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<typeof 
               type="submit"
               disabled={isRegistering}
               onClick={() => handleSignupAs("READER")}
-              className="rounded-none h-11 font-bold transition-all hover:bg-primary/90 hover:translate-y-[-1px] active:translate-y-[0px]"
+              className="rounded-none h-11 font-bold transition-all hover:bg-primary/90 hover:-translate-y-px active:translate-y-0"
             >
               <BookOpen className="mr-2 size-4" />
               {isRegistering ? "Wait..." : "Sign up as Reader"}
@@ -165,7 +164,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<typeof 
               variant="outline"
               disabled={isRegistering}
               onClick={() => handleSignupAs("AUTHOR")}
-              className="rounded-none h-11 font-bold border-2 transition-all hover:bg-accent hover:translate-y-[-1px] active:translate-y-[0px]"
+              className="rounded-none h-11 font-bold border-2 transition-all hover:bg-accent hover:-translate-y-px active:translate-y-0"
             >
               <PenTool className="mr-2 size-4" />
               {isRegistering ? "Wait..." : "Sign up as Author"}
@@ -175,7 +174,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<typeof 
           <p className="text-center text-sm text-muted-foreground pt-2">
             Already have an account?{" "}
             <Link
-              href="/login"
+              href="/auth/login"
               className="font-bold text-primary hover:underline underline-offset-4 transition-colors"
             >
               Sign in

@@ -201,14 +201,14 @@ export function Header({ variant = "default" }: HeaderProps) {
                   {showGuestAuth && (
                     <>
                       <Link
-                        href="/register"
+                        href="/auth/register"
                         onClick={closeMobile}
                         className="rounded-none border-2 border-transparent px-3 py-3 text-xs font-black uppercase tracking-widest transition-colors hover:border-primary/30 hover:bg-muted/50"
                       >
                         Register
                       </Link>
                       <Link
-                        href="/login"
+                        href="/auth/login"
                         onClick={closeMobile}
                         className="rounded-none border-2 border-transparent px-3 py-3 text-xs font-black uppercase tracking-widest transition-colors hover:border-primary/30 hover:bg-muted/50"
                       >
@@ -238,7 +238,7 @@ export function Header({ variant = "default" }: HeaderProps) {
                       asChild
                       className="h-11 w-full rounded-none border-2 font-bold"
                     >
-                      <Link href="/login" onClick={closeMobile}>
+                      <Link href="/auth/login" onClick={closeMobile}>
                         Sign in
                       </Link>
                     </Button>

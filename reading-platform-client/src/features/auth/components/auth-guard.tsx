@@ -15,7 +15,7 @@ export const AuthGuard: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated && !allowGuest) {
-      router.push("/login")
+      router.push("/auth/login")
     }
   }, [isLoading, isAuthenticated, allowGuest, router])
 

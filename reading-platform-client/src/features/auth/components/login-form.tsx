@@ -75,7 +75,7 @@ export function LoginForm({
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">Password</FieldLabel>
                   <Link
-                    href="/forgot-password"
+                    href="/auth/forgot-password"
                     className="ml-auto inline-block text-xs font-bold text-primary hover:underline underline-offset-4"
                   >
                     Forgot password?
@@ -117,7 +117,7 @@ export function LoginForm({
                 <p className="text-center text-sm text-muted-foreground pt-4">
                   Don&apos;t have an account?{" "}
                   <Link 
-                    href="/register" 
+                    href="/auth/register" 
                     className="font-bold text-primary hover:underline underline-offset-4 transition-colors"
                   >
                     Create Account
