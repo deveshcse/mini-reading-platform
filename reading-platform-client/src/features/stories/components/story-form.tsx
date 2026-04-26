@@ -93,7 +93,7 @@ export function StoryForm({
       noValidate
     >
       {/* ── Sticky top bar ───────────────────────────────────────────────── */}
-      <div className="sticky top-0 z-50 flex flex-col gap-3 border-b-2 border-input bg-background/95 px-3 py-2 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/80 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-4">
+      <div className="sticky top-0 z-50 flex flex-col gap-3 border-b-2 border-input bg-background/95 px-3 py-2 shadow-sm backdrop-blur supports-backdrop-filter:bg-background/80 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-4">
         {/* Left: status flags */}
         <div className="flex min-w-0 flex-wrap items-center gap-3 sm:gap-5">
           {/* Published toggle */}
