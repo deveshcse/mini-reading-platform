@@ -10,10 +10,10 @@ export function LandingHeroCTAs() {
   if (!isLoading && user) {
     return (
       <div className="flex w-full flex-wrap items-center justify-center gap-4 sm:w-auto">
-        <Button asChild size="lg" className="h-12 min-w-[160px] px-8">
+        <Button asChild size="lg" className="h-12 min-w-40 px-8">
           <Link href="/stories">Browse stories</Link>
         </Button>
-        <Button asChild variant="outline" size="lg" className="h-12 min-w-[160px] px-8">
+        <Button asChild variant="outline" size="lg" className="h-12 min-w-40 px-8">
           <Link href="/subscribe">Subscription</Link>
         </Button>
       </div>
@@ -22,10 +22,10 @@ export function LandingHeroCTAs() {
 
   return (
     <div className="flex w-full flex-wrap items-center justify-center gap-4 sm:w-auto">
-      <Button asChild size="lg" className="h-12 min-w-[160px] px-8">
+      <Button asChild size="lg" className="h-12 min-w-40 px-8">
         <Link href="/auth/register">Start reading</Link>
       </Button>
-      <Button asChild variant="outline" size="lg" className="h-12 min-w-[160px] px-8">
+      <Button asChild variant="outline" size="lg" className="h-12 min-w-40 px-8">
         <Link href="/auth/login">Sign in</Link>
       </Button>
     </div>
