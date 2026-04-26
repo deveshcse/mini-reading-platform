@@ -4,15 +4,23 @@ import React, { useEffect } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Globe, Loader2, Save, Send, Star } from "lucide-react"
-import { CreateStoryFormValues, CreateStoryInput, createStorySchema } from "../schema"
-import { cn } from "@/lib/utils"
-import { Story } from "../types"
-import { Checkbox } from "@/components/ui/checkbox"
+import {
+  createStorySchema,
+  type CreateStoryInput,
+  type CreateStoryFormValues,
+} from "@/features/stories/schema"
+import type { Story } from "@/features/stories/types"
+import { StoryRichTextEditor } from "@/features/stories/components/story-rich-text-editor"
 import { Button } from "@/components/ui/button"
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { StoryRichTextEditor } from "./story-rich-text-editor"
-
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { cn } from "@/lib/utils"
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { StoryList } from "@/features/stories/components/StoryList";
 import { useStories } from "@/features/stories/hooks/use-stories";
 import { useAuthContext } from "@/features/auth/components/auth-provider";
 import { Button } from "@/components/ui/button";
@@ -10,6 +9,7 @@ import Link from "next/link";
 import { Can } from "@/shared/components/can";
 import { RoleGuard } from "@/features/auth/components/role-guard";
 import { Role } from "@/shared/types/enums";
+import { StoryList } from "@/features/stories/components/story-list";
 
 const AUTHOR_ARCHIVE_ROLES = [Role.AUTHOR, Role.ADMIN] as const;
 
@@ -43,7 +43,7 @@ export default function MyStoriesPage() {
           </Can>
         </div>
 
-        <StoryList 
+        <StoryList
           stories={data?.stories} 
           isLoading={isLoading} 
           error={error} 

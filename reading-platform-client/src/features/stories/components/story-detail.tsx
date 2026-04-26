@@ -2,13 +2,13 @@
 
 import React from "react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import type { StoryWithAccess } from "@/features/stories/types";
 import { Badge } from "@/components/ui/badge";
-import { BookMarked, CheckCircle2, Eye, Pencil } from "lucide-react";
-import { Can } from "@/shared/components/can";
 import { Button } from "@/components/ui/button";
-import { PremiumReadGate } from "./premium-read-gate";
-import { StoryWithAccess } from "../types";
+import { Can } from "@/shared/components/can";
+import { PremiumReadGate } from "@/features/stories/components/premium-read-gate";
+import { BookMarked, CheckCircle2, Eye, Pencil } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface StoryDetailProps {
   story: StoryWithAccess;

@@ -1,6 +1,6 @@
 "use client";
 
-import { StoryFeed } from "@/features/stories/components/StoryFeed";
+import { StoryFeed } from "@/features/stories/components/story-feed";
 
 /**
  * Main story feed at `/stories` — same content as the dashboard home, matches post-login redirect.

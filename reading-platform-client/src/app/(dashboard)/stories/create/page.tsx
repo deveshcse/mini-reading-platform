@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { StoryForm } from "@/features/stories/components/StoryForm";
 import { useCreateStory } from "@/features/stories/hooks/use-stories";
 import { useRouter } from "next/navigation";
 import { CreateStoryInput } from "@/features/stories/schema";
 import { RoleGuard } from "@/features/auth/components/role-guard";
 import { Role } from "@/shared/types/enums";
+import { StoryForm } from "@/features/stories/components/story-form";
 
 const STORY_COMPOSE_ROLES = [Role.AUTHOR, Role.ADMIN] as const;
 

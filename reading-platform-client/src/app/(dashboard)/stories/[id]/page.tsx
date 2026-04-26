@@ -3,8 +3,8 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import { useStory } from "@/features/stories/hooks/use-stories";
-import { StoryDetail } from "@/features/stories/components/StoryDetail";
 import { Loader2, BookX } from "lucide-react";
+import { StoryDetail } from "@/features/stories/components/story-detail";
 
 export default function StoryPage() {
   const params = useParams();
@@ -32,7 +32,7 @@ export default function StoryPage() {
         <div className="space-y-2">
           <h1 className="text-3xl font-black uppercase tracking-tighter">Story Not Found</h1>
           <p className="text-muted-foreground font-bold uppercase text-xs tracking-widest max-w-xs mx-auto">
-            The story you're looking for has vanished or never existed in our archives.
+            The story you&apos;re looking for has vanished or never existed in our archives.
           </p>
         </div>
       </div>

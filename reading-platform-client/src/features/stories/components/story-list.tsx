@@ -2,11 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
-
-import { BookMarked, BookOpen, Loader2, AlertCircle, Lock, ArrowRight } from "lucide-react";
-import { Story } from "../types";
-import { cn } from "@/lib/utils";
+import type { Story } from "@/features/stories/types";
 import { Badge } from "@/components/ui/badge";
+import { BookMarked, BookOpen, Loader2, AlertCircle, Lock, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface StoryListProps {
   stories: Story[] | undefined;

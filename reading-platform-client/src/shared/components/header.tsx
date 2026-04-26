@@ -11,31 +11,37 @@ export function Header() {
     const { user, logout } = useAuthContext();
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b-2 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-8">
-            <div className="flex h-16 items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <Link href="/" className="flex items-center gap-2 group">
-                        <div className="flex h-10 w-10 items-center justify-center bg-primary text-primary-foreground border-2 border-primary group-hover:bg-primary/90 transition-colors">
-                            <span className="font-bold text-xl">R</span>
+        <header className="sticky top-0 z-50 w-full border-b-2 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="app-content flex h-14 items-center justify-between gap-4 sm:h-16">
+                <div className="flex min-w-0 items-center gap-2">
+                    <Link href="/" className="flex min-w-0 items-center gap-2 group shrink-0">
+                        <div className="flex size-9 shrink-0 items-center justify-center border-2 border-primary bg-primary text-primary-foreground transition-colors group-hover:bg-primary/90 sm:size-10">
+                            <span className="text-lg font-bold sm:text-xl">R</span>
                         </div>
-                        <span className="font-bold text-xl hidden sm:inline-block tracking-tighter uppercase">Reading Platform</span>
+                        <span className="hidden truncate text-lg font-bold uppercase tracking-tighter sm:inline-block md:text-xl">
+                            Reading
+                        </span>
                     </Link>
                 </div>
 
-                <nav className="hidden md:flex items-center gap-8 text-xs font-black uppercase tracking-widest">
-                    <Link href="/stories" className="hover:text-primary transition-colors">Feed</Link>
+                <nav className="hidden items-center gap-5 text-[10px] font-black uppercase tracking-widest md:flex lg:gap-6 lg:text-xs">
+                    <Link href="/stories" className="shrink-0 transition-colors hover:text-primary">
+                        Feed
+                    </Link>
                     <Can resource="story" action="create">
-                        <Link href="/stories/my" className="hover:text-primary transition-colors">My Stories</Link>
+                        <Link href="/stories/my" className="shrink-0 transition-colors hover:text-primary">
+                            My stories
+                        </Link>
                     </Can>
                 </nav>
 
-                <div className="flex items-center gap-4 sm:gap-6">
+                <div className="flex shrink-0 items-center gap-2 sm:gap-3">
                     {user && (
-                        <div className="flex items-center gap-3 text-sm font-bold">
-                            <div className="flex h-9 w-9 items-center justify-center bg-muted border-2 border-muted-foreground/20">
-                                <UserIcon className="h-4 w-4 text-muted-foreground" />
+                        <div className="hidden items-center gap-2 text-xs font-bold sm:flex sm:text-sm">
+                            <div className="flex size-8 items-center justify-center border-2 border-muted-foreground/20 bg-muted sm:size-9">
+                                <UserIcon className="size-3.5 text-muted-foreground sm:size-4" />
                             </div>
-                            <span className="max-w-[150px] truncate uppercase tracking-tight">
+                            <span className="max-w-[100px] truncate uppercase tracking-tight lg:max-w-[140px]">
                                 {user.firstName} {user.lastName}
                             </span>
                         </div>
@@ -45,9 +51,9 @@ export function Header() {
                         variant="destructive"
                         size="sm"
                         onClick={logout}
-                        className="rounded-none gap-2 h-10 px-4 border-2 border-destructive hover:bg-destructive/90 transition-all hover:translate-y-[-1px] active:translate-y-[0px] font-bold"
+                        className="h-9 gap-1.5 rounded-none border-2 border-destructive px-3 font-bold transition-all hover:translate-y-[-1px] hover:bg-destructive/90 active:translate-y-0 sm:h-10 sm:gap-2 sm:px-4"
                     >
-                        <LogOut className="h-4 w-4" />
+                        <LogOut className="size-3.5 sm:size-4" />
                         <span className="hidden sm:inline">Logout</span>
                     </Button>
                 </div>

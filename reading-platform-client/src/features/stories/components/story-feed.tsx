@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { StoryList } from "@/features/stories/components/StoryList";
+import { StoryList } from "@/features/stories/components/story-list";
 import { useStories } from "@/features/stories/hooks/use-stories";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
@@ -15,14 +15,13 @@ export function StoryFeed() {
   const { data, isLoading, error } = useStories({ isPublished: true });
 
   return (
-    <div className="p-8">
-      <div className="max-w-7xl mx-auto space-y-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b-4 border-primary pb-8">
-          <div className="space-y-2">
+    <div className="app-page space-y-12">
+        <div className="flex flex-col gap-6 border-b-4 border-primary pb-8 md:flex-row md:items-end md:justify-between">
+          <div className="min-w-0 space-y-2">
             <h1 className="text-5xl font-black tracking-tighter uppercase leading-none italic">
               The <span className="text-primary not-italic">Inkwell</span> Feed
             </h1>
-            <p className="text-muted-foreground font-bold tracking-tight uppercase text-sm max-w-2xl">
+            <p className="max-w-2xl text-sm font-bold uppercase tracking-tight text-muted-foreground">
               Discover the latest stories.{" "}
               <span className="text-foreground/80">
                 Gold-bordered cards are paid stories: you see a teaser here; the full text follows your plan on the story page.
@@ -45,7 +44,6 @@ export function StoryFeed() {
         </div>
 
         <StoryList stories={data?.stories} isLoading={isLoading} error={error} />
-      </div>
     </div>
   );
 }

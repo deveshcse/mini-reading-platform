@@ -1,5 +1,5 @@
 import { Action, Resource } from "@/shared/lib/statements";
-import { useAbility } from "@/shared/lib/useAbility";
+import { useAbility } from "@/shared/lib/use-ability";
 
 interface CanProps {
   resource: Resource;

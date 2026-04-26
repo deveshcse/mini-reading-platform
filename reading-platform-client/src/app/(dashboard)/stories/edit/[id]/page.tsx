@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
-import { StoryForm } from "@/features/stories/components/StoryForm";
 import { useStory, useUpdateStory } from "@/features/stories/hooks/use-stories";
 import { useRouter, useParams } from "next/navigation";
 import type { CreateStoryInput, UpdateStoryInput } from "@/features/stories/schema";
 import { Loader2 } from "lucide-react";
 import { RoleGuard } from "@/features/auth/components/role-guard";
 import { Role } from "@/shared/types/enums";
+import { StoryForm } from "@/features/stories/components/story-form";
+
 
 const STORY_COMPOSE_ROLES = [Role.AUTHOR, Role.ADMIN] as const;
 
