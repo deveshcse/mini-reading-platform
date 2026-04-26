@@ -2,10 +2,39 @@
 
 import React from "react";
 import Link from "next/link";
-import type { Story } from "@/features/stories/types";
+import type { StoriesMeta, Story } from "@/features/stories/types";
 import { Badge } from "@/components/ui/badge";
-import { BookMarked, BookOpen, Loader2, AlertCircle, Lock, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+} from "@/components/ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  BookMarked,
+  BookOpen,
+  Loader2,
+  AlertCircle,
+  Lock,
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
+
+const DEFAULT_PAGE_SIZE_OPTIONS = [6, 9, 12, 24] as const;
 
 export interface StoryListProps {
   stories: Story[] | undefined;
@@ -13,6 +42,13 @@ export interface StoryListProps {
   error: unknown;
   className?: string;
   emptyMessage?: string;
+  /** When set with `onPageChange`, prev/next controls are shown under the grid. */
+  meta?: StoriesMeta;
+  onPageChange?: (page: number) => void;
+  /** Current page size (for the optional per-page selector). */
+  pageSize?: number;
+  onPageSizeChange?: (pageSize: number) => void;
+  pageSizeOptions?: readonly number[];
 }
 
 export function StoryList({
@@ -21,6 +57,11 @@ export function StoryList({
   error,
   className,
   emptyMessage = "No stories in this list yet.",
+  meta,
+  onPageChange,
+  pageSize,
+  onPageSizeChange,
+  pageSizeOptions = DEFAULT_PAGE_SIZE_OPTIONS,
 }: StoryListProps) {
   if (isLoading) {
     return (
@@ -55,13 +96,19 @@ export function StoryList({
     );
   }
 
-  return (
-    <ul
-      className={cn(
-        "grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3",
-        className
-      )}
-    >
+  const showPager = Boolean(meta && onPageChange);
+  const showPageSize =
+    typeof pageSize === "number" &&
+    typeof onPageSizeChange === "function" &&
+    showPager;
+
+  const gridClass = cn(
+    "grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3",
+    !showPager && className
+  );
+
+  const list = (
+    <ul className={gridClass}>
       {stories.map((story) => {
         const author = story.author;
         const isPremium = story.isPremium;
@@ -171,5 +218,94 @@ export function StoryList({
         );
       })}
     </ul>
+  );
+
+  if (!showPager || !meta || !onPageChange) {
+    return list;
+  }
+
+  const goToPage = onPageChange;
+
+  return (
+    <div className={cn("space-y-8", className)}>
+      {list}
+      <div className="flex flex-col items-stretch gap-4 border-t-2 border-primary/15 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+          {showPageSize && (
+            <div className="flex items-center gap-2">
+              <span className="shrink-0">Per page</span>
+              <Select
+                value={String(pageSize)}
+                onValueChange={(v) => onPageSizeChange!(Number(v))}
+              >
+                <SelectTrigger
+                  size="sm"
+                  className="h-8 w-[4.5rem] rounded-none border-2 font-bold"
+                  aria-label="Stories per page"
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent position="popper">
+                  {pageSizeOptions.map((n) => (
+                    <SelectItem key={n} value={String(n)}>
+                      {n}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+          <p>
+            Page {meta.page} of {Math.max(meta.totalPages, 1)}
+            <span className="mx-2 text-border" aria-hidden>
+              ·
+            </span>
+            {meta.total.toLocaleString()} stor
+            {meta.total === 1 ? "y" : "ies"}
+          </p>
+        </div>
+
+        <Pagination className="mx-0 w-full justify-center sm:w-auto sm:justify-end">
+          <PaginationContent className="gap-2">
+            <PaginationItem>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="size-9 rounded-none border-2"
+                    disabled={!meta.hasPrevPage}
+                    aria-label="Previous page"
+                    onClick={() => goToPage(meta.page - 1)}
+                  >
+                    <ChevronLeft className="size-4" aria-hidden />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">Previous page</TooltipContent>
+              </Tooltip>
+            </PaginationItem>
+            <PaginationItem>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="size-9 rounded-none border-2"
+                    disabled={!meta.hasNextPage}
+                    aria-label="Next page"
+                    onClick={() => goToPage(meta.page + 1)}
+                  >
+                    <ChevronRight className="size-4" aria-hidden />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">Next page</TooltipContent>
+              </Tooltip>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
+    </div>
   );
 }

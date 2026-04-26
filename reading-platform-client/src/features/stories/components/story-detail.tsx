@@ -7,7 +7,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Can } from "@/shared/components/can";
 import { PremiumReadGate } from "@/features/stories/components/premium-read-gate";
-import { BookMarked, CheckCircle2, Eye, Pencil } from "lucide-react";
+import { useAuthContext } from "@/features/auth/components/auth-provider";
+import {
+  useStoryLikeCount,
+  useStoryLikeStatus,
+  useToggleStoryLike,
+} from "@/features/stories/hooks/use-story-likes";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { BookMarked, CheckCircle2, Eye, Heart, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface StoryDetailProps {
@@ -20,6 +31,73 @@ export interface StoryDetailProps {
  * Used to render a clean teaser when the backend returns truncated HTML
  * that may be cut mid-tag (e.g. "<p>Hello wor" → "Hello wor").
  */
+function StoryDetailLikeBar({ storyId }: { storyId: number }) {
+  const { isAuthenticated } = useAuthContext();
+  const { data: likesPayload, isLoading: countLoading } = useStoryLikeCount(storyId);
+  const { data: statusPayload, isFetching: statusFetching } = useStoryLikeStatus(storyId);
+  const toggle = useToggleStoryLike(storyId);
+
+  const total = likesPayload?.meta.total;
+  const liked = statusPayload?.liked ?? false;
+  const countLabel =
+    countLoading && total === undefined
+      ? "…"
+      : (total ?? 0).toLocaleString();
+
+  const statusLoading =
+    isAuthenticated && statusFetching && statusPayload === undefined;
+  const disabled =
+    !isAuthenticated || toggle.isPending || statusLoading;
+
+  return (
+    <>
+      <span className="text-border" aria-hidden>
+        |
+      </span>
+      <span className="inline-flex items-center gap-1.5">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "size-8 shrink-0 rounded-none border-2 border-transparent hover:border-primary/30",
+                liked && "text-destructive hover:text-destructive"
+              )}
+              disabled={disabled}
+              aria-pressed={liked}
+              aria-label={liked ? "Unlike story" : "Like story"}
+              onClick={() => {
+                if (isAuthenticated) toggle.mutate();
+              }}
+            >
+              <Heart
+                className={cn(
+                  "size-4",
+                  liked && "fill-current"
+                )}
+                aria-hidden
+              />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            {isAuthenticated
+              ? liked
+                ? "Unlike"
+                : "Like"
+              : "Sign in to like"}
+          </TooltipContent>
+        </Tooltip>
+        <span className="tabular-nums">
+          {countLabel}{" "}
+          <span className="text-muted-foreground">likes</span>
+        </span>
+      </span>
+    </>
+  );
+}
+
 function stripHtml(html: string): string {
   return html
     .replace(/<[^>]*>/g, " ")
@@ -86,6 +164,7 @@ export function StoryDetail({ story, className }: StoryDetailProps) {
             <Eye className="size-3" aria-hidden />
             {story.viewCount.toLocaleString()} views
           </span>
+          <StoryDetailLikeBar storyId={story.id} />
         </p>
 
         {story.description && (

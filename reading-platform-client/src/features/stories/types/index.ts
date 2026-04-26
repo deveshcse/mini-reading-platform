@@ -41,3 +41,31 @@ export interface StoriesResponse {
 
 /** `GET /stories/:id` — may truncate premium content and set `isLocked`. */
 export type StoryWithAccess = Story & { isLocked: boolean };
+
+/** User row returned inside `GET /stories/:id/likes`. */
+export interface StoryLikeUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
+export interface StoryLikesMeta {
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
+
+export interface StoryLikesListResponse {
+  likes: StoryLikeUser[];
+  meta: StoryLikesMeta;
+}
+
+export interface LikeStatusResponse {
+  liked: boolean;
+}
+
+export interface ToggleLikeResponse {
+  status: "liked" | "unliked";
+  liked: boolean;
+}

@@ -14,7 +14,19 @@ import { cn } from "@/lib/utils";
  * Public feed of published stories (used at `/` and `/stories` under the dashboard layout).
  */
 export function StoryFeed() {
-  const { data, isLoading, error } = useStories({ isPublished: true });
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(9);
+
+  const { data, isLoading, error } = useStories({
+    isPublished: true,
+    page,
+    pageSize,
+  });
+
+  const handlePageSizeChange = (next: number) => {
+    setPageSize(next);
+    setPage(1);
+  };
 
   return (
     <div className={cn(dashboardPageShell, "space-y-8 sm:space-y-12")}>
@@ -45,7 +57,15 @@ export function StoryFeed() {
           </Can>
         </div>
 
-        <StoryList stories={data?.stories} isLoading={isLoading} error={error} />
+        <StoryList
+          stories={data?.stories}
+          isLoading={isLoading}
+          error={error}
+          meta={data?.meta}
+          onPageChange={setPage}
+          pageSize={pageSize}
+          onPageSizeChange={handlePageSizeChange}
+        />
     </div>
   );
 }

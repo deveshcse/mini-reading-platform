@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useStories } from "@/features/stories/hooks/use-stories";
 import { useAuthContext } from "@/features/auth/components/auth-provider";
 import { Button } from "@/components/ui/button";
@@ -17,9 +17,19 @@ const AUTHOR_ARCHIVE_ROLES = [Role.AUTHOR, Role.ADMIN] as const;
 
 export default function MyStoriesPage() {
   const { user } = useAuthContext();
-  const { data, isLoading, error } = useStories({ 
-    authorId: user?.id ? Number(user.id) : undefined 
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(9);
+
+  const { data, isLoading, error } = useStories({
+    authorId: user?.id ? Number(user.id) : undefined,
+    page,
+    pageSize,
   });
+
+  const handlePageSizeChange = (next: number) => {
+    setPageSize(next);
+    setPage(1);
+  };
 
   return (
     <RoleGuard allowedRoles={AUTHOR_ARCHIVE_ROLES}>
@@ -52,6 +62,10 @@ export default function MyStoriesPage() {
           stories={data?.stories}
           isLoading={isLoading}
           error={error}
+          meta={data?.meta}
+          onPageChange={setPage}
+          pageSize={pageSize}
+          onPageSizeChange={handlePageSizeChange}
         />
       </div>
     </RoleGuard>
