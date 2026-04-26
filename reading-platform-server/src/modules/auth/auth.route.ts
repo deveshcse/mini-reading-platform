@@ -147,6 +147,24 @@ router.post("/logout", authenticate, asyncHandler(authController.logout));
 
 /**
  * @swagger
+ * /auth/me:
+ *   get:
+ *     summary: Get current authenticated user's profile
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Current user profile with account and activity details
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ */
+router.get("/me", authenticate, asyncHandler(authController.me));
+
+/**
+ * @swagger
  * /auth/forgot-password:
  *   post:
  *     summary: Request a password reset email

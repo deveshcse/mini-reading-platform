@@ -60,6 +60,11 @@ export async function logout(req: Request, res: Response): Promise<void> {
   sendSuccess(res, { message: "Logged out successfully" });
 }
 
+export async function me(req: Request, res: Response): Promise<void> {
+  const result = await authService.me(req.user!.userId);
+  sendSuccess(res, result);
+}
+
 export async function forgotPassword(
   req: Request,
   res: Response

@@ -1,24 +1,22 @@
 import { z } from "zod";
 
-export const createOrderSchema = z.object({
+export const createSubscriptionSchema = z.object({
   body: z.object({
-    amount: z
-      .coerce.number()
-      .int("Amount must be an integer in paise")
-      .min(100, "Minimum amount is 100 paise"),
-    currency: z.string().min(3).max(3).default("INR"),
-    receipt: z.string().min(1).max(100).optional(),
+    planId: z.coerce.number().int().positive("planId is required"),
+    totalCount: z.coerce.number().int().min(1).max(120).default(12),
   }),
 });
 
-export type CreateOrderInput = z.infer<typeof createOrderSchema>["body"];
+export type CreateSubscriptionInput = z.infer<typeof createSubscriptionSchema>["body"];
 
-export const verifyPaymentSchema = z.object({
+export const verifySubscriptionSchema = z.object({
   body: z.object({
-    razorpay_order_id: z.string().min(1, "razorpay_order_id is required"),
     razorpay_payment_id: z.string().min(1, "razorpay_payment_id is required"),
+    razorpay_subscription_id: z
+      .string()
+      .min(1, "razorpay_subscription_id is required"),
     razorpay_signature: z.string().min(1, "razorpay_signature is required"),
   }),
 });
 
-export type VerifyPaymentInput = z.infer<typeof verifyPaymentSchema>["body"];
+export type VerifySubscriptionInput = z.infer<typeof verifySubscriptionSchema>["body"];

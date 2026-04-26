@@ -193,6 +193,89 @@ export async function logout(userId: string) {
   });
 }
 
+export async function me(userId: string) {
+  const user = await prisma.user.findFirst({
+    where: { id: Number(userId), deletedAt: null },
+    include: {
+      account: true,
+      subscriptions: {
+        include: {
+          plan: true,
+          payments: {
+            orderBy: { createdAt: "desc" },
+            take: 5,
+          },
+        },
+        orderBy: { createdAt: "desc" },
+      },
+      payments: {
+        orderBy: { createdAt: "desc" },
+        take: 10,
+      },
+      stories: {
+        where: { deletedAt: null },
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      },
+      comments: {
+        where: { deletedAt: null },
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      },
+      bookmarks: {
+        include: {
+          story: {
+            select: {
+              id: true,
+              title: true,
+              isPublished: true,
+              isPremium: true,
+            },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+        take: 10,
+      },
+    },
+  });
+
+  if (!user || !user.account) {
+    throw new NotFoundError("User profile not found");
+  }
+
+  const { account, ...safeUser } = user;
+  const activeSubscription =
+    user.subscriptions.find((s) => s.status === "ACTIVE") ?? null;
+
+  return {
+    user: {
+      ...safeUser,
+      role: account.role,
+      isEmailVerified: account.isEmailVerified,
+    },
+    account: {
+      id: account.id,
+      role: account.role,
+      isEmailVerified: account.isEmailVerified,
+      createdAt: account.createdAt,
+      updatedAt: account.updatedAt,
+    },
+    stats: {
+      subscriptionsCount: user.subscriptions.length,
+      paymentsCount: user.payments.length,
+      storiesCount: user.stories.length,
+      commentsCount: user.comments.length,
+      bookmarksCount: user.bookmarks.length,
+    },
+    activeSubscription,
+    subscriptions: user.subscriptions,
+    payments: user.payments,
+    recentStories: user.stories,
+    recentComments: user.comments,
+    bookmarks: user.bookmarks,
+  };
+}
+
 
 // ── Forgot Password ───────────────────────────────────────────────────────────
 

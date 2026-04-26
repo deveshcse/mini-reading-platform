@@ -30,16 +30,12 @@ router.post(
 
 router.get(
   "/",
-  authenticate,
-  authorize("plan", "read"),
   validate(listPlansQuerySchema),
   asyncHandler(planController.listPlans)
 );
 
 router.get(
   "/:id",
-  authenticate,
-  authorize("plan", "read"),
   validate(planIdParamsSchema),
   asyncHandler(planController.getPlanById)
 );

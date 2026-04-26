@@ -1,8 +1,12 @@
 import { Router } from "express";
 import * as paymentController from "./payment.controller.js";
 import { asyncHandler } from "../../utils/async-handler.js";
+import { authenticate } from "../../middleware/authenticate.middleware.js";
 import { validate } from "../../middleware/validate.middleware.js";
-import { createOrderSchema, verifyPaymentSchema } from "./payment.schema.js";
+import {
+  createSubscriptionSchema,
+  verifySubscriptionSchema,
+} from "./payment.schema.js";
 
 const router = Router();
 
@@ -10,62 +14,65 @@ const router = Router();
  * @swagger
  * tags:
  *   name: Payments
- *   description: Razorpay order creation and signature verification
+ *   description: Razorpay subscription creation and signature verification
  */
 
 /**
  * @swagger
- * /payments/create-order:
+ * /payments/create-subscription:
  *   post:
- *     summary: Create Razorpay order for checkout
+ *     summary: Create Razorpay subscription for a plan checkout
  *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             required: [amount]
+ *             required: [planId]
  *             properties:
- *               amount:
+ *               planId:
  *                 type: integer
- *                 description: Amount in paise (minimum 100)
- *               currency:
- *                 type: string
- *                 example: INR
- *               receipt:
- *                 type: string
+ *                 description: Existing plan ID
+ *               totalCount:
+ *                 type: integer
+ *                 description: Number of billing cycles (default 12)
  *     responses:
  *       200:
- *         description: Order created successfully
+ *         description: Subscription created successfully
  *       400:
- *         description: Invalid amount
+ *         description: Invalid plan or missing Razorpay plan mapping
  *       401:
- *         description: Razorpay auth failure
+ *         description: Unauthorized or Razorpay auth failure
  */
 router.post(
-  "/create-order",
-  validate(createOrderSchema),
-  asyncHandler(paymentController.createOrder)
+  "/create-subscription",
+  authenticate,
+  validate(createSubscriptionSchema),
+  asyncHandler(paymentController.createSubscription)
 );
 
 /**
  * @swagger
- * /payments/verify-payment:
+ * /payments/verify-subscription:
  *   post:
- *     summary: Verify Razorpay payment signature
+ *     summary: Verify Razorpay subscription signature and activate subscription
  *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             required: [razorpay_order_id, razorpay_payment_id, razorpay_signature]
+ *             required: [razorpay_payment_id, razorpay_subscription_id, razorpay_signature]
  *             properties:
- *               razorpay_order_id:
- *                 type: string
  *               razorpay_payment_id:
+ *                 type: string
+ *               razorpay_subscription_id:
  *                 type: string
  *               razorpay_signature:
  *                 type: string
@@ -76,9 +83,10 @@ router.post(
  *         description: Signature mismatch or missing fields
  */
 router.post(
-  "/verify-payment",
-  validate(verifyPaymentSchema),
-  asyncHandler(paymentController.verifyPayment)
+  "/verify-subscription",
+  authenticate,
+  validate(verifySubscriptionSchema),
+  asyncHandler(paymentController.verifySubscription)
 );
 
 export default router;
